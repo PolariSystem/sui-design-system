@@ -1,0 +1,169 @@
+{
+  "description": "Open-source usage references. Component implementations and executable examples are available in src and workshop.",
+  "examples": [
+    {
+      "file": "App.tsx",
+      "expression": "`<Button variant=\"${buttonVariant}\" size=\"${buttonSize}\" onClick={handleClick}>\\n  Try this button\\n</Button>`"
+    },
+    {
+      "file": "App.tsx",
+      "expression": "\n            '<Input label=\"Work email\" type=\"email\"\\n  value={email} onChange={handleChange}\\n  error={error} required />'\n          "
+    },
+    {
+      "file": "App.tsx",
+      "expression": "\n            '<Checkbox label=\"Select all records\"\\n  checked={allSelected}\\n  indeterminate={someSelected}\\n  onChange={handleSelectAll} />'\n          "
+    },
+    {
+      "file": "App.tsx",
+      "expression": "'<Badge tone=\"success\">Approved</Badge>'"
+    },
+    {
+      "file": "App.tsx",
+      "expression": "\n            '<Card padding=\"comfortable\" elevation=\"floating\">\\n  <h3>Archive this record?</h3>\\n  <CardFooter>\\n    <Button>Archive record</Button>\\n    <Button variant=\"secondary\">Cancel</Button>\\n  </CardFooter>\\n</Card>'\n          "
+    },
+    {
+      "file": "Authentication.tsx",
+      "expression": "`<AuthScreen screen={{\n  step: \"forgot-password\",\n  signInHref: \"/sign-in\",\n  onRequestReset: (email, { signal }) => auth.requestReset(email, { signal }),\n}} />`"
+    },
+    {
+      "file": "Charts.tsx",
+      "expression": "\n            '<Chart type=\"line\" label=\"Records by month\"\\n  data={monthlyRecords} max={240} showDataTable={showData} />'\n          "
+    },
+    {
+      "file": "Charts.tsx",
+      "expression": "\n            '<Widget title=\"Workspace activity\" description=\"Records · Apr–Sep 2026\"\\n  chart={chart} loading={loading} error={error}\\n  recovery={<Button onClick={retry}>Retry</Button>} />'\n          "
+    },
+    {
+      "file": "Feedback.tsx",
+      "expression": "\n            '<Alert tone=\"danger\" title=\"A workspace name is required\">\\n  Add a name and try again.\\n</Alert>'\n          "
+    },
+    {
+      "file": "Feedback.tsx",
+      "expression": "\n            '<ToastProvider>\\n  <Toast open={open} onOpenChange={setOpen}\\n    title=\"Record archived\" action={undoAction} />\\n  <ToastViewport />\\n</ToastProvider>'\n          "
+    },
+    {
+      "file": "Feedback.tsx",
+      "expression": "'<Progress label=\"Importing records\" value={progress} />'"
+    },
+    {
+      "file": "Feedback.tsx",
+      "expression": "\n            '<section aria-label=\"Records\" aria-busy={loading}>\\n  {loading ? <Skeleton shape=\"card\" /> : <Records />}\\n</section>'\n          "
+    },
+    {
+      "file": "Feedback.tsx",
+      "expression": "\n            '<EmptyState title=\"A fresh start.\"\\n  description=\"Create your first record to get started.\"\\n  action={<Button onClick={createRecord}>Create record</Button>} />'\n          "
+    },
+    {
+      "file": "FormControls.tsx",
+      "expression": "\n            '<Textarea label=\"Workspace description\"\\n  value={description} onChange={handleChange}\\n  maxLength={280} helperText={characterCount} />'\n          "
+    },
+    {
+      "file": "FormControls.tsx",
+      "expression": "\n            '<Select label=\"Record category\" value={category}\\n  onChange={handleChange}>\\n  <option value=\"operations\">Operations</option>\\n  <option value=\"research\">Research</option>\\n</Select>'\n          "
+    },
+    {
+      "file": "FormControls.tsx",
+      "expression": "\n            '<Select multiple label=\"Workspace teams\" name=\"teams\"\\n  placeholder=\"Select teams\" value={teams}\\n  onValueChange={setTeams}>\\n  <option value=\"operations\">Operations</option>\\n  <option value=\"product\">Product</option>\\n  <option value=\"support\">Support</option>\\n</Select>'\n          "
+    },
+    {
+      "file": "FormControls.tsx",
+      "expression": "\n            '<fieldset>\\n  <legend>Report frequency</legend>\\n  <Radio label=\"Daily\" name=\"frequency\" value=\"daily\" />\\n  <Radio label=\"Weekly\" name=\"frequency\" value=\"weekly\" defaultChecked />\\n</fieldset>'\n          "
+    },
+    {
+      "file": "FormControls.tsx",
+      "expression": "\n            '<Switch label=\"Email notifications\"\\n  checked={enabled}\\n  onChange={event => setEnabled(event.target.checked)} />'\n          "
+    },
+    {
+      "file": "FormControls.tsx",
+      "expression": "\n            '<OTPInput label=\"Verification code\"\\n  name=\"code\" value={code}\\n  onValueChange={setCode} error={error} required />'\n          "
+    },
+    {
+      "file": "FormControls.tsx",
+      "expression": "\n            '<PasswordInput label=\"New password\"\\n  name=\"password\" autoComplete=\"new-password\"\\n  minLength={12} required />'\n          "
+    },
+    {
+      "file": "IconButtons.tsx",
+      "expression": "\n          '<DropdownMenu>\\n  <DropdownMenuTrigger asChild>\\n    <IconButton aria-label=\"Record actions\" icon={<MoreIcon />} />\\n  </DropdownMenuTrigger>\\n  <DropdownMenuContent>\\n    <DropdownMenuItem onSelect={duplicateRecord}>Duplicate record</DropdownMenuItem>\\n  </DropdownMenuContent>\\n</DropdownMenu>'\n        "
+    },
+    {
+      "file": "Landing.tsx",
+      "expression": "'<Button variant=\"primary\">\\n  Save changes\\n</Button>'"
+    },
+    {
+      "file": "Navigation.tsx",
+      "expression": "\n            '<Tag onRemove={removeTeam} removeLabel=\"Remove Product team\">\\n  Product team\\n</Tag>'\n          "
+    },
+    {
+      "file": "Navigation.tsx",
+      "expression": "'<Avatar name=\"Alex Morgan\" size={40} aria-hidden />'"
+    },
+    {
+      "file": "Navigation.tsx",
+      "expression": "'<Link href=\"#input\">Update profile details</Link>'"
+    },
+    {
+      "file": "Navigation.tsx",
+      "expression": "\n            '<Tabs defaultValue=\"all\" activationMode=\"manual\">\\n  <TabsList aria-label=\"Record views\">\\n    <TabsTrigger value=\"all\">All records</TabsTrigger>\\n  </TabsList>\\n  <TabsContent value=\"all\">...</TabsContent>\\n</Tabs>'\n          "
+    },
+    {
+      "file": "Navigation.tsx",
+      "expression": "\n            '<Breadcrumb items={[\\n  { label: \"Workspace\", href: \"/workspace\" },\\n  { label: \"Records\", href: \"/records\" },\\n  { label: \"Create record\" }\\n]} />'\n          "
+    },
+    {
+      "file": "Navigation.tsx",
+      "expression": "\n            \"<Pagination page={page} totalItems={70} pageSize={7}\\n  onPageChange={setPage} />\"\n          "
+    },
+    {
+      "file": "Navigation.tsx",
+      "expression": "\n            \"<Navbar leading={breadcrumb} search={search}\\n  actions={actions} items={mobileRoutes} />\"\n          "
+    },
+    {
+      "file": "Navigation.tsx",
+      "expression": "\n            \"<Sidebar compact={compact} brand={brand}\\n  compactBrand={compactBrand} items={routes}\\n  workspace={workspaceAction} account={accountAction} />\"\n          "
+    },
+    {
+      "file": "Navigation.tsx",
+      "expression": "\n            \"<Stepper steps={steps} currentStep={step}\\n  onStepChange={setStep} />\"\n          "
+    },
+    {
+      "file": "Overlays.tsx",
+      "expression": "\n            '<Dialog><DialogTrigger asChild><Button>Open</Button></DialogTrigger>\\n  <DialogContent title=\"Archive this record?\" footer={actions} />\\n</Dialog>'\n          "
+    },
+    {
+      "file": "Overlays.tsx",
+      "expression": "\n            '<Drawer><DrawerTrigger asChild><Button>Open panel</Button></DrawerTrigger>\\n  <DrawerContent title=\"Record details\"><RecordForm /></DrawerContent>\\n</Drawer>'\n          "
+    },
+    {
+      "file": "Overlays.tsx",
+      "expression": "\n            '<TooltipProvider><Tooltip content=\"Archive a record without deleting it\">\\n  <Button>Archive</Button>\\n</Tooltip></TooltipProvider>'\n          "
+    },
+    {
+      "file": "Overlays.tsx",
+      "expression": "\n            '<Popover><PopoverTrigger asChild><Button>Location</Button></PopoverTrigger>\\n  <PopoverContent aria-label=\"Current location\">...</PopoverContent>\\n</Popover>'\n          "
+    },
+    {
+      "file": "Overlays.tsx",
+      "expression": "\n            \"<DropdownMenu><DropdownMenuTrigger asChild><Button>Actions</Button></DropdownMenuTrigger>\\n  <DropdownMenuContent><DropdownMenuItem onSelect={edit}>Edit record</DropdownMenuItem></DropdownMenuContent>\\n</DropdownMenu>\"\n          "
+    },
+    {
+      "file": "Pickers.tsx",
+      "expression": "\n            '<DatePicker label=\"Review date\" name=\"date\"\\n  value={date} onValueChange={setDate} required />\\n<DatePicker mode=\"range\" label=\"Reporting period\"\\n  value={range} onValueChange={setRange} />'\n          "
+    },
+    {
+      "file": "Pickers.tsx",
+      "expression": "\n            '<TimePicker label=\"Meeting start\" name=\"start\"\\n  defaultValue=\"09:30\" format=\"12h\" />\\n<TimePicker label=\"Reminder time\" minuteStep={15}\\n  min=\"08:00\" max=\"18:00\" />'\n          "
+    },
+    {
+      "file": "Pickers.tsx",
+      "expression": "\n            '<Calendar startDate=\"2026-10-05\" events={events}\\n  onEventClick={openEvent} />'\n          "
+    },
+    {
+      "file": "ScrollAreas.tsx",
+      "expression": "`<ScrollArea className=\"h-64 rounded-sui-lg\">\n  <ScrollAreaViewport aria-label=\"Activity history\">\n    <div className=\"grid gap-4 p-4\">{/* Your content */}</div>\n  </ScrollAreaViewport>\n  <ScrollBar />\n</ScrollArea>`"
+    },
+    {
+      "file": "Tables.tsx",
+      "expression": "\n          '<DataTable label=\"Records\" rows={visibleRows} columns={columns}\\n  getRowId={row => row.id} getRowLabel={row => row.name}\\n  selection={{ selectedIds, onSelectedIdsChange: setSelectedIds }}\\n  sort={sort} onSortChange={setSort}\\n  pagination={{ page, pageSize, totalItems, onPageChange: setPage }} />'\n        "
+    }
+  ]
+}

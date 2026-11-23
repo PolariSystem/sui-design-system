@@ -1,0 +1,784 @@
+{
+  "fileKey": "2jnGtX6x5wYdoJDum40ovM",
+  "verifiedAt": "2026-10-22",
+  "modes": {
+    "colors": {
+      "collection": "VariableCollectionId:119:1395",
+      "Light": "119:7",
+      "Dark": "355:0"
+    },
+    "effects": {
+      "collection": "VariableCollectionId:119:1398",
+      "Light": "119:10",
+      "Dark": "355:1"
+    }
+  },
+  "foundationsThemeReference": "359:513",
+  "landing": {
+    "lightDesktop": "320:658",
+    "lightMobile": "320:659",
+    "darkDesktop": "360:2107",
+    "darkMobile": "360:2541"
+  },
+  "pages": [
+    {
+      "pageId": "121:1264",
+      "family": "Button",
+      "boards": [
+        {
+          "light": "146:14",
+          "dark": "356:959",
+          "label": "Components & variants"
+        },
+        {
+          "light": "146:66",
+          "dark": "356:1346",
+          "label": "Usage examples"
+        }
+      ],
+      "sourceId": "356:582",
+      "originalMasterIds": [
+        "145:147",
+        "145:292",
+        "145:437",
+        "145:582"
+      ]
+    },
+    {
+      "pageId": "121:1265",
+      "family": "Input",
+      "boards": [
+        {
+          "light": "149:2",
+          "dark": "356:7699",
+          "label": "Components & variants"
+        },
+        {
+          "light": "149:12",
+          "dark": "356:8128",
+          "label": "Usage examples"
+        }
+      ],
+      "sourceId": "356:7276",
+      "originalMasterIds": [
+        "148:409",
+        "148:606"
+      ]
+    },
+    {
+      "pageId": "121:1266",
+      "family": "Textarea",
+      "boards": [
+        {
+          "light": "166:337",
+          "dark": "356:8306",
+          "label": "Components & variants"
+        },
+        {
+          "light": "175:3481",
+          "dark": "356:8352",
+          "label": "Usage examples"
+        }
+      ],
+      "sourceId": "356:8262",
+      "originalMasterIds": [
+        "166:336"
+      ]
+    },
+    {
+      "pageId": "121:1267",
+      "family": "Select",
+      "boards": [
+        {
+          "light": "166:486",
+          "dark": "356:8510",
+          "label": "Components & variants"
+        },
+        {
+          "light": "175:3526",
+          "dark": "356:8646",
+          "label": "Usage examples"
+        }
+      ],
+      "sourceId": "356:8376",
+      "originalMasterIds": [
+        "166:485"
+      ]
+    },
+    {
+      "pageId": "121:1268",
+      "family": "Checkbox",
+      "boards": [
+        {
+          "light": "165:60",
+          "dark": "356:8806",
+          "label": "Components & variants"
+        },
+        {
+          "light": "175:42",
+          "dark": "356:8858",
+          "label": "Usage examples"
+        }
+      ],
+      "sourceId": "356:8756",
+      "originalMasterIds": [
+        "165:50"
+      ]
+    },
+    {
+      "pageId": "121:1269",
+      "family": "Radio",
+      "boards": [
+        {
+          "light": "165:176",
+          "dark": "356:8913",
+          "label": "Components & variants"
+        },
+        {
+          "light": "175:3321",
+          "dark": "356:8945",
+          "label": "Usage examples"
+        }
+      ],
+      "sourceId": "356:8883",
+      "originalMasterIds": [
+        "165:169"
+      ]
+    },
+    {
+      "pageId": "121:1270",
+      "family": "Switch",
+      "boards": [
+        {
+          "light": "165:267",
+          "dark": "356:9003",
+          "label": "Components & variants"
+        },
+        {
+          "light": "175:3352",
+          "dark": "356:9039",
+          "label": "Usage examples"
+        }
+      ],
+      "sourceId": "356:8969",
+      "originalMasterIds": [
+        "165:260"
+      ]
+    },
+    {
+      "pageId": "121:1271",
+      "family": "OTP Input",
+      "boards": [
+        {
+          "light": "170:68",
+          "dark": "356:9131",
+          "label": "Components & variants"
+        },
+        {
+          "light": "175:5108",
+          "dark": "356:9200",
+          "label": "Usage examples"
+        }
+      ],
+      "sourceId": "356:9064",
+      "originalMasterIds": [
+        "170:67"
+      ]
+    },
+    {
+      "pageId": "121:1272",
+      "family": "Badge",
+      "boards": [
+        {
+          "light": "166:75",
+          "dark": "356:9272",
+          "label": "Components & variants"
+        },
+        {
+          "light": "175:3404",
+          "dark": "356:9316",
+          "label": "Usage examples"
+        }
+      ],
+      "sourceId": "356:9230",
+      "originalMasterIds": [
+        "166:74"
+      ]
+    },
+    {
+      "pageId": "121:1273",
+      "family": "Tag",
+      "boards": [
+        {
+          "light": "166:195",
+          "dark": "356:9352",
+          "label": "Components & variants"
+        },
+        {
+          "light": "175:3437",
+          "dark": "356:9372",
+          "label": "Usage examples"
+        }
+      ],
+      "sourceId": "356:9334",
+      "originalMasterIds": [
+        "166:194"
+      ]
+    },
+    {
+      "pageId": "121:1274",
+      "family": "Avatar",
+      "boards": [
+        {
+          "light": "166:251",
+          "dark": "356:9396",
+          "label": "Components & variants"
+        },
+        {
+          "light": "175:3456",
+          "dark": "356:9408",
+          "label": "Usage examples"
+        }
+      ],
+      "sourceId": "356:9386",
+      "originalMasterIds": [
+        "166:250"
+      ]
+    },
+    {
+      "pageId": "121:1275",
+      "family": "Link",
+      "boards": [
+        {
+          "light": "166:591",
+          "dark": "356:9430",
+          "label": "Components & variants"
+        },
+        {
+          "light": "175:3582",
+          "dark": "356:9442",
+          "label": "Usage examples"
+        }
+      ],
+      "sourceId": "356:9420",
+      "originalMasterIds": [
+        "166:590"
+      ]
+    },
+    {
+      "pageId": "121:1276",
+      "family": "Tabs",
+      "boards": [
+        {
+          "light": "167:42",
+          "dark": "356:9472",
+          "label": "Components & variants"
+        },
+        {
+          "light": "175:3601",
+          "dark": "356:9496",
+          "label": "Usage examples"
+        }
+      ],
+      "sourceId": "356:9450",
+      "originalMasterIds": [
+        "167:41"
+      ]
+    },
+    {
+      "pageId": "121:1277",
+      "family": "Breadcrumb",
+      "boards": [
+        {
+          "light": "167:116",
+          "dark": "356:9533",
+          "label": "Components & variants"
+        },
+        {
+          "light": "175:3627",
+          "dark": "356:9554",
+          "label": "Usage examples"
+        }
+      ],
+      "sourceId": "356:9514",
+      "originalMasterIds": [
+        "167:115"
+      ]
+    },
+    {
+      "pageId": "121:1278",
+      "family": "Pagination",
+      "boards": [
+        {
+          "light": "167:248",
+          "dark": "356:9603",
+          "label": "Components & variants"
+        },
+        {
+          "light": "175:3658",
+          "dark": "356:9638",
+          "label": "Usage examples"
+        }
+      ],
+      "sourceId": "356:9570",
+      "originalMasterIds": [
+        "167:247"
+      ]
+    },
+    {
+      "pageId": "121:1279",
+      "family": "Navbar",
+      "boards": [
+        {
+          "light": "172:104",
+          "dark": "356:9734",
+          "label": "Components & variants"
+        },
+        {
+          "light": "175:5218",
+          "dark": "356:9795",
+          "label": "Usage examples"
+        }
+      ],
+      "sourceId": "356:9675",
+      "originalMasterIds": [
+        "172:103"
+      ]
+    },
+    {
+      "pageId": "121:1280",
+      "family": "Sidebar",
+      "boards": [
+        {
+          "light": "172:482",
+          "dark": "356:10003",
+          "label": "Components & variants"
+        },
+        {
+          "light": "175:5287",
+          "dark": "356:10182",
+          "label": "Usage examples"
+        }
+      ],
+      "sourceId": "356:9826",
+      "originalMasterIds": [
+        "172:481"
+      ]
+    },
+    {
+      "pageId": "121:1281",
+      "family": "Card",
+      "boards": [
+        {
+          "light": "172:968",
+          "dark": "356:10320",
+          "label": "Components & variants"
+        },
+        {
+          "light": "175:5420",
+          "dark": "356:10386",
+          "label": "Usage examples"
+        }
+      ],
+      "sourceId": "356:10256",
+      "originalMasterIds": [
+        "172:967"
+      ]
+    },
+    {
+      "pageId": "121:1282",
+      "family": "Table",
+      "boards": [
+        {
+          "light": "173:3036",
+          "dark": "356:10817",
+          "label": "Components & variants"
+        },
+        {
+          "light": "175:5585",
+          "dark": "356:11244",
+          "label": "Usage examples"
+        }
+      ],
+      "sourceId": "356:10397",
+      "originalMasterIds": [
+        "173:2483",
+        "173:2600",
+        "173:3035"
+      ]
+    },
+    {
+      "pageId": "121:1283",
+      "family": "Dialog",
+      "boards": [
+        {
+          "light": "173:3732",
+          "dark": "356:11609",
+          "label": "Components & variants"
+        },
+        {
+          "light": "175:6039",
+          "dark": "356:11650",
+          "label": "Usage examples"
+        }
+      ],
+      "sourceId": "356:11570",
+      "originalMasterIds": [
+        "173:3731"
+      ]
+    },
+    {
+      "pageId": "121:1284",
+      "family": "Drawer",
+      "boards": [
+        {
+          "light": "173:4050",
+          "dark": "356:11822",
+          "label": "Components & variants"
+        },
+        {
+          "light": "175:6100",
+          "dark": "356:11971",
+          "label": "Usage examples"
+        }
+      ],
+      "sourceId": "356:11675",
+      "originalMasterIds": [
+        "173:4049"
+      ]
+    },
+    {
+      "pageId": "121:1285",
+      "family": "Alert",
+      "boards": [
+        {
+          "light": "167:411",
+          "dark": "356:12077",
+          "label": "Components & variants"
+        },
+        {
+          "light": "175:3748",
+          "dark": "356:12105",
+          "label": "Usage examples"
+        }
+      ],
+      "sourceId": "356:12051",
+      "originalMasterIds": [
+        "167:410"
+      ]
+    },
+    {
+      "pageId": "121:1286",
+      "family": "Toast",
+      "boards": [
+        {
+          "light": "168:1288",
+          "dark": "356:12144",
+          "label": "Components & variants"
+        },
+        {
+          "light": "175:4987",
+          "dark": "356:12173",
+          "label": "Usage examples"
+        }
+      ],
+      "sourceId": "356:12117",
+      "originalMasterIds": [
+        "168:1287"
+      ]
+    },
+    {
+      "pageId": "121:1287",
+      "family": "Tooltip",
+      "boards": [
+        {
+          "light": "167:348",
+          "dark": "356:12217",
+          "label": "Components & variants"
+        },
+        {
+          "light": "175:3715",
+          "dark": "356:12239",
+          "label": "Usage examples"
+        }
+      ],
+      "sourceId": "356:12197",
+      "originalMasterIds": [
+        "167:347"
+      ]
+    },
+    {
+      "pageId": "121:1288",
+      "family": "Dropdown Menu",
+      "boards": [
+        {
+          "light": "171:202",
+          "dark": "356:12444",
+          "label": "Components & variants"
+        },
+        {
+          "light": "175:5176",
+          "dark": "356:12630",
+          "label": "Usage examples"
+        }
+      ],
+      "sourceId": "356:12263",
+      "originalMasterIds": [
+        "171:150",
+        "171:201"
+      ]
+    },
+    {
+      "pageId": "121:1289",
+      "family": "Progress",
+      "boards": [
+        {
+          "light": "171:45",
+          "dark": "356:12696",
+          "label": "Components & variants"
+        },
+        {
+          "light": "175:5145",
+          "dark": "356:12742",
+          "label": "Usage examples"
+        }
+      ],
+      "sourceId": "356:12652",
+      "originalMasterIds": [
+        "171:44"
+      ]
+    },
+    {
+      "pageId": "121:1290",
+      "family": "Skeleton",
+      "boards": [
+        {
+          "light": "168:1354",
+          "dark": "356:12780",
+          "label": "Components & variants"
+        },
+        {
+          "light": "175:5018",
+          "dark": "356:12808",
+          "label": "Usage examples"
+        }
+      ],
+      "sourceId": "356:12754",
+      "originalMasterIds": [
+        "168:1353"
+      ]
+    },
+    {
+      "pageId": "121:1291",
+      "family": "Empty State",
+      "boards": [
+        {
+          "light": "168:1485",
+          "dark": "356:12842",
+          "label": "Components & variants"
+        },
+        {
+          "light": "175:5088",
+          "dark": "356:12857",
+          "label": "Usage examples"
+        }
+      ],
+      "sourceId": "356:12829",
+      "originalMasterIds": [
+        "168:1484"
+      ]
+    },
+    {
+      "pageId": "121:1292",
+      "family": "File Upload",
+      "boards": [
+        {
+          "light": "168:1427",
+          "dark": "356:12928",
+          "label": "Components & variants"
+        },
+        {
+          "light": "175:5043",
+          "dark": "356:12984",
+          "label": "Usage examples"
+        }
+      ],
+      "sourceId": "356:12874",
+      "originalMasterIds": [
+        "168:1426"
+      ]
+    },
+    {
+      "pageId": "121:1293",
+      "family": "Stepper",
+      "boards": [
+        {
+          "light": "172:750",
+          "dark": "356:13058",
+          "label": "Components & variants"
+        },
+        {
+          "light": "175:5379",
+          "dark": "356:13104",
+          "label": "Usage examples"
+        }
+      ],
+      "sourceId": "356:13017",
+      "originalMasterIds": [
+        "172:733",
+        "172:749"
+      ]
+    },
+    {
+      "pageId": "121:1294",
+      "family": "Chart",
+      "boards": [
+        {
+          "light": "174:350",
+          "dark": "356:13475",
+          "label": "Components & variants"
+        },
+        {
+          "light": "175:6699",
+          "dark": "356:13829",
+          "label": "Usage examples"
+        }
+      ],
+      "sourceId": "356:13123",
+      "originalMasterIds": [
+        "174:349"
+      ]
+    },
+    {
+      "pageId": "121:1295",
+      "family": "Widget",
+      "boards": [
+        {
+          "light": "174:1164",
+          "dark": "356:14316",
+          "label": "Components & variants"
+        },
+        {
+          "light": "175:6732",
+          "dark": "356:14780",
+          "label": "Usage examples"
+        }
+      ],
+      "sourceId": "356:13857",
+      "originalMasterIds": [
+        "174:876",
+        "174:1163"
+      ]
+    },
+    {
+      "pageId": "121:1296",
+      "family": "Calendar",
+      "boards": [
+        {
+          "light": "173:4403",
+          "dark": "356:15015",
+          "label": "Components & variants"
+        },
+        {
+          "light": "175:6198",
+          "dark": "356:15180",
+          "label": "Usage examples"
+        }
+      ],
+      "sourceId": "356:14855",
+      "originalMasterIds": [
+        "173:4247",
+        "173:4402"
+      ]
+    },
+    {
+      "pageId": "121:1297",
+      "family": "Kanban",
+      "boards": [
+        {
+          "light": "173:5218",
+          "dark": "356:15754",
+          "label": "Components & variants"
+        },
+        {
+          "light": "175:6419",
+          "dark": "356:16182",
+          "label": "Usage examples"
+        }
+      ],
+      "sourceId": "356:15333",
+      "originalMasterIds": [
+        "173:4689",
+        "173:4882",
+        "173:5217"
+      ]
+    },
+    {
+      "pageId": "222:2",
+      "family": "Date Picker",
+      "boards": [
+        {
+          "light": "223:2",
+          "dark": "356:16905",
+          "label": "Components & variants"
+        },
+        {
+          "light": "223:5",
+          "dark": "356:17394",
+          "label": "Usage examples"
+        }
+      ],
+      "sourceId": "356:16423",
+      "originalMasterIds": [
+        "223:264",
+        "223:287",
+        "223:566"
+      ]
+    },
+    {
+      "pageId": "222:3",
+      "family": "Time Picker",
+      "boards": [
+        {
+          "light": "224:2",
+          "dark": "356:18300",
+          "label": "Components & variants"
+        },
+        {
+          "light": "224:5",
+          "dark": "356:18781",
+          "label": "Usage examples"
+        }
+      ],
+      "sourceId": "356:17826",
+      "originalMasterIds": [
+        "224:264",
+        "224:287",
+        "224:439"
+      ]
+    },
+    {
+      "pageId": "333:909",
+      "family": "Icon Button",
+      "boards": [
+        {
+          "light": "333:910",
+          "dark": "356:18970",
+          "label": "Components & variants"
+        },
+        {
+          "light": "333:1509",
+          "dark": "356:19349",
+          "label": "Usage examples"
+        }
+      ],
+      "sourceId": "356:18969",
+      "originalMasterIds": [
+        "333:931",
+        "333:1080",
+        "333:1229",
+        "333:1378"
+      ]
+    }
+  ]
+}

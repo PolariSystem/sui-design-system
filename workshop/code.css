@@ -1,0 +1,72 @@
+/* Syntax colors describe language roles, independently of product status colors. */
+:root,
+[data-sui-theme="light"] {
+  --sui-code-keyword: #cf222e;
+  --sui-code-tag: #0550ae;
+  --sui-code-property: #0550ae;
+  --sui-code-string: #116329;
+  --sui-code-function: #8250df;
+  --sui-code-number: #953800;
+  --sui-code-comment: #57606a;
+}
+[data-sui-theme="dark"] {
+  --sui-code-keyword: #c586c0;
+  --sui-code-tag: #72cdf4;
+  --sui-code-property: #9cdcfe;
+  --sui-code-string: #ce9178;
+  --sui-code-function: #dcdcaa;
+  --sui-code-number: #b5cea8;
+  --sui-code-comment: #8ca384;
+}
+@layer utilities {
+  .sui-code-scroll {
+    border-radius: var(--sui-radius-control);
+    background: var(--sui-color-surface-canvas);
+  }
+  .sui-code-block {
+    width: max-content;
+    min-width: 100%;
+    padding: var(--sui-space-4);
+    border-radius: var(--sui-radius-control);
+    background: var(--sui-color-surface-canvas);
+    color: var(--sui-color-text-primary);
+    font-family:
+      ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace;
+    font-size: var(--sui-type-body-sm-size);
+    line-height: 1.6;
+    tab-size: 2;
+    white-space: pre;
+    overflow-wrap: normal;
+  }
+  .sui-code-block:focus-visible {
+    outline: 2px solid var(--sui-color-border-focus);
+    outline-offset: 2px;
+  }
+  .sui-code-block code {
+    font: inherit;
+  }
+  .sui-code-block .token.keyword {
+    color: var(--sui-code-keyword);
+  }
+  .sui-code-block :is(.token.tag, .token.class-name, .token.builtin) {
+    color: var(--sui-code-tag);
+  }
+  .sui-code-block :is(.token.attr-name, .token.property) {
+    color: var(--sui-code-property);
+  }
+  .sui-code-block :is(.token.string, .token.attr-value, .token.char) {
+    color: var(--sui-code-string);
+  }
+  .sui-code-block .token.function {
+    color: var(--sui-code-function);
+  }
+  .sui-code-block :is(.token.boolean, .token.number, .token.constant) {
+    color: var(--sui-code-number);
+  }
+  .sui-code-block :is(.token.comment, .token.prolog, .token.doctype) {
+    color: var(--sui-code-comment);
+  }
+  .sui-code-block :is(.token.punctuation, .token.operator) {
+    color: var(--sui-color-text-secondary);
+  }
+}

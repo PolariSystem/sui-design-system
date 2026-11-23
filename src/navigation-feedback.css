@@ -1,0 +1,160 @@
+/* Phase 03 state and responsive rules. Semantic tokens remain the single visual source. */
+@layer utilities {
+  .sui-tag[data-interactive="true"]:not([data-disabled="true"]):hover {
+    border-color: var(--sui-color-border-hover);
+  }
+  .sui-tag:has(:focus-visible) {
+    outline: var(--sui-border-focus) solid var(--sui-color-border-focus);
+    box-shadow: var(--shadow-sui-focus-default);
+  }
+  .sui-tag[data-disabled="true"] {
+    background: var(--sui-color-surface-canvas);
+    color: var(--sui-color-text-disabled);
+  }
+  .sui-tab:not(:disabled):hover,
+  .sui-nav-item:hover {
+    background: var(--sui-color-surface-hover);
+  }
+  .sui-tab[data-state="active"],
+  .sui-nav-item[aria-current="page"] {
+    background: var(--sui-color-action-secondary-pressed);
+    color: var(--sui-color-text-link);
+  }
+  .sui-tabs-list[data-orientation="vertical"] {
+    flex-direction: column;
+  }
+  .sui-nav-item[data-layout="compact"] {
+    justify-content: center;
+  }
+  .sui-nav-item[data-layout="mobile"] {
+    min-width: 0;
+    flex: 1;
+    flex-direction: column;
+    gap: var(--sui-space-1);
+    padding: var(--sui-space-1);
+    font-size: var(--sui-type-caption-sm-size);
+    line-height: var(--sui-type-caption-sm-line-height);
+    color: var(--sui-color-text-secondary);
+  }
+  .sui-nav-item[data-layout="mobile"][aria-current="page"] {
+    background: transparent;
+    color: var(--sui-color-text-link);
+  }
+  .sui-navbar-desktop {
+    display: none;
+  }
+  .sui-navbar-mobile {
+    display: flex;
+  }
+  .sui-navbar[data-layout="desktop"] .sui-navbar-desktop {
+    display: flex;
+  }
+  .sui-navbar[data-layout="desktop"] .sui-navbar-mobile {
+    display: none;
+  }
+  .sui-navbar-search:focus-within {
+    outline: var(--sui-border-focus) solid var(--sui-color-border-focus);
+    box-shadow: var(--shadow-sui-focus-default);
+  }
+  .sui-sidebar-identity:disabled {
+    cursor: not-allowed;
+    opacity: var(--sui-opacity-disabled);
+  }
+  .sui-sidebar-identity .sui-avatar {
+    border-radius: var(--sui-radius-lg);
+    font-size: var(--sui-type-label-xs-size);
+    line-height: var(--sui-type-label-xs-line-height);
+  }
+  .sui-sidebar[data-compact="true"] .sui-avatar {
+    background: transparent;
+  }
+  .sui-pagination {
+    container-type: inline-size;
+  }
+  @container (max-width: 32rem) {
+    .sui-page-extra {
+      display: none;
+    }
+    .sui-page-direction {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+    }
+    .sui-pagination-actions .sui-button {
+      padding-inline: var(--sui-space-2);
+    }
+  }
+  .sui-step {
+    color: var(--sui-color-text-secondary);
+    font-size: var(--sui-type-body-sm-size);
+    line-height: var(--sui-type-body-sm-line-height);
+  }
+  .sui-step-indicator {
+    background: var(--sui-color-surface-default);
+    color: var(--sui-color-text-link);
+  }
+  .sui-step[data-state="complete"] {
+    color: var(--sui-color-text-link);
+  }
+  .sui-step[data-state="complete"] .sui-step-indicator {
+    background: var(--sui-color-action-primary-default);
+    color: var(--sui-color-text-inverse);
+  }
+  .sui-step[data-state="current"] {
+    color: var(--sui-color-text-body);
+    font-weight: var(--sui-type-label-md-weight);
+  }
+  .sui-step[data-state="current"] .sui-step-indicator {
+    border: var(--sui-border-default) solid var(--sui-color-border-focus);
+  }
+  .sui-step-short-label {
+    display: none;
+  }
+  .sui-progress[data-state="complete"] .sui-progress-fill {
+    background: var(--sui-color-status-success-foreground);
+  }
+  .sui-progress[data-state="error"] .sui-progress-fill {
+    background: var(--sui-color-status-danger-foreground);
+  }
+  @media (min-width: 64rem) {
+    .sui-navbar[data-layout="auto"] .sui-navbar-desktop {
+      display: flex;
+    }
+    .sui-navbar[data-layout="auto"] .sui-navbar-mobile {
+      display: none;
+    }
+  }
+  @media (max-width: 40rem) {
+    .sui-stepper {
+      flex-direction: column;
+    }
+    .sui-step-short-label {
+      display: inline;
+    }
+    .sui-step-full-label {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+    }
+  }
+  @media (forced-colors: active) {
+    .sui-tab[data-state="active"],
+    .sui-nav-item[aria-current="page"] {
+      outline: 1px solid Highlight;
+    }
+    .sui-progress-track {
+      border: 1px solid CanvasText;
+    }
+    .sui-progress-fill {
+      background: Highlight !important;
+      forced-color-adjust: none;
+    }
+    .sui-step[data-state="complete"] .sui-step-indicator {
+      border: 1px solid Highlight;
+    }
+  }
+}

@@ -1,0 +1,167 @@
+{
+  "fileKey": "2jnGtX6x5wYdoJDum40ovM",
+  "inspectedAt": "2026-10-21",
+  "method": "High-fidelity design context, screenshot and recursive motion context for every desktop/mobile screen. No Figma mutations.",
+  "motionReference": "figma-auth-motion.json",
+  "screens": [
+    {
+      "step": "forgot-password",
+      "desktopNode": "91:836",
+      "mobileNode": "91:1138",
+      "desktopCohorts": [
+        {
+          "rootNodeId": "91:836",
+          "durationMs": 14020,
+          "loopMode": "loop",
+          "memberNodeIds": [
+            "96:1524",
+            "91:848"
+          ]
+        }
+      ],
+      "mobileCohorts": [
+        {
+          "rootNodeId": "91:1138",
+          "durationMs": 14020,
+          "loopMode": "loop",
+          "memberNodeIds": [
+            "96:1604",
+            "91:1150"
+          ]
+        }
+      ]
+    },
+    {
+      "step": "check-inbox",
+      "desktopNode": "91:884",
+      "mobileNode": "91:1186",
+      "desktopCohorts": [
+        {
+          "rootNodeId": "91:884",
+          "durationMs": 14020,
+          "loopMode": "loop",
+          "memberNodeIds": [
+            "96:1550",
+            "91:896"
+          ]
+        }
+      ],
+      "mobileCohorts": [
+        {
+          "rootNodeId": "91:1186",
+          "durationMs": 14020,
+          "loopMode": "loop",
+          "memberNodeIds": [
+            "96:1605",
+            "91:1198"
+          ]
+        }
+      ]
+    },
+    {
+      "step": "reset-password",
+      "desktopNode": "91:930",
+      "mobileNode": "91:1232",
+      "desktopCohorts": [
+        {
+          "rootNodeId": "91:930",
+          "durationMs": 14020,
+          "loopMode": "loop",
+          "memberNodeIds": [
+            "96:1322",
+            "91:942"
+          ]
+        }
+      ],
+      "mobileCohorts": [
+        {
+          "rootNodeId": "91:1232",
+          "durationMs": 14020,
+          "loopMode": "loop",
+          "memberNodeIds": [
+            "96:1603",
+            "91:1244"
+          ]
+        }
+      ]
+    },
+    {
+      "step": "password-updated",
+      "desktopNode": "91:985",
+      "mobileNode": "91:1287",
+      "desktopCohorts": [
+        {
+          "rootNodeId": "91:985",
+          "durationMs": 14020,
+          "loopMode": "loop",
+          "memberNodeIds": [
+            "96:1348",
+            "91:997"
+          ]
+        }
+      ],
+      "mobileCohorts": [
+        {
+          "rootNodeId": "91:1287",
+          "durationMs": 14020,
+          "loopMode": "loop",
+          "memberNodeIds": [
+            "96:1606",
+            "91:1299"
+          ]
+        }
+      ]
+    },
+    {
+      "step": "verify",
+      "desktopNode": "91:1024",
+      "mobileNode": "91:1326",
+      "desktopCohorts": [
+        {
+          "rootNodeId": "91:1024",
+          "durationMs": 14020,
+          "loopMode": "loop",
+          "memberNodeIds": [
+            "96:1400",
+            "91:1036"
+          ]
+        }
+      ],
+      "mobileCohorts": [
+        {
+          "rootNodeId": "91:1326",
+          "durationMs": 14020,
+          "loopMode": "loop",
+          "memberNodeIds": [
+            "96:1602",
+            "91:1338"
+          ]
+        }
+      ]
+    }
+  ],
+  "sharedMotion": {
+    "desktop": [
+      {
+        "motionDev": "<motion.div initial={{ '--fill-color-0': \"rgba(0, 111, 159, 0)\", '--fill-color-1': \"rgba(255, 255, 255, 0)\", }} animate={{ '--fill-color-0': [\"rgba(0, 111, 159, 0)\", \"rgba(0, 111, 159, 0)\", \"#006F9F\", \"#006F9F\", \"rgba(0, 111, 159, 0)\", \"rgba(0, 111, 159, 0)\"], '--fill-color-1': [\"rgba(255, 255, 255, 0)\", \"rgba(255, 255, 255, 0)\", \"#FFF\", \"rgba(255, 255, 255, 0)\", \"rgba(255, 255, 255, 0)\"], }} transition={{ '--fill-color-0': { duration: 14.02, times: [0, 0.286, 0.4092, 0.5429, 0.6045, 1], ease: [\"linear\", [0.7, -0.4, 0.4, 1.4], [0.5, 0, 0.5, 1], \"easeOut\", \"linear\"], repeat: Infinity }, '--fill-color-1': { duration: 14.02, times: [0, 0.3248, 0.3651, 0.4092, 1], ease: [\"linear\", [0.5, 0, 0.5, 1], \"easeOut\", \"linear\"], repeat: Infinity }, }} > <svg fill=\"none\"> <motion.path pathLength={1} initial={{ strokeDasharray: '0 1', strokeDashoffset: 0, filter: \"drop-shadow(0px 0px 0px rgba(0, 125, 180, 0.6))\" }} animate={{ strokeDasharray: ['0 1', '0 1', '1 1', '1 1', '0 1', '0 1', '0 1'], strokeDashoffset: [0, 0, 0, 0, -1, -1, -1], filter: [\"drop-shadow(0px 0px 0px rgba(0, 125, 180, 0.6))\", \"drop-shadow(0px 0px 0px rgba(0, 125, 180, 0.6))\", \"drop-shadow(0px 0px 80px rgba(0, 125, 180, 0.6))\", \"drop-shadow(0px 0px 80px rgba(0, 125, 180, 0.6))\", \"drop-shadow(0px 0px 0px rgba(0, 125, 180, 0.6))\", \"drop-shadow(0px 0px 0px rgba(0, 125, 180, 0.6))\"] }} transition={{ duration: 14.02, ease: [[0.348, 0, 0.68, 0.35], [0.387, 0.129, 0.703, 0.529], [0.303, 0.438, 0.57, 1], 'easeInOut', 'easeInOut', 'linear'], times: [0, 0.057, 0.272, 0.676, 0.909, 1, 1], repeat: Infinity, filter: { duration: 14.02, times: [0, 0.3248, 0.4092, 0.5429, 0.6045, 1], ease: [\"linear\", [0.5, 0, 0.5, 1], [0.5, 0, 0.5, 1], [0.5, 0, 0.5, 1], \"linear\"], repeat: Infinity } }} /> </svg> </motion.div>"
+      },
+      {
+        "motionDev": "<motion.div initial={{ backdropFilter: \"blur(0px)\", }} animate={{ }} transition={{ }} />"
+      }
+    ],
+    "mobile": [
+      {
+        "motionDev": "<motion.div initial={{ '--fill-color-0': \"rgba(0, 111, 159, 0)\", '--fill-color-1': \"rgba(255, 255, 255, 0)\", }} animate={{ '--fill-color-0': [\"rgba(0, 111, 159, 0)\", \"rgba(0, 111, 159, 0)\", \"#006F9F\", \"#006F9F\", \"rgba(0, 111, 159, 0)\", \"rgba(0, 111, 159, 0)\"], '--fill-color-1': [\"rgba(255, 255, 255, 0)\", \"rgba(255, 255, 255, 0)\", \"#FFF\", \"rgba(255, 255, 255, 0)\", \"rgba(255, 255, 255, 0)\"], }} transition={{ '--fill-color-0': { duration: 14.02, times: [0, 0.286, 0.4092, 0.5429, 0.6045, 1], ease: [\"linear\", [0.7, -0.4, 0.4, 1.4], [0.5, 0, 0.5, 1], \"easeOut\", \"linear\"], repeat: Infinity }, '--fill-color-1': { duration: 14.02, times: [0, 0.3248, 0.3651, 0.4092, 1], ease: [\"linear\", [0.5, 0, 0.5, 1], \"easeOut\", \"linear\"], repeat: Infinity }, }} > <svg fill=\"none\"> <motion.path pathLength={1} initial={{ strokeDasharray: '0 1', strokeDashoffset: 0, filter: \"drop-shadow(0px 0px 0px rgba(0, 125, 180, 0.6))\" }} animate={{ strokeDasharray: ['0 1', '0 1', '1 1', '1 1', '0 1', '0 1', '0 1'], strokeDashoffset: [0, 0, 0, 0, -1, -1, -1], filter: [\"drop-shadow(0px 0px 0px rgba(0, 125, 180, 0.6))\", \"drop-shadow(0px 0px 0px rgba(0, 125, 180, 0.6))\", \"drop-shadow(0px 0px 80px rgba(0, 125, 180, 0.6))\", \"drop-shadow(0px 0px 80px rgba(0, 125, 180, 0.6))\", \"drop-shadow(0px 0px 0px rgba(0, 125, 180, 0.6))\", \"drop-shadow(0px 0px 0px rgba(0, 125, 180, 0.6))\"] }} transition={{ duration: 14.02, ease: [[0.348, 0, 0.68, 0.35], [0.387, 0.129, 0.703, 0.529], [0.303, 0.438, 0.57, 1], 'easeInOut', 'easeInOut', 'linear'], times: [0, 0.057, 0.272, 0.676, 0.909, 1, 1], repeat: Infinity, filter: { duration: 14.02, times: [0, 0.3248, 0.4092, 0.5429, 0.6045, 1], ease: [\"linear\", [0.5, 0, 0.5, 1], [0.5, 0, 0.5, 1], [0.5, 0, 0.5, 1], \"linear\"], repeat: Infinity } }} /> </svg> </motion.div>"
+      },
+      {
+        "motionDev": "<motion.div initial={{ backdropFilter: \"blur(0px)\", }} animate={{ }} transition={{ }} />"
+      }
+    ]
+  },
+  "asset": "../src/assets/auth-shield-check.svg",
+  "decisions": [
+    "Reuse the mounted AuthLayout and its existing leaf timeline across every step.",
+    "Preserve original 64 x 64 password-updated shield and shared logo/eye assets.",
+    "Apply the existing static backdrop-blur reconciliation documented in figma-auth-motion.json."
+  ]
+}

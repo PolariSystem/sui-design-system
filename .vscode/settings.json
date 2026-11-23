@@ -1,0 +1,10 @@
+{
+  "files.exclude": { "**/.npm-cache": true },
+  "search.exclude": {
+    "**/dist": true,
+    "**/workshop-dist": true,
+    "**/tokens/figma-tokens.json": true
+  },
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true
+}

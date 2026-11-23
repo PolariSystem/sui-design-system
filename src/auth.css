@@ -1,0 +1,309 @@
+@layer utilities {
+  .sui-auth-confirmation {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sui-space-4);
+  }
+  .sui-auth-guidance {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sui-space-2);
+    padding: var(--sui-space-4);
+    border-radius: var(--sui-radius-sm);
+    background: var(--sui-color-surface-canvas);
+  }
+  .sui-auth-actions {
+    flex-direction: column;
+    align-items: flex-end;
+  }
+  .sui-auth-action-link.sui-link {
+    justify-content: center;
+    width: 100%;
+    min-height: var(--sui-size-control-lg);
+    padding: var(--sui-space-2) var(--sui-space-4);
+    border-radius: var(--sui-radius-control);
+    border: var(--sui-border-default) solid var(--sui-color-border-default);
+    background: var(--sui-color-action-secondary-default);
+    color: var(--sui-color-action-secondary-foreground);
+    font-size: var(--sui-type-label-lg-size);
+    text-align: center;
+  }
+  .sui-auth-action-link.sui-link:not([aria-disabled="true"]):hover {
+    background: var(--sui-color-action-secondary-hover);
+  }
+  .sui-auth-action-link-primary.sui-link {
+    background: var(--sui-color-action-primary-default);
+    color: var(--sui-color-action-primary-foreground);
+    border-color: var(--sui-color-action-primary-default);
+  }
+  .sui-auth-action-link-primary.sui-link:not([aria-disabled="true"]):hover {
+    background: var(--sui-color-action-primary-hover);
+  }
+  .sui-auth-action-link.sui-link:not([aria-disabled="true"]):active {
+    background: var(--sui-color-action-secondary-pressed);
+  }
+  .sui-auth-action-link-primary.sui-link:not([aria-disabled="true"]):active {
+    background: var(--sui-color-action-primary-pressed);
+  }
+  .sui-auth-layout .sui-auth-title,
+  .sui-auth-layout header p {
+    overflow-wrap: anywhere;
+  }
+  .sui-auth-layout {
+    container-type: inline-size;
+    position: relative;
+    isolation: isolate;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 940px;
+    /* Reserve clearance for the pause action even when validation makes the card taller. */
+    padding: calc(var(--sui-space-8) + var(--sui-space-4)) var(--sui-space-5);
+    background: var(--sui-color-surface-default);
+  }
+  .sui-auth-background {
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+    overflow: clip;
+    pointer-events: none;
+  }
+  .sui-auth-frost {
+    position: absolute;
+    inset: 0;
+    background: var(--sui-color-surface-frosted);
+    backdrop-filter: blur(calc(var(--sui-blur-background) / 2));
+  }
+  .sui-auth-leaf {
+    position: absolute;
+    inset: 0;
+  }
+  .sui-auth-leaf-desktop,
+  .sui-auth-leaf-mobile {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .sui-auth-leaf-desktop {
+    display: none;
+  }
+  /* These SVG dimensions include the export's blur bounds; preserve the source geometry. */
+  .sui-auth-leaf svg {
+    max-width: none;
+  }
+  .sui-auth-leaf-glow > use:first-child {
+    fill: #006f9f;
+    fill-opacity: 0.341356;
+  }
+  .sui-auth-leaf-glow > use:nth-child(2) {
+    fill: white;
+    fill-opacity: 0.8;
+  }
+  .sui-auth-card.sui-card {
+    position: relative;
+    width: 100%;
+    max-width: var(--sui-size-auth-card-desktop);
+    gap: var(--sui-space-4);
+    padding: var(--sui-padding-auth-mobile);
+    border-color: var(--sui-color-border-subtle);
+    box-shadow: var(--shadow-sui-elevation-raised);
+  }
+  .sui-auth-brand {
+    display: flex;
+    justify-content: center;
+  }
+  .sui-auth-logo {
+    position: relative;
+    width: 158px;
+    height: 64px;
+    flex-shrink: 0;
+  }
+  .sui-auth-logo-leaf {
+    position: absolute;
+    left: 9.18%;
+    top: 10%;
+  }
+  .sui-auth-logo-wordmark {
+    position: absolute;
+    left: 28.21%;
+    top: 41.72%;
+  }
+  .sui-auth-title {
+    font-size: var(--sui-type-heading-md-size);
+    font-weight: var(--sui-type-heading-md-weight);
+    line-height: var(--sui-type-heading-md-line-height);
+  }
+  .sui-sign-in-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sui-space-4);
+    min-width: 0;
+  }
+  .sui-auth-options {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--sui-space-2);
+  }
+  .sui-auth-options .sui-checkbox {
+    font: inherit;
+    font-size: var(--sui-type-body-sm-size);
+    line-height: var(--sui-type-body-sm-line-height);
+  }
+  .sui-auth-options .sui-link {
+    padding-inline: 0;
+  }
+  .sui-auth-submit.sui-button {
+    width: 100%;
+    font-size: var(--sui-type-label-lg-size);
+  }
+  .sui-auth-motion-control.sui-button {
+    position: absolute;
+    bottom: var(--sui-space-2);
+    right: var(--sui-space-2);
+  }
+  @container (min-width: 640px) {
+    .sui-auth-card.sui-card {
+      padding: var(--sui-padding-auth-desktop);
+    }
+    .sui-auth-title {
+      font-size: var(--sui-type-heading-lg-size);
+      line-height: var(--sui-type-heading-lg-line-height);
+    }
+    .sui-auth-leaf-desktop {
+      display: block;
+    }
+    .sui-auth-leaf-mobile {
+      display: none;
+    }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .sui-auth-leaf[data-animated="true"] .sui-auth-leaf-glow {
+      animation: sui-auth-leaf-glow 14.02s linear infinite;
+    }
+    .sui-auth-leaf[data-animated="true"] .sui-auth-leaf-glow > path {
+      animation: sui-auth-leaf-trim 14.02s linear infinite;
+    }
+    .sui-auth-leaf[data-animated="true"] .sui-auth-leaf-glow > use:first-child {
+      fill-opacity: 1;
+      animation: sui-auth-leaf-fill 14.02s linear infinite;
+    }
+    .sui-auth-leaf[data-animated="true"]
+      .sui-auth-leaf-glow
+      > use:nth-child(2) {
+      fill-opacity: 1;
+      animation: sui-auth-leaf-highlight 14.02s linear infinite;
+    }
+    .sui-auth-leaf[data-animated="true"][data-paused="true"]
+      .sui-auth-leaf-glow,
+    .sui-auth-leaf[data-animated="true"][data-paused="true"]
+      .sui-auth-leaf-glow
+      > * {
+      animation-play-state: paused;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .sui-auth-motion-control {
+      display: none;
+    }
+  }
+}
+
+/* Figma 96:1498 / 96:1576, one shared 14.02 s timeline. Decorative SVG trim and
+   paint are an explicit exception to interaction-only transform/opacity motion.
+   Preserve the exported percentages and easing; the form itself stays still. */
+@keyframes sui-auth-leaf-fill {
+  0% {
+    fill: rgba(0, 111, 159, 0);
+  }
+  28.6% {
+    animation-timing-function: cubic-bezier(0.7, -0.4, 0.4, 1.4);
+    fill: rgba(0, 111, 159, 0);
+  }
+  40.921% {
+    fill: #006f9f;
+  }
+  54.291% {
+    animation-timing-function: ease-out;
+    fill: #006f9f;
+  }
+  60.447%,
+  100% {
+    fill: rgba(0, 111, 159, 0);
+  }
+}
+/* The CSS exporter omits the second paint. These stops come from its motion.dev
+   track; keeping that white highlight separate preserves both original SVG uses. */
+@keyframes sui-auth-leaf-highlight {
+  0% {
+    fill: rgba(255, 255, 255, 0);
+  }
+  32.48% {
+    animation-timing-function: cubic-bezier(0.5, 0, 0.5, 1);
+    fill: rgba(255, 255, 255, 0);
+  }
+  36.51% {
+    animation-timing-function: ease-out;
+    fill: #fff;
+  }
+  40.92%,
+  100% {
+    fill: rgba(255, 255, 255, 0);
+  }
+}
+@keyframes sui-auth-leaf-trim {
+  0% {
+    stroke-dasharray: 0 1;
+    stroke-dashoffset: 0;
+    visibility: hidden;
+  }
+  5.706% {
+    animation-timing-function: cubic-bezier(0.387, 0.129, 0.703, 0.529);
+    stroke-dasharray: 0 1;
+    stroke-dashoffset: 0;
+    visibility: hidden;
+  }
+  27.247% {
+    stroke-dasharray: 1 1;
+    stroke-dashoffset: 0;
+    visibility: visible;
+  }
+  67.618% {
+    animation-timing-function: ease-in-out;
+    stroke-dasharray: 1 1;
+    stroke-dashoffset: 0;
+    visibility: visible;
+  }
+  90.887%,
+  99.988%,
+  100% {
+    stroke-dasharray: 0 1;
+    stroke-dashoffset: -1;
+    visibility: hidden;
+  }
+}
+@keyframes sui-auth-leaf-glow {
+  0% {
+    animation-timing-function: step-end;
+    filter: drop-shadow(0px 0px 0px rgba(0, 125, 180, 0.6));
+  }
+  32.48% {
+    animation-timing-function: cubic-bezier(0.5, 0, 0.5, 1);
+    filter: drop-shadow(0px 0px 0px rgba(0, 125, 180, 0.6));
+  }
+  40.921%,
+  54.291% {
+    animation-timing-function: cubic-bezier(0.5, 0, 0.5, 1);
+    filter: drop-shadow(0px 0px 80px rgba(0, 125, 180, 0.6));
+  }
+  60.447% {
+    animation-timing-function: step-end;
+    filter: drop-shadow(0px 0px 0px rgba(0, 125, 180, 0.6));
+  }
+  100% {
+    filter: drop-shadow(0px 0px 0px rgba(0, 125, 180, 0.6));
+  }
+}

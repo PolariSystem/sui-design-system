@@ -1,0 +1,67 @@
+@layer components {
+  .sui-scroll-area {
+    position: relative;
+    min-width: 0;
+    min-height: 0;
+    overflow: hidden;
+  }
+  .sui-scroll-viewport {
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+    /* Nested horizontal examples must allow vertical scrolling to reach their parent. */
+    overscroll-behavior: auto;
+  }
+  /* Block sizing keeps responsive grids from expanding Radix's measurement wrapper. */
+  .sui-scroll-viewport > div {
+    min-width: 100%;
+    display: block !important;
+  }
+  .sui-scroll-viewport:focus-visible {
+    outline: 2px solid var(--sui-color-border-focus);
+    outline-offset: -2px;
+  }
+  .sui-scrollbar {
+    display: flex;
+    user-select: none;
+    touch-action: none;
+    padding: 0 var(--sui-space-scrollbar-inset);
+    z-index: 1;
+  }
+  .sui-scrollbar[data-orientation="vertical"] {
+    width: var(--sui-size-scrollbar-target);
+  }
+  .sui-scrollbar[data-orientation="horizontal"] {
+    height: var(--sui-size-scrollbar-target);
+    padding: var(--sui-space-scrollbar-inset) 0;
+    flex-direction: column;
+  }
+  .sui-scrollbar-thumb {
+    flex: 1;
+    position: relative;
+    border-radius: var(--sui-radius-xs);
+    background: var(--sui-color-border-control);
+    transition: background-color var(--sui-motion-duration-fast)
+      var(--sui-motion-easing-standard);
+  }
+  .sui-scrollbar-thumb::before {
+    content: "";
+    position: absolute;
+    inset: -4px;
+  }
+  .sui-scrollbar:hover .sui-scrollbar-thumb,
+  .sui-scrollbar:active .sui-scrollbar-thumb {
+    background: var(--sui-color-icon-brand);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .sui-scrollbar-thumb {
+      transition: none;
+    }
+  }
+  @media (forced-colors: active) {
+    .sui-scrollbar-thumb {
+      forced-color-adjust: none;
+      background: CanvasText;
+    }
+  }
+}

@@ -1,0 +1,12 @@
+node_modules/
+.npm-cache/
+dist/
+workshop-dist/
+coverage/
+test-results/
+playwright-report/
+package-check-results/
+*.tgz
+.env
+.env.*
+!.env.example

@@ -1,0 +1,359 @@
+@import "tailwindcss" source(none);
+@import "../tokens/serenity-theme.css";
+@import "./motion.css";
+@import "./scroll-area.css";
+@import "./navigation-feedback.css";
+@import "./overlays-pickers.css";
+@import "./table.css";
+@import "./charts.css";
+@import "./dashboard.css";
+@import "./auth.css";
+@import "./theme-artwork.css";
+@source "./components";
+
+/* State overrides share the utilities layer so base utility classes cannot mask them.
+   Keep selectors specific to Serenity controls rather than changing native elements globally. */
+@layer utilities {
+  @media (width < 640px) {
+    /* Fill the available mobile column, including toolbars that align children to start. */
+    .sui-field {
+      width: 100%;
+      min-width: 0;
+      max-width: 100%;
+      align-self: stretch;
+    }
+    .sui-card-footer {
+      flex-direction: column;
+      align-items: flex-end;
+    }
+    .sui-card-footer > :is(button, a) {
+      width: 100%;
+    }
+  }
+  @media (width >= 640px) {
+    /* Source order prioritizes the primary action on small screens. */
+    .sui-card-footer > [data-variant="primary"],
+    .sui-card-footer > [data-variant="danger"] {
+      order: 1;
+    }
+    .sui-auth-actions > [data-variant] {
+      order: 0;
+    }
+  }
+  .sui-icon-button.sui-button {
+    --sui-icon-button-size: var(--sui-size-control-md);
+    --sui-icon-button-glyph: var(--sui-size-icon-sm);
+    width: var(--sui-icon-button-size);
+    height: var(--sui-icon-button-size);
+    min-width: var(--sui-icon-button-size);
+    min-height: var(--sui-icon-button-size);
+    flex-shrink: 0;
+    padding: 0;
+    gap: 0;
+  }
+  .sui-icon-button.sui-button[data-size="sm"] {
+    --sui-icon-button-size: var(--sui-size-control-sm);
+    --sui-icon-button-glyph: var(--sui-size-icon-xs);
+  }
+  .sui-icon-button.sui-button[data-size="lg"] {
+    --sui-icon-button-size: var(--sui-size-control-lg);
+    --sui-icon-button-glyph: var(--sui-size-icon-md);
+  }
+  .sui-icon-button-icon,
+  .sui-icon-button .sui-spinner {
+    width: var(--sui-icon-button-glyph);
+    height: var(--sui-icon-button-glyph);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .sui-icon-button-icon > :is(svg, img) {
+    max-width: 100%;
+    max-height: 100%;
+  }
+  /* Brand-colored glyphs also carry through to the loading indicator. */
+  .sui-icon-button.sui-button:is(
+      [data-variant="secondary"],
+      [data-variant="tertiary"]
+    ) {
+    color: var(--sui-color-icon-brand);
+  }
+  .sui-icon-button.sui-button:disabled {
+    opacity: 1;
+  }
+  .sui-icon-button.sui-button:disabled:not([aria-busy="true"]) {
+    background: var(--sui-color-action-disabled-background);
+    border-color: var(--sui-color-border-default);
+    color: var(--sui-color-action-disabled-foreground);
+  }
+  /* Match the optical size used in the approved Figma text styles. */
+  .font-sui {
+    font-optical-sizing: none;
+    font-variation-settings: "opsz" 14;
+  }
+  .sui-input-control:not([data-disabled="true"]):not(
+      [data-error="true"]
+    ):hover {
+    border-color: var(--sui-color-border-hover);
+  }
+  .sui-input-control[data-readonly="true"],
+  .sui-input-control[data-disabled="true"] {
+    background: var(--sui-color-surface-canvas);
+  }
+  .sui-input-control:has(:is(input, textarea, select):focus-visible),
+  .sui-select:focus-visible {
+    outline: var(--sui-border-focus) solid var(--sui-color-border-focus);
+    outline-offset: -1px;
+    box-shadow: var(--shadow-sui-focus-default);
+  }
+  .sui-input-control[data-error="true"] {
+    border-color: var(--sui-color-border-danger);
+  }
+  .sui-input-control[data-error="true"]:has(
+      :is(input, textarea, select):focus-visible
+    ),
+  .sui-select[data-error="true"]:focus-visible {
+    outline-color: var(--sui-color-border-danger);
+    box-shadow: var(--shadow-sui-focus-danger);
+  }
+  .sui-checkbox input:checked ~ .sui-checkbox-box,
+  .sui-checkbox input:indeterminate ~ .sui-checkbox-box {
+    border-color: transparent;
+    background: transparent;
+  }
+  .sui-checkbox input:indeterminate ~ .sui-checkmark {
+    opacity: 0;
+  }
+  .sui-checkbox:has(input:focus-visible) {
+    color: var(--sui-color-text-link);
+  }
+  /* Modern browsers grow multiline fields with content; rows/manual resizing remain a fallback. */
+  .sui-textarea {
+    field-sizing: content;
+    min-height: 4.75rem;
+  }
+  .sui-radio input:enabled:hover ~ .sui-radio-empty {
+    border-color: var(--sui-color-border-hover);
+  }
+  .sui-radio input:disabled ~ .sui-radio-empty {
+    background: var(--sui-color-surface-disabled);
+  }
+  .sui-radio input:checked ~ .sui-radio-empty {
+    opacity: 0;
+  }
+  .sui-radio input:checked ~ .sui-radio-selected {
+    opacity: 1;
+  }
+  .sui-radio input:focus-visible ~ .sui-radio-empty {
+    border: var(--sui-border-focus) solid var(--sui-color-border-focus);
+  }
+  .sui-radio input:checked:focus-visible ~ .sui-radio-selected {
+    opacity: 0;
+  }
+  .sui-radio input:checked:focus-visible ~ .sui-radio-focus {
+    opacity: 1;
+  }
+  .sui-radio:has(input:focus-visible),
+  .sui-switch:has(input:focus-visible) {
+    color: var(--sui-color-text-link);
+  }
+  .sui-switch-track {
+    background: var(--sui-color-chart-series-2);
+  }
+  .sui-switch-thumb {
+    inset-inline-start: var(--sui-space-1);
+    top: var(--sui-space-1);
+    width: var(--sui-space-4);
+    height: var(--sui-space-4);
+    background: var(--sui-color-surface-default);
+  }
+  .sui-switch input:checked ~ .sui-switch-track {
+    background: var(--sui-color-action-primary-default);
+  }
+  .sui-switch input:checked ~ .sui-switch-track .sui-switch-thumb {
+    transform: translateX(
+      calc(
+        var(--sui-size-switch-width) - var(--sui-space-4) - 2 *
+          var(--sui-space-1)
+      )
+    );
+  }
+  .sui-switch:dir(rtl) input:checked ~ .sui-switch-track .sui-switch-thumb {
+    transform: translateX(
+      calc(
+        -1 *
+          (
+            var(--sui-size-switch-width) - var(--sui-space-4) - 2 *
+              var(--sui-space-1)
+          )
+      )
+    );
+  }
+  .sui-switch input:disabled ~ .sui-switch-track {
+    background: var(--sui-color-surface-disabled);
+  }
+  .sui-switch:has(input:focus-visible) > span:first-child {
+    outline: var(--sui-border-focus) solid var(--sui-color-border-focus);
+    outline-offset: 2px;
+    border-radius: var(--sui-radius-full);
+  }
+  .sui-otp-caret {
+    visibility: hidden;
+  }
+  /* Cells paint the selection so native text highlight does not cover adjacent digits. */
+  .sui-otp-input::selection {
+    color: transparent;
+    background: transparent;
+  }
+  .sui-otp:has(input:focus-visible) .sui-otp-cell[data-active="true"] {
+    outline: var(--sui-border-focus) solid var(--sui-color-border-focus);
+    outline-offset: -1px;
+  }
+  .sui-otp:has(input:focus-visible) .sui-otp-cell[data-selected="true"] {
+    background: var(--sui-color-surface-selected);
+  }
+  .sui-otp:has(input:focus-visible)
+    .sui-otp-cell[data-active="true"]
+    .sui-otp-caret {
+    visibility: visible;
+  }
+  .sui-otp[data-error="true"] .sui-otp-cell {
+    border-color: var(--sui-color-border-danger);
+  }
+  .sui-otp[data-error="true"]:has(input:focus-visible)
+    .sui-otp-cell[data-active="true"] {
+    outline-color: var(--sui-color-border-danger);
+  }
+  .sui-otp[data-disabled="true"] .sui-otp-cell,
+  .sui-otp[data-readonly="true"] .sui-otp-cell {
+    background: var(--sui-color-surface-canvas);
+  }
+  .sui-otp[data-disabled="true"] .sui-otp-cell {
+    color: var(--sui-color-text-disabled);
+  }
+  /* Popup geometry follows Dropdown Menu / Selection, with viewport collision limits. */
+  .sui-select-popup {
+    z-index: 50;
+    box-sizing: border-box;
+    width: var(--radix-select-trigger-width);
+    max-width: calc(100vw - 2 * var(--sui-space-2));
+    max-height: var(--radix-select-content-available-height);
+    transform-origin: var(--radix-select-content-transform-origin);
+    overflow: hidden;
+  }
+  .sui-select-viewport,
+  .sui-select-viewport [role="group"] {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sui-space-1);
+  }
+  .sui-multi-select-popup {
+    width: var(--radix-popover-trigger-width);
+    max-height: var(--radix-popover-content-available-height);
+    transform-origin: var(--radix-popover-content-transform-origin);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+  .sui-selection-indicator[data-disabled="true"] .sui-checkbox-box {
+    background: var(--sui-color-surface-disabled);
+  }
+  .sui-selection-indicator[data-checked="true"] .sui-checkbox-box {
+    border-color: transparent;
+    background: transparent;
+  }
+  .sui-selection-indicator[data-checked="true"] .sui-checkmark {
+    opacity: 1;
+  }
+  .sui-select-item {
+    cursor: default;
+    user-select: none;
+  }
+  .sui-select-item > span:first-child {
+    min-width: 0;
+    flex: 1;
+    overflow-wrap: anywhere;
+  }
+  .sui-select-item[data-state="checked"] {
+    background: var(--sui-color-surface-selected);
+  }
+  .sui-select-item[data-highlighted] {
+    background: var(--sui-color-surface-hover);
+  }
+  .sui-select-item[data-state="checked"][data-highlighted] {
+    background: var(--sui-color-surface-selected);
+  }
+  .sui-select-item:focus-visible {
+    outline: var(--sui-border-focus) solid var(--sui-color-border-focus);
+    outline-offset: -2px;
+  }
+  .sui-select-item[data-disabled] {
+    color: var(--sui-color-text-disabled);
+  }
+  .sui-select[data-state="open"] .sui-select-indicator {
+    transform: rotate(180deg);
+  }
+  /* Restore the native checkbox when forced colors make custom artwork unreliable. */
+  @media (forced-colors: active) {
+    .sui-selection-indicator {
+      /* Preserve the approved two-tone check, which otherwise loses its filled box. */
+      forced-color-adjust: none;
+    }
+    .sui-selection-indicator .sui-checkbox-box {
+      border-color: ButtonText;
+      background: Canvas;
+    }
+    .sui-radio input,
+    .sui-switch input {
+      appearance: auto;
+      opacity: 1;
+    }
+    .sui-radio input ~ span,
+    .sui-radio input ~ img,
+    .sui-switch input ~ span {
+      display: none !important;
+    }
+    .sui-select-item[data-state="checked"] {
+      border: 1px solid Highlight;
+    }
+    .sui-select-item[data-highlighted],
+    .sui-select-item[data-state="checked"][data-highlighted] {
+      background: Highlight;
+      color: HighlightText;
+    }
+    .sui-select-item[data-disabled] {
+      color: GrayText;
+    }
+    .sui-select-item:focus-visible {
+      outline-color: Highlight;
+    }
+    .sui-otp-input {
+      color: CanvasText;
+      caret-color: CanvasText;
+      background: Canvas;
+      border: 1px solid ButtonText;
+      border-radius: var(--sui-radius-control);
+      padding: 0.5rem;
+    }
+    .sui-otp-cells {
+      visibility: hidden;
+    }
+    .sui-otp-input:focus-visible {
+      outline: 2px solid Highlight;
+    }
+    .sui-otp-input::selection {
+      color: HighlightText;
+      background: Highlight;
+    }
+    .sui-checkbox input {
+      appearance: auto;
+      opacity: 1;
+    }
+    .sui-checkbox input ~ span,
+    .sui-checkbox input ~ img {
+      display: none;
+    }
+    .sui-button:focus-visible {
+      outline: 2px solid Highlight;
+    }
+  }
+}

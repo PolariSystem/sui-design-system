@@ -1,0 +1,726 @@
+{
+  "sourceFile": "2jnGtX6x5wYdoJDum40ovM",
+  "exportedAt": "2026-10-22",
+  "assets": [
+    {
+      "file": "auth-shield-check.svg",
+      "component": "AuthScreen",
+      "node": "91:1013",
+      "role": "Original password-updated shield; mobile counterpart 96:1792",
+      "width": 64,
+      "height": 64
+    },
+    {
+      "file": "auth-brand-leaf.svg",
+      "component": "AuthLayout",
+      "node": "96:1769",
+      "role": "Original login brand leaf",
+      "width": 32.5355,
+      "height": 51.2
+    },
+    {
+      "file": "auth-brand-wordmark.svg",
+      "component": "AuthLayout",
+      "node": "96:1771",
+      "role": "Original login wordmark",
+      "width": 98.9232,
+      "height": 29.084
+    },
+    {
+      "file": "auth-password-eye.svg",
+      "component": "SignInForm, ResetPasswordForm",
+      "node": "90:876",
+      "role": "Original login password visibility artwork",
+      "width": 20,
+      "height": 20
+    },
+    {
+      "file": "auth-leaf-desktop.svg",
+      "component": "AuthLayout",
+      "node": "96:1498",
+      "role": "Original desktop leaf, inlined for path motion; includes blur bounds",
+      "width": 1576,
+      "height": 2420
+    },
+    {
+      "file": "auth-leaf-mobile.svg",
+      "component": "AuthLayout",
+      "node": "96:1576",
+      "role": "Original mobile leaf, inlined for path motion; includes blur bounds",
+      "width": 735.999,
+      "height": 1087.6
+    },
+    {
+      "file": "unread-bold.svg",
+      "component": "Checkbox, Select",
+      "node": "165:16",
+      "role": "Checked / Solar Unread Bold",
+      "width": 20,
+      "height": 20
+    },
+    {
+      "file": "unread-bold-disabled.svg",
+      "component": "Checkbox",
+      "node": "165:31",
+      "role": "Checked disabled / Solar Unread Bold",
+      "width": 20,
+      "height": 20
+    },
+    {
+      "file": "radio-selected.svg",
+      "component": "Radio",
+      "node": "165:154",
+      "role": "radio selected",
+      "width": 20,
+      "height": 20
+    },
+    {
+      "file": "radio-selected-focus.svg",
+      "component": "Radio",
+      "node": "165:162",
+      "role": "radio selected focus",
+      "width": 20,
+      "height": 20
+    },
+    {
+      "file": "radio-selected-disabled.svg",
+      "component": "Radio",
+      "node": "165:166",
+      "role": "radio selected disabled",
+      "width": 20,
+      "height": 20
+    },
+    {
+      "file": "select-indicator.svg",
+      "component": "Select",
+      "node": "166:418",
+      "role": "select indicator",
+      "width": 20,
+      "height": 20
+    },
+    {
+      "file": "password-eye-bold.svg",
+      "component": "PasswordInput",
+      "node": "148:415",
+      "role": "password eye bold",
+      "width": 20,
+      "height": 20
+    },
+    {
+      "file": "tag-left.svg",
+      "component": "Tag",
+      "node": "166:194",
+      "role": "tag left",
+      "width": 16,
+      "height": 16
+    },
+    {
+      "file": "tag-right.svg",
+      "component": "Tag",
+      "node": "166:194",
+      "role": "tag right",
+      "width": 16,
+      "height": 16
+    },
+    {
+      "file": "breadcrumb-back.svg",
+      "component": "Breadcrumb",
+      "node": "167:115",
+      "role": "breadcrumb back",
+      "width": 16,
+      "height": 16
+    },
+    {
+      "file": "breadcrumb-separator.svg",
+      "component": "Breadcrumb",
+      "node": "167:115",
+      "role": "breadcrumb separator",
+      "width": 12,
+      "height": 12
+    },
+    {
+      "file": "nav-panel.svg",
+      "component": "Breadcrumb",
+      "node": "167:115",
+      "role": "nav panel",
+      "width": 20,
+      "height": 20
+    },
+    {
+      "file": "pagination-previous.svg",
+      "component": "Pagination",
+      "node": "167:247",
+      "role": "pagination previous",
+      "width": 16,
+      "height": 16
+    },
+    {
+      "file": "pagination-next.svg",
+      "component": "Pagination",
+      "node": "167:247",
+      "role": "pagination next",
+      "width": 16,
+      "height": 16
+    },
+    {
+      "file": "nav-search.svg",
+      "component": "Navbar",
+      "node": "172:103",
+      "role": "nav search",
+      "width": 16,
+      "height": 16
+    },
+    {
+      "file": "nav-notifications.svg",
+      "component": "Navbar",
+      "node": "172:103",
+      "role": "nav notifications",
+      "width": 20,
+      "height": 20
+    },
+    {
+      "file": "nav-connectivity.svg",
+      "component": "Navbar",
+      "node": "172:103",
+      "role": "nav connectivity",
+      "width": 20,
+      "height": 20
+    },
+    {
+      "file": "nav-overview-active.svg",
+      "component": "Navbar",
+      "node": "172:103",
+      "role": "nav overview active",
+      "width": 20,
+      "height": 20
+    },
+    {
+      "file": "nav-records-default.svg",
+      "component": "Navbar",
+      "node": "172:103",
+      "role": "nav records default",
+      "width": 20,
+      "height": 20
+    },
+    {
+      "file": "nav-planner-default.svg",
+      "component": "Navbar",
+      "node": "172:103",
+      "role": "nav planner default",
+      "width": 20,
+      "height": 20
+    },
+    {
+      "file": "nav-team-default.svg",
+      "component": "Navbar",
+      "node": "172:103",
+      "role": "nav team default",
+      "width": 20,
+      "height": 20
+    },
+    {
+      "file": "brand-leaf.svg",
+      "component": "Sidebar",
+      "node": "172:481",
+      "role": "brand leaf",
+      "width": 20.3862,
+      "height": 32.3076
+    },
+    {
+      "file": "brand-wordmark.svg",
+      "component": "Sidebar",
+      "node": "172:481",
+      "role": "brand wordmark",
+      "width": 61.9835,
+      "height": 18.3527
+    },
+    {
+      "file": "nav-down.svg",
+      "component": "Sidebar",
+      "node": "172:481",
+      "role": "nav down",
+      "width": 12,
+      "height": 12
+    },
+    {
+      "file": "nav-overview-default.svg",
+      "component": "Sidebar",
+      "node": "172:481",
+      "role": "nav overview default",
+      "width": 20,
+      "height": 20
+    },
+    {
+      "file": "nav-tracking-default.svg",
+      "component": "Sidebar",
+      "node": "172:481",
+      "role": "nav tracking default",
+      "width": 20,
+      "height": 20
+    },
+    {
+      "file": "nav-import-active.svg",
+      "component": "Sidebar",
+      "node": "172:481",
+      "role": "nav import active",
+      "width": 20,
+      "height": 20
+    },
+    {
+      "file": "nav-inbox-default.svg",
+      "component": "Sidebar",
+      "node": "172:481",
+      "role": "nav inbox default",
+      "width": 20,
+      "height": 20
+    },
+    {
+      "file": "nav-help-default.svg",
+      "component": "Sidebar",
+      "node": "172:481",
+      "role": "nav help default",
+      "width": 20,
+      "height": 20
+    },
+    {
+      "file": "nav-settings-default.svg",
+      "component": "Sidebar",
+      "node": "172:481",
+      "role": "nav settings default",
+      "width": 20,
+      "height": 20
+    },
+    {
+      "file": "brand-leaf-compact.svg",
+      "component": "Sidebar",
+      "node": "172:481",
+      "role": "brand leaf compact",
+      "width": 20.1803,
+      "height": 32
+    },
+    {
+      "file": "nav-records-active.svg",
+      "component": "Sidebar",
+      "node": "172:481",
+      "role": "nav records active",
+      "width": 20,
+      "height": 20
+    },
+    {
+      "file": "nav-planner-active.svg",
+      "component": "Sidebar",
+      "node": "172:481",
+      "role": "nav planner active",
+      "width": 20,
+      "height": 20
+    },
+    {
+      "file": "nav-tracking-active.svg",
+      "component": "Sidebar",
+      "node": "172:481",
+      "role": "nav tracking active",
+      "width": 20,
+      "height": 20
+    },
+    {
+      "file": "nav-team-active.svg",
+      "component": "Sidebar",
+      "node": "172:481",
+      "role": "nav team active",
+      "width": 20,
+      "height": 20
+    },
+    {
+      "file": "status-info.svg",
+      "component": "Alert",
+      "node": "167:410",
+      "role": "status info",
+      "width": 20,
+      "height": 20
+    },
+    {
+      "file": "status-success.svg",
+      "component": "Alert",
+      "node": "167:410",
+      "role": "status success",
+      "width": 20,
+      "height": 20
+    },
+    {
+      "file": "status-warning.svg",
+      "component": "Alert",
+      "node": "167:410",
+      "role": "status warning",
+      "width": 20,
+      "height": 20
+    },
+    {
+      "file": "status-danger.svg",
+      "component": "Alert",
+      "node": "167:410",
+      "role": "status danger",
+      "width": 20,
+      "height": 20
+    },
+    {
+      "file": "toast-success.svg",
+      "component": "Toast",
+      "node": "168:1287",
+      "role": "toast success",
+      "width": 20,
+      "height": 20
+    },
+    {
+      "file": "empty-folder.svg",
+      "component": "EmptyState",
+      "node": "168:1484",
+      "role": "empty folder",
+      "width": 32,
+      "height": 32
+    },
+    {
+      "file": "action-add.svg",
+      "component": "EmptyState",
+      "node": "168:1484",
+      "role": "action add",
+      "width": 16,
+      "height": 16
+    },
+    {
+      "file": "overlay-close.svg",
+      "component": "Dialog, Drawer",
+      "node": "173:3731",
+      "role": "overlay-close",
+      "width": 20,
+      "height": 20
+    },
+    {
+      "file": "dialog-reset.svg",
+      "component": "Dialog",
+      "node": "173:3731",
+      "role": "dialog-reset",
+      "width": 32,
+      "height": 32
+    },
+    {
+      "file": "location-pin.svg",
+      "component": "Popover",
+      "node": "167:308",
+      "role": "location-pin",
+      "width": 20,
+      "height": 20
+    },
+    {
+      "file": "date-previous.svg",
+      "component": "DatePicker",
+      "node": "223:288",
+      "role": "date-previous",
+      "width": 16,
+      "height": 16
+    },
+    {
+      "file": "date-next.svg",
+      "component": "DatePicker",
+      "node": "223:288",
+      "role": "date-next",
+      "width": 16,
+      "height": 16
+    },
+    {
+      "file": "date-calendar.svg",
+      "component": "DatePicker",
+      "node": "223:25",
+      "role": "date-calendar",
+      "width": 20,
+      "height": 20
+    },
+    {
+      "file": "time-clock.svg",
+      "component": "TimePicker",
+      "node": "224:25",
+      "role": "time-clock",
+      "width": 20,
+      "height": 20
+    },
+    {
+      "file": "time-unread.svg",
+      "component": "TimePicker",
+      "node": "224:360",
+      "role": "time-unread",
+      "width": 16,
+      "height": 16
+    },
+    {
+      "file": "calendar-meeting.svg",
+      "component": "Calendar",
+      "node": "173:4387",
+      "role": "calendar-meeting",
+      "width": 16,
+      "height": 16
+    },
+    {
+      "file": "calendar-meeting-success.svg",
+      "component": "Calendar",
+      "node": "173:4387",
+      "role": "calendar-meeting-success",
+      "width": 16,
+      "height": 16
+    },
+    {
+      "file": "calendar-note.svg",
+      "component": "Calendar",
+      "node": "173:4387",
+      "role": "calendar-note",
+      "width": 16,
+      "height": 16
+    },
+    {
+      "file": "drawer-folder.svg",
+      "component": "Drawer",
+      "node": "173:3876",
+      "role": "drawer-folder",
+      "width": 24,
+      "height": 24
+    },
+    {
+      "file": "notification-unread.svg",
+      "component": "Drawer",
+      "node": "173:4003",
+      "role": "notification-unread",
+      "width": 16,
+      "height": 16
+    },
+    {
+      "file": "notification-clock.svg",
+      "component": "Drawer",
+      "node": "173:4003",
+      "role": "notification-clock",
+      "width": 16,
+      "height": 16
+    },
+    {
+      "file": "notification-file.svg",
+      "component": "Drawer",
+      "node": "173:4003",
+      "role": "notification-file",
+      "width": 24,
+      "height": 24
+    },
+    {
+      "file": "notification-download.svg",
+      "component": "Drawer",
+      "node": "173:4003",
+      "role": "notification-download",
+      "width": 20,
+      "height": 20
+    },
+    {
+      "file": "notification-add.svg",
+      "component": "Drawer",
+      "node": "173:4003",
+      "role": "notification-add",
+      "width": 20,
+      "height": 20
+    },
+    {
+      "file": "notification-mail.svg",
+      "component": "Drawer",
+      "node": "173:4003",
+      "role": "notification-mail",
+      "width": 20,
+      "height": 20
+    },
+    {
+      "file": "notification-send.svg",
+      "component": "Drawer",
+      "node": "173:4003",
+      "role": "notification-send",
+      "width": 16,
+      "height": 16
+    },
+    {
+      "file": "table-unread.svg",
+      "component": "Table",
+      "node": "173:2632",
+      "role": "Table selection / Solar Unread Bold",
+      "width": 16,
+      "height": 16
+    },
+    {
+      "file": "table-more.svg",
+      "component": "Table",
+      "node": "333:1242",
+      "role": "Table row actions / Solar Menu Dots Bold",
+      "width": 20,
+      "height": 20
+    },
+    {
+      "file": "empty-error.svg",
+      "component": "EmptyStateIllustration",
+      "node": "301:2",
+      "role": "Something went wrong",
+      "width": 160,
+      "height": 144
+    },
+    {
+      "file": "empty-search.svg",
+      "component": "EmptyStateIllustration",
+      "node": "301:3",
+      "role": "No search results",
+      "width": 160,
+      "height": 144
+    },
+    {
+      "file": "empty-wallet.svg",
+      "component": "EmptyStateIllustration",
+      "node": "301:4",
+      "role": "Your wallet is empty",
+      "width": 160,
+      "height": 144
+    },
+    {
+      "file": "empty-card-error.svg",
+      "component": "EmptyStateIllustration",
+      "node": "301:5",
+      "role": "Card error",
+      "width": 160,
+      "height": 144
+    },
+    {
+      "file": "empty-files.svg",
+      "component": "EmptyStateIllustration",
+      "node": "301:6",
+      "role": "No files found",
+      "width": 160,
+      "height": 144
+    },
+    {
+      "file": "empty-chat.svg",
+      "component": "EmptyStateIllustration",
+      "node": "301:7",
+      "role": "No chat history",
+      "width": 160,
+      "height": 144
+    },
+    {
+      "file": "empty-products.svg",
+      "component": "EmptyStateIllustration",
+      "node": "301:8",
+      "role": "No products found",
+      "width": 160,
+      "height": 144
+    },
+    {
+      "file": "empty-purchases.svg",
+      "component": "EmptyStateIllustration",
+      "node": "301:9",
+      "role": "No purchases yet",
+      "width": 160,
+      "height": 144
+    },
+    {
+      "file": "empty-content.svg",
+      "component": "EmptyStateIllustration",
+      "node": "301:10",
+      "role": "No content yet",
+      "width": 160,
+      "height": 144
+    },
+    {
+      "file": "empty-saved.svg",
+      "component": "EmptyStateIllustration",
+      "node": "301:11",
+      "role": "Nothing saved yet",
+      "width": 160,
+      "height": 144
+    },
+    {
+      "file": "empty-connection.svg",
+      "component": "EmptyStateIllustration",
+      "node": "301:12",
+      "role": "No connection",
+      "width": 160,
+      "height": 144
+    },
+    {
+      "file": "empty-payment-success.svg",
+      "component": "EmptyStateIllustration",
+      "node": "301:13",
+      "role": "Payment complete",
+      "width": 160,
+      "height": 144
+    },
+    {
+      "file": "empty-payment-error.svg",
+      "component": "EmptyStateIllustration",
+      "node": "301:14",
+      "role": "Payment failed",
+      "width": 160,
+      "height": 144
+    },
+    {
+      "file": "widget-more.svg",
+      "component": "Widget, DashboardEditor",
+      "node": "174:739",
+      "role": "More actions / Solar",
+      "width": 20,
+      "height": 20
+    },
+    {
+      "file": "dashboard-drag.svg",
+      "component": "DashboardEditor",
+      "node": "173:4606",
+      "role": "Solar menu Bold / pointer drag handle",
+      "width": 16,
+      "height": 16
+    },
+    {
+      "file": "dashboard-settings.svg",
+      "component": "DashboardEditor",
+      "node": "I173:4649;145:149",
+      "role": "Solar settings Bold / settings action",
+      "width": 16,
+      "height": 16
+    },
+    {
+      "file": "dashboard-chevron.svg",
+      "component": "DashboardEditor",
+      "node": "I173:4659;145:151",
+      "role": "Solar down arrow Bold / move menu",
+      "width": 16,
+      "height": 16
+    },
+    {
+      "file": "dashboard-show.svg",
+      "component": "DashboardEditor",
+      "node": "I258:5436;145:149",
+      "role": "Solar add circle Bold / restore widget",
+      "width": 16,
+      "height": 16
+    },
+    {
+      "file": "dashboard-catalog.svg",
+      "component": "DashboardEditor",
+      "node": "64:1146",
+      "role": "Solar add circle Bold / widget catalog",
+      "width": 16,
+      "height": 16
+    },
+    {
+      "file": "dashboard-save.svg",
+      "component": "DashboardEditor",
+      "node": "64:1474",
+      "role": "Solar Unread Bold / save layout",
+      "width": 16,
+      "height": 16
+    },
+    {
+      "file": "nav-menu.svg",
+      "component": "WorkshopShell",
+      "node": "27:27542",
+      "role": "Original Solar Bold menu; monochrome mask rendered at the 20 px control icon size",
+      "width": 24,
+      "height": 24
+    }
+  ]
+}

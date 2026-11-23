@@ -1,0 +1,154 @@
+@layer utilities {
+  .sui-table-surface {
+    min-width: 0;
+    max-width: 100%;
+    border: 1px solid var(--sui-color-border-default);
+    border-radius: var(--sui-radius-card);
+    background: var(--sui-color-surface-default);
+  }
+  .sui-table-viewport {
+    /* Keep visually hidden captions and cell labels inside the scrolling surface. */
+    position: relative;
+    min-width: 0;
+    max-width: 100%;
+    overflow-x: auto;
+    border-radius: inherit;
+  }
+  .sui-table-surface:has(.sui-table-empty) .sui-table-viewport {
+    border-end-start-radius: 0;
+    border-end-end-radius: 0;
+  }
+  .sui-table-empty {
+    border-top: 1px solid var(--sui-color-border-default);
+  }
+  .sui-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    color: var(--sui-color-text-secondary);
+    font-size: var(--sui-type-caption-md-size);
+    line-height: var(--sui-type-caption-md-line-height);
+  }
+  .sui-table th,
+  .sui-table td {
+    text-align: start;
+    vertical-align: middle;
+    padding: var(--sui-space-4) 0;
+  }
+  .sui-table th {
+    background: var(--sui-color-surface-canvas);
+    font-size: var(--sui-type-label-xs-size);
+    line-height: var(--sui-type-label-xs-line-height);
+    font-weight: var(--sui-type-label-xs-weight);
+  }
+  .sui-table :is(th, td):first-child {
+    padding-inline-start: var(--sui-space-4);
+  }
+  .sui-table :is(th, td):last-child {
+    padding-inline-end: var(--sui-space-4);
+  }
+  .sui-table tbody tr + tr > td {
+    border-top: 1px solid var(--sui-color-border-default);
+  }
+  .sui-table tbody tr {
+    transition: background-color var(--sui-motion-duration-fast)
+      var(--sui-motion-easing-standard);
+  }
+  @media (hover: hover) {
+    .sui-table tbody tr:hover {
+      background: var(--sui-color-surface-hover);
+    }
+  }
+  .sui-table tbody tr[data-selected="true"],
+  .sui-table tbody tr[data-selected="true"]:hover {
+    background: var(--sui-color-surface-selected);
+  }
+  .sui-table-cell-content {
+    display: flex;
+    align-items: center;
+    gap: var(--sui-space-2);
+  }
+  .sui-table-cell-value {
+    flex: 1;
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+  .sui-table-cell-icon {
+    display: inline-flex;
+    flex-shrink: 0;
+  }
+  .sui-table .sui-table-selection {
+    width: 56px;
+    min-width: 56px;
+  }
+  .sui-table-selection .sui-checkbox {
+    gap: 0;
+    vertical-align: middle;
+  }
+  .sui-table-sort {
+    display: inline-flex;
+    gap: var(--sui-space-2);
+    align-items: center;
+    min-height: 24px;
+    text-align: start;
+    border-radius: var(--sui-radius-xs);
+  }
+  .sui-table-sort:disabled {
+    color: var(--sui-color-text-disabled);
+    cursor: not-allowed;
+  }
+  .sui-table-sort:focus-visible,
+  .sui-table-viewport:focus-visible {
+    outline: var(--sui-border-focus) solid var(--sui-color-border-focus);
+    outline-offset: -2px;
+  }
+  /* The approved Records table keeps its documented legacy metrics. Text still grows. */
+  .sui-table-record {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sui-exception-table-3);
+  }
+  .sui-table-owner {
+    display: flex;
+    align-items: center;
+    gap: var(--sui-exception-table-10);
+  }
+  .sui-table-badge.sui-badge {
+    border-radius: 5px;
+    padding: var(--sui-exception-table-3) var(--sui-space-2);
+    gap: var(--sui-space-1);
+  }
+  .sui-table-badge[data-tone="neutral"] {
+    background: var(--sui-color-surface-canvas);
+  }
+  .sui-table-badge[data-tone="info"] {
+    background: var(--sui-color-action-secondary-pressed);
+    color: var(--sui-color-text-link);
+  }
+  .sui-table-actions-column,
+  .sui-table .sui-table-actions {
+    width: 72px;
+    min-width: 72px;
+  }
+  .sui-table .sui-table-actions {
+    /* Keep the hidden heading inside the scroll viewport, including on mobile. */
+    position: relative;
+  }
+  .sui-table-action-group {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: var(--sui-space-2);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .sui-table tbody tr {
+      transition: none;
+    }
+  }
+  @media (forced-colors: active) {
+    .sui-table tbody tr[data-selected="true"] {
+      outline: 1px solid Highlight;
+      outline-offset: -1px;
+    }
+  }
+}

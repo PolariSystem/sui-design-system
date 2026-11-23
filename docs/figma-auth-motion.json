@@ -1,0 +1,74 @@
+{
+  "fileKey": "2jnGtX6x5wYdoJDum40ovM",
+  "inspectedAt": "2026-10-21",
+  "desktopNode": "90:834",
+  "mobileNode": "91:1081",
+  "motionDesktop": {
+    "nodes": [
+      {
+        "nodeId": "96:1498",
+        "nodeName": "Serenity leaf / Unblurred motion reference",
+        "nodeType": "VECTOR",
+        "codeSnippets": {
+          "motionDev": "<motion.div initial={{ '--fill-color-0': \"rgba(0, 111, 159, 0)\", '--fill-color-1': \"rgba(255, 255, 255, 0)\", }} animate={{ '--fill-color-0': [\"rgba(0, 111, 159, 0)\", \"rgba(0, 111, 159, 0)\", \"#006F9F\", \"#006F9F\", \"rgba(0, 111, 159, 0)\", \"rgba(0, 111, 159, 0)\"], '--fill-color-1': [\"rgba(255, 255, 255, 0)\", \"rgba(255, 255, 255, 0)\", \"#FFF\", \"rgba(255, 255, 255, 0)\", \"rgba(255, 255, 255, 0)\"], }} transition={{ '--fill-color-0': { duration: 14.02, times: [0, 0.286, 0.4092, 0.5429, 0.6045, 1], ease: [\"linear\", [0.7, -0.4, 0.4, 1.4], [0.5, 0, 0.5, 1], \"easeOut\", \"linear\"], repeat: Infinity }, '--fill-color-1': { duration: 14.02, times: [0, 0.3248, 0.3651, 0.4092, 1], ease: [\"linear\", [0.5, 0, 0.5, 1], \"easeOut\", \"linear\"], repeat: Infinity }, }} > <svg fill=\"none\"> <motion.path pathLength={1} initial={{ strokeDasharray: '0 1', strokeDashoffset: 0, filter: \"drop-shadow(0px 0px 0px rgba(0, 125, 180, 0.6))\" }} animate={{ strokeDasharray: ['0 1', '0 1', '1 1', '1 1', '0 1', '0 1', '0 1'], strokeDashoffset: [0, 0, 0, 0, -1, -1, -1], filter: [\"drop-shadow(0px 0px 0px rgba(0, 125, 180, 0.6))\", \"drop-shadow(0px 0px 0px rgba(0, 125, 180, 0.6))\", \"drop-shadow(0px 0px 80px rgba(0, 125, 180, 0.6))\", \"drop-shadow(0px 0px 80px rgba(0, 125, 180, 0.6))\", \"drop-shadow(0px 0px 0px rgba(0, 125, 180, 0.6))\", \"drop-shadow(0px 0px 0px rgba(0, 125, 180, 0.6))\"] }} transition={{ duration: 14.02, ease: [[0.348, 0, 0.68, 0.35], [0.387, 0.129, 0.703, 0.529], [0.303, 0.438, 0.57, 1], 'easeInOut', 'easeInOut', 'linear'], times: [0, 0.057, 0.272, 0.676, 0.909, 1, 1], repeat: Infinity, filter: { duration: 14.02, times: [0, 0.3248, 0.4092, 0.5429, 0.6045, 1], ease: [\"linear\", [0.5, 0, 0.5, 1], [0.5, 0, 0.5, 1], [0.5, 0, 0.5, 1], \"linear\"], repeat: Infinity } }} /> </svg> </motion.div>"
+        }
+      },
+      {
+        "nodeId": "90:846",
+        "nodeName": "Frosted background / F3F6F8 · 78% · Blur 24",
+        "nodeType": "ROUNDED_RECTANGLE",
+        "codeSnippets": {
+          "motionDev": "<motion.div initial={{ backdropFilter: \"blur(0px)\", }} animate={{ }} transition={{ }} />"
+        }
+      }
+    ],
+    "timelineCohorts": [
+      {
+        "rootNodeId": "90:834",
+        "durationMs": 14020,
+        "loopMode": "loop",
+        "memberNodeIds": [
+          "96:1498",
+          "90:846"
+        ]
+      }
+    ]
+  },
+  "motionMobile": {
+    "nodes": [
+      {
+        "nodeId": "96:1576",
+        "nodeName": "Serenity leaf / Unblurred motion reference",
+        "nodeType": "VECTOR",
+        "codeSnippets": {
+          "motionDev": "<motion.div initial={{ '--fill-color-0': \"rgba(0, 111, 159, 0)\", '--fill-color-1': \"rgba(255, 255, 255, 0)\", }} animate={{ '--fill-color-0': [\"rgba(0, 111, 159, 0)\", \"rgba(0, 111, 159, 0)\", \"#006F9F\", \"#006F9F\", \"rgba(0, 111, 159, 0)\", \"rgba(0, 111, 159, 0)\"], '--fill-color-1': [\"rgba(255, 255, 255, 0)\", \"rgba(255, 255, 255, 0)\", \"#FFF\", \"rgba(255, 255, 255, 0)\", \"rgba(255, 255, 255, 0)\"], }} transition={{ '--fill-color-0': { duration: 14.02, times: [0, 0.286, 0.4092, 0.5429, 0.6045, 1], ease: [\"linear\", [0.7, -0.4, 0.4, 1.4], [0.5, 0, 0.5, 1], \"easeOut\", \"linear\"], repeat: Infinity }, '--fill-color-1': { duration: 14.02, times: [0, 0.3248, 0.3651, 0.4092, 1], ease: [\"linear\", [0.5, 0, 0.5, 1], \"easeOut\", \"linear\"], repeat: Infinity }, }} > <svg fill=\"none\"> <motion.path pathLength={1} initial={{ strokeDasharray: '0 1', strokeDashoffset: 0, filter: \"drop-shadow(0px 0px 0px rgba(0, 125, 180, 0.6))\" }} animate={{ strokeDasharray: ['0 1', '0 1', '1 1', '1 1', '0 1', '0 1', '0 1'], strokeDashoffset: [0, 0, 0, 0, -1, -1, -1], filter: [\"drop-shadow(0px 0px 0px rgba(0, 125, 180, 0.6))\", \"drop-shadow(0px 0px 0px rgba(0, 125, 180, 0.6))\", \"drop-shadow(0px 0px 80px rgba(0, 125, 180, 0.6))\", \"drop-shadow(0px 0px 80px rgba(0, 125, 180, 0.6))\", \"drop-shadow(0px 0px 0px rgba(0, 125, 180, 0.6))\", \"drop-shadow(0px 0px 0px rgba(0, 125, 180, 0.6))\"] }} transition={{ duration: 14.02, ease: [[0.348, 0, 0.68, 0.35], [0.387, 0.129, 0.703, 0.529], [0.303, 0.438, 0.57, 1], 'easeInOut', 'easeInOut', 'linear'], times: [0, 0.057, 0.272, 0.676, 0.909, 1, 1], repeat: Infinity, filter: { duration: 14.02, times: [0, 0.3248, 0.4092, 0.5429, 0.6045, 1], ease: [\"linear\", [0.5, 0, 0.5, 1], [0.5, 0, 0.5, 1], [0.5, 0, 0.5, 1], \"linear\"], repeat: Infinity } }} /> </svg> </motion.div>"
+        }
+      },
+      {
+        "nodeId": "91:1093",
+        "nodeName": "Frosted background / F3F6F8 · 78% · Blur 24",
+        "nodeType": "ROUNDED_RECTANGLE",
+        "codeSnippets": {
+          "motionDev": "<motion.div initial={{ backdropFilter: \"blur(0px)\", }} animate={{ }} transition={{ }} />"
+        }
+      }
+    ],
+    "timelineCohorts": [
+      {
+        "rootNodeId": "91:1081",
+        "durationMs": 14020,
+        "loopMode": "loop",
+        "memberNodeIds": [
+          "96:1576",
+          "91:1093"
+        ]
+      }
+    ]
+  },
+  "implementationNotes": [
+    "CSS uses the authoritative exported trim, blue fill and glow snippets; the omitted white fill track is translated from the motion.dev snippet.",
+    "The static design has background blur radius 24 (CSS blur 12px), while the motion export has a constant zero track. Preserve the owner's explicitly requested frosted background with static blur; do not animate that conflicting track.",
+    "Original exported paths, intrinsic dimensions and layer blur are preserved. Runtime fragment IDs are scoped; fill-opacity snapshot values are replaced by the authored animated paint tracks.",
+    "Decorative path drawing and glow are an explicit exception to interaction motion. The form remains still. Pause and OS reduced motion are supported."
+  ]
+}

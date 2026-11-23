@@ -1,0 +1,27 @@
+/* One canvas grid for the landing and all shared website routes. */
+@layer utilities {
+  .site-grid,
+  .landing-grid {
+    background-image:
+      linear-gradient(
+        color-mix(in srgb, var(--sui-color-border-default) 20%, transparent) 1px,
+        transparent 1px
+      ),
+      linear-gradient(
+        90deg,
+        color-mix(in srgb, var(--sui-color-border-default) 20%, transparent) 1px,
+        transparent 1px
+      );
+    background-size: 48px 48px;
+  }
+  .site-content.site-grid {
+    min-height: 100svh;
+    background-color: var(--sui-color-surface-canvas);
+  }
+  @media (max-width: 640px) {
+    .site-grid,
+    .landing-grid {
+      background-size: 32px 32px;
+    }
+  }
+}

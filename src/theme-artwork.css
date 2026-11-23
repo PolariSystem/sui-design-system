@@ -1,0 +1,34 @@
+/* Inherited switches also respect nested light previews inside a dark document. */
+[data-sui-theme="light"] {
+  --sui-asset-light-display: block;
+  --sui-asset-dark-display: none;
+}
+[data-sui-theme="dark"] {
+  --sui-asset-light-display: none;
+  --sui-asset-dark-display: block;
+}
+@layer utilities {
+  .sui-brand-light {
+    display: var(--sui-asset-light-display, block);
+  }
+  .sui-brand-dark {
+    display: var(--sui-asset-dark-display, none);
+  }
+  .sui-asset-icon {
+    display: inline-flex;
+    position: relative;
+    flex-shrink: 0;
+  }
+  .sui-asset-icon > img {
+    display: var(--sui-asset-light-display, block);
+    width: 100%;
+    height: 100%;
+  }
+  .sui-asset-ink {
+    display: var(--sui-asset-dark-display, none);
+    width: 100%;
+    height: 100%;
+    background: currentColor;
+    mask: no-repeat center / contain;
+  }
+}

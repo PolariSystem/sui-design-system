@@ -1,0 +1,227 @@
+/* Shared interaction policy. Animate paint/transform, never validation, focus outlines,
+   layout dimensions or data. New components should opt into these same token timings. */
+@layer utilities {
+  :is(
+    .sui-button,
+    .sui-input-control,
+    .sui-password-toggle,
+    .sui-badge,
+    .sui-card,
+    .sui-checkbox,
+    .sui-checkbox-box,
+    .sui-radio,
+    .sui-radio-empty,
+    .sui-switch,
+    .sui-switch-track,
+    .sui-otp-cell,
+    .sui-select-item,
+    .sui-tag,
+    .sui-tag-remove,
+    .sui-link,
+    .sui-tab,
+    .sui-breadcrumb-link,
+    .sui-nav-item,
+    .sui-navbar-search,
+    .sui-sidebar-identity,
+    .sui-step-content,
+    .sui-alert
+  ) {
+    transition-property:
+      color, background-color, border-color, box-shadow, opacity;
+    transition-duration: var(--sui-motion-duration-fast);
+    transition-timing-function: var(--sui-motion-easing-standard);
+  }
+  :is(.sui-switch-thumb, .sui-select-indicator) {
+    transition: transform var(--sui-motion-duration-standard)
+      var(--sui-motion-easing-standard);
+  }
+  .sui-input-control :is(input, textarea) {
+    transition: color var(--sui-motion-duration-fast)
+      var(--sui-motion-easing-standard);
+  }
+  :is(.sui-checkmark, .sui-mixed, .sui-radio-selected) {
+    scale: 0.88;
+    transition:
+      opacity var(--sui-motion-duration-fast) var(--sui-motion-easing-standard),
+      scale var(--sui-motion-duration-standard) var(--sui-motion-easing-enter);
+  }
+  .sui-checkbox
+    input:is(:checked, :indeterminate)
+    ~ :is(.sui-checkmark, .sui-mixed),
+  .sui-selection-indicator[data-checked="true"] .sui-checkmark,
+  .sui-radio input:checked ~ .sui-radio-selected {
+    scale: 1;
+  }
+  /* Compress content only: the hit target and focus outline keep their full size. */
+  :is(.sui-button, .sui-password-toggle) > span {
+    transition: scale var(--sui-motion-duration-fast)
+      var(--sui-motion-easing-standard);
+  }
+  :is(.sui-button, .sui-password-toggle):enabled:active > span {
+    scale: 0.97;
+  }
+  .sui-tab-panel[data-state="active"] {
+    animation: sui-content-enter calc(var(--sui-motion-duration-slow) * 2)
+      var(--sui-motion-easing-standard);
+  }
+  .sui-select-popup[data-state="open"] {
+    animation: sui-popup-enter var(--sui-motion-duration-slow)
+      var(--sui-motion-easing-enter);
+  }
+  .sui-select-popup[data-state="closed"] {
+    animation: sui-popup-exit var(--sui-motion-duration-fast)
+      var(--sui-motion-easing-exit);
+    pointer-events: none;
+  }
+  .sui-select-popup {
+    --sui-popup-offset: calc(-1 * var(--sui-space-1));
+  }
+  .sui-select-popup[data-side="top"] {
+    --sui-popup-offset: var(--sui-space-1);
+  }
+  .sui-toast {
+    --sui-popup-offset: var(--sui-space-1);
+  }
+  .sui-toast[data-state="open"] {
+    animation: sui-popup-enter var(--sui-motion-duration-slow)
+      var(--sui-motion-easing-enter);
+  }
+  .sui-toast[data-state="closed"] {
+    animation: sui-popup-exit var(--sui-motion-duration-fast)
+      var(--sui-motion-easing-exit);
+    pointer-events: none;
+  }
+  .sui-toast[data-swipe="move"] {
+    transform: translateX(var(--radix-toast-swipe-move-x));
+  }
+  .sui-toast[data-swipe="cancel"] {
+    transform: translateX(0);
+    transition: transform var(--sui-motion-duration-fast)
+      var(--sui-motion-easing-standard);
+  }
+  .sui-skeleton-decoration {
+    animation: sui-skeleton-pulse calc(var(--sui-motion-duration-slow) * 2.5)
+      var(--sui-motion-easing-standard) infinite alternate;
+  }
+  .sui-progress[data-state="indeterminate"] .sui-progress-fill {
+    animation: sui-progress-travel calc(var(--sui-motion-duration-slow) * 2.5)
+      var(--sui-motion-easing-standard) infinite alternate;
+  }
+
+  /* Includes portaled menus. A local zero-duration policy avoids JS timers and also
+     responds immediately when the OS preference changes while the app is open. */
+  @media (prefers-reduced-motion: reduce) {
+    :is(.sui-button, .sui-password-toggle):enabled:active > span,
+    :is(.sui-checkmark, .sui-mixed, .sui-radio-selected) {
+      scale: 1;
+    }
+    .sui-tab-panel[data-state] {
+      animation: none;
+    }
+    :is(
+      .sui-button,
+      .sui-field,
+      .sui-checkbox,
+      .sui-radio,
+      .sui-switch,
+      .sui-badge,
+      .sui-card,
+      .sui-select-popup,
+      .sui-tag,
+      .sui-link,
+      .sui-tabs,
+      .sui-breadcrumb,
+      .sui-navbar,
+      .sui-nav-item,
+      .sui-navbar-search,
+      .sui-sidebar,
+      .sui-stepper,
+      .sui-alert,
+      .sui-toast
+    ) {
+      --sui-motion-duration-fast: 0s;
+      --sui-motion-duration-standard: 0s;
+      --sui-motion-duration-slow: 0s;
+    }
+    .sui-select-popup[data-state] {
+      animation: none;
+    }
+    .sui-toast[data-state],
+    .sui-skeleton-decoration,
+    .sui-progress[data-state="indeterminate"] .sui-progress-fill {
+      animation: none;
+    }
+  }
+}
+
+@keyframes sui-skeleton-pulse {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0.55;
+  }
+}
+@keyframes sui-progress-travel {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(150%);
+  }
+}
+
+@keyframes sui-popup-enter {
+  from {
+    opacity: 0;
+    transform: translateY(var(--sui-popup-offset)) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes sui-popup-exit {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(var(--sui-popup-offset)) scale(0.98);
+  }
+}
+/* Progress tracks and empty-state illustrations reveal once when mounted.
+   Charts use their own zero-to-value reveal while their scaffolding stays visible. */
+@layer utilities {
+  .sui-chart-appear {
+    animation: sui-chart-appear var(--sui-motion-duration-slow)
+      var(--sui-motion-easing-enter) both;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .sui-chart-appear {
+      animation: none;
+    }
+  }
+}
+@keyframes sui-chart-appear {
+  from {
+    opacity: 0;
+    transform: translateY(var(--sui-space-2));
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes sui-content-enter {
+  from {
+    opacity: 0;
+    transform: translateY(var(--sui-space-1));
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

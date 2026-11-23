@@ -1,0 +1,21 @@
+/* Consumer-owned layout uses public CSS variables without compiling Tailwind utilities. */
+body {
+  background: var(--sui-color-surface-canvas);
+  color: var(--sui-color-text-primary);
+  font-family: system-ui, sans-serif;
+}
+main {
+  max-width: 48rem;
+  margin-inline: auto;
+  padding: var(--sui-space-6);
+  display: grid;
+  gap: var(--sui-space-6);
+}
+h1 {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+}

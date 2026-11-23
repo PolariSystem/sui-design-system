@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f3f6f8" />
+    <script>
+      // Resolve the preference before paint; React keeps it synchronized afterward.
+      (() => {
+        let preference = "system";
+        try {
+          preference = localStorage.getItem("serenity-ui-theme") || "system";
+        } catch {}
+        const theme =
+          preference === "dark" ||
+          (preference !== "light" &&
+            matchMedia("(prefers-color-scheme: dark)").matches)
+            ? "dark"
+            : "light";
+        document.documentElement.dataset.suiTheme = theme;
+        document.documentElement.style.colorScheme = theme;
+      })();
+    </script>
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      sizes="any"
+      href="/src/assets/favicon.svg"
+    />
+    <title>Serenity UI · Component workshop</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/workshop/main.tsx"></script>
+  </body>
+</html>
