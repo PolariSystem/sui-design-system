@@ -58,3 +58,9 @@ The HTTP unit checks use real network requests. Browser retry and stale-response
 The production workshop still emits the existing Vite advisory for a chunk above 500 kB. This phase does not claim to solve route-level code splitting. The no-Preflight entry is not style isolation, and application-owned base styles remain required.
 
 The [GitHub release](https://github.com/PolariSystem/sui-design-system/releases/tag/v0.2.0) records the release commit and exact successful verification run. No npm registry publication is included in this phase.
+
+## CI follow-up — 2026-11-23
+
+The first full cloud run passed integration, packaging and 150 workshop checks, but failed three browser checks (with three pre-existing skips). Two failures came from the documentation index's old five-link expectation after adding the sixth guide. The navigation test now verifies the new integration destination, its focus and its source link. The third failure measured the two-step verification actions during their disabled-to-enabled color transition; its accessibility audit now waits for pending state and finite form animations to settle, as the sign-in audit already does. Contrast rules remain enabled, and product motion is unchanged. The release remains gated on a successful complete run of the follow-up commit.
+
+Follow-up validation: TypeScript and diff checks passed. Both affected scenarios passed twice on desktop and mobile (8 browser checks), with motion and all accessibility rules enabled.

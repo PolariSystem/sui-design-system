@@ -115,6 +115,19 @@ test("authenticator verification validates, handles rejection and retries withou
     "Unable to verify this code.",
   );
   await expect(code).toHaveValue("012345");
+  await expect(form).toHaveAttribute("aria-busy", "false");
+  // The response re-enables actions immediately; audit their settled colors after
+  // the disabled-to-enabled transition, without suppressing contrast checks.
+  await form.evaluate(async (element) => {
+    await Promise.all(
+      element
+        .getAnimations({ subtree: true })
+        .filter((animation) =>
+          Number.isFinite(animation.effect?.getComputedTiming().endTime),
+        )
+        .map((animation) => animation.finished.catch(() => {})),
+    );
+  });
   expect(
     (
       await new AxeBuilder({ page })

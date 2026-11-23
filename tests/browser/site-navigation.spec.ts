@@ -124,7 +124,16 @@ test("section navigation exposes meaningful home, page and documentation destina
   await bottom.getByRole("link", { name: "Documentation" }).click();
   await page.getByRole("button", { name: "Open Documentation index" }).click();
   const docs = page.getByRole("main", { name: "Documentation index" });
-  await expect(docs.getByRole("link")).toHaveCount(5);
+  await expect(docs.getByRole("link")).toHaveCount(6);
+  await docs.getByRole("link", { name: "Application integration" }).click();
+  await expect(page.locator("#documentation-integration")).toBeFocused();
+  await expect(
+    page.getByRole("link", { name: "Read the integration guide" }),
+  ).toHaveAttribute(
+    "href",
+    "https://github.com/PolariSystem/sui-design-system/blob/main/docs/INTEGRATION.md",
+  );
+  await page.getByRole("button", { name: "Open Documentation index" }).click();
   await docs.getByRole("link", { name: "Theming" }).click();
   await expect(page.locator("#documentation-theming")).toBeFocused();
   await page.reload();
