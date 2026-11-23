@@ -1,4 +1,5 @@
 import { AssetIcon } from "./AssetIcon";
+import { dragSlotStyle, type DashboardDragGeometry } from "./dashboard-drag";
 import type { ComponentPropsWithRef, ReactNode } from "react";
 import type {
   DashboardItem,
@@ -25,8 +26,7 @@ interface DashboardLiveCardProps {
   count: number;
   dragging: boolean;
   offset: { x: number; y: number };
-  insertBefore: boolean;
-  insertAfter: boolean;
+  geometry?: DashboardDragGeometry;
   handleProps: ComponentPropsWithRef<"button">;
   onSizeChange: (size: DashboardSize) => void;
   onMove: (zone: DashboardZone) => void;
@@ -36,8 +36,7 @@ interface DashboardLiveCardProps {
 }
 const sizeNames = { S: "Small", M: "Medium", L: "Large" };
 
-/** Keep one real widget mounted while dragging. Its reserved grid slot is the drop placeholder;
- * transforming the card avoids duplicate IDs, duplicate announcements and replayed chart entrances. */
+/** Keep one real widget mounted while dragging, preserving chart state and pointer capture. */
 export function DashboardLiveCard({
   widget,
   item,
@@ -45,8 +44,7 @@ export function DashboardLiveCard({
   count,
   dragging,
   offset,
-  insertBefore,
-  insertAfter,
+  geometry,
   handleProps,
   onSizeChange,
   onMove,
@@ -62,8 +60,7 @@ export function DashboardLiveCard({
       data-size={item.size}
       data-editor-card={item.id}
       data-dragging={dragging || undefined}
-      data-insert-before={insertBefore || undefined}
-      data-insert-after={insertAfter || undefined}
+      style={dragSlotStyle(dragging ? geometry : undefined)}
     >
       <div
         className="sui-dashboard-live-card"

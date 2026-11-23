@@ -82,6 +82,10 @@
   .sui-toast {
     --sui-popup-offset: var(--sui-space-1);
   }
+  .sui-toast-viewport[data-inline="false"][data-position="top-right"]
+    .sui-toast {
+    --sui-popup-offset: calc(-1 * var(--sui-space-1));
+  }
   .sui-toast[data-state="open"] {
     animation: sui-popup-enter var(--sui-motion-duration-slow)
       var(--sui-motion-easing-enter);

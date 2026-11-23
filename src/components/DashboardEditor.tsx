@@ -31,6 +31,10 @@ import chevronIcon from "../assets/dashboard-chevron.svg";
 import showIcon from "../assets/dashboard-show.svg";
 
 import { DashboardLiveCard } from "./internal/DashboardLiveCard";
+import {
+  dragSlotStyle,
+  type DashboardDragGeometry,
+} from "./internal/dashboard-drag";
 import { DashboardWidgetSettings } from "./internal/DashboardWidgetSettings";
 
 const descriptions = {
@@ -50,7 +54,11 @@ interface DragSession {
   y: number;
   started: boolean;
   scrollY: number;
+  lastScrollY: number;
+  overflowAnchor: string;
   scrollContainer: HTMLElement;
+  geometry: DashboardDragGeometry;
+  destination: DropTarget | null;
 }
 
 /** Dragging works inside application panels as well as a full document. */
@@ -82,9 +90,19 @@ export function DashboardEditor({
   const [dragging, setDragging] = useState<string | null>(null);
   const [target, setTarget] = useState<DropTarget | null>(null);
   const [offset, setOffset] = useState({ x: 0, y: 0 });
+  const [geometry, setGeometry] = useState<DashboardDragGeometry>();
   const pointer = useRef({ x: 0, y: 0 });
   const [announcement, setAnnouncement] = useState("");
   const instructions = useId();
+
+  useEffect(
+    () => () => {
+      const session = drag.current;
+      if (session)
+        session.scrollContainer.style.overflowAnchor = session.overflowAnchor;
+    },
+    [],
+  );
 
   // Moving across zones remounts a card. Restore focus to its new handle, never the document body.
   useLayoutEffect(() => {
@@ -92,10 +110,10 @@ export function DashboardEditor({
       (handles.current.get(pendingFocus.current) ?? root.current)?.focus();
       pendingFocus.current = null;
     }
-  }, [value]);
+  }, [value, dragging]);
 
-  // Track the pointer without reordering the model during a gesture. The original grid slot
-  // stays reserved; only a successful drop commits a move. Edge scrolling continues while held.
+  // Preview the destination in layout without committing model changes. The original
+  // widget stays mounted out of flow; edge scrolling continues while the pointer is held.
   useEffect(() => {
     if (!dragging) return;
     let frame: number;
@@ -124,13 +142,19 @@ export function DashboardEditor({
           ? current
           : nextOffset,
       );
-      const nextTarget = dropTarget(x, y);
-      setTarget((current) =>
-        current?.zone === nextTarget?.zone &&
-        current?.beforeId === nextTarget?.beforeId
-          ? current
-          : nextTarget,
-      );
+      // Reflow alone is not a new drag intention. Retest only after actual scrolling;
+      // otherwise a stationary pointer can make the placeholder oscillate between slots.
+      if (container.scrollTop !== session.lastScrollY) {
+        session.lastScrollY = container.scrollTop;
+        const nextTarget = dropTarget(x, y);
+        session.destination = nextTarget;
+        setTarget((current) =>
+          current?.zone === nextTarget?.zone &&
+          current?.beforeId === nextTarget?.beforeId
+            ? current
+            : nextTarget,
+        );
+      }
       frame = requestAnimationFrame(update);
     }
     function cancel() {
@@ -139,9 +163,11 @@ export function DashboardEditor({
     }
     frame = requestAnimationFrame(update);
     window.addEventListener("blur", cancel);
+    window.addEventListener("resize", cancel);
     return () => {
       cancelAnimationFrame(frame);
       window.removeEventListener("blur", cancel);
+      window.removeEventListener("resize", cancel);
     };
   }, [dragging, value, renderWidget]);
 
@@ -182,10 +208,14 @@ export function DashboardEditor({
     const zoneElement = element?.closest<HTMLElement>("[data-editor-zone]");
     if (!zoneElement || !root.current?.contains(zoneElement)) return null;
     const zone = zoneElement.dataset.editorZone as DashboardZone;
+    if (element?.closest("[data-drop-preview]"))
+      return drag.current?.destination ?? { zone, beforeId: drag.current?.id };
     const card = element?.closest<HTMLElement>("[data-editor-card]");
     if (!card) return { zone };
     const rect = card.getBoundingClientRect();
-    const entries = value.filter((item) => item.zone === zone);
+    const entries = value.filter(
+      (item) => item.zone === zone && item.id !== drag.current?.id,
+    );
     const index = entries.findIndex(
       (item) => item.id === card.dataset.editorCard,
     );
@@ -196,6 +226,7 @@ export function DashboardEditor({
     ).some(
       (other) =>
         other !== card &&
+        other.dataset.editorCard !== drag.current?.id &&
         Math.abs(other.getBoundingClientRect().top - rect.top) < 4,
     );
     const before =
@@ -208,17 +239,31 @@ export function DashboardEditor({
     };
   }
   function clearDrag() {
+    const session = drag.current;
+    if (session?.started) pendingFocus.current = session.id;
+    if (session)
+      session.scrollContainer.style.overflowAnchor = session.overflowAnchor;
     drag.current = null;
+    if (session && root.current?.hasPointerCapture(session.pointerId))
+      root.current.releasePointerCapture(session.pointerId);
     setDragging(null);
     setTarget(null);
     setOffset({ x: 0, y: 0 });
+    setGeometry(undefined);
   }
   function pointerDown(event: PointerEvent<HTMLButtonElement>, id: string) {
-    if (event.button !== 0 || !event.isPrimary) return;
+    if (event.button !== 0 || !event.isPrimary || drag.current) return;
     event.currentTarget.focus({ preventScroll: true });
-    event.currentTarget.setPointerCapture(event.pointerId);
+    // Capture on the stable editor, since inserting a preview may move the handle's DOM node.
+    root.current!.setPointerCapture(event.pointerId);
     pointer.current = { x: event.clientX, y: event.clientY };
     const scrollContainer = findScrollContainer(event.currentTarget);
+    const overflowAnchor = scrollContainer.style.overflowAnchor;
+    scrollContainer.style.overflowAnchor = "none";
+    const card =
+      event.currentTarget.closest<HTMLElement>("[data-editor-card]")!;
+    const bounds = card.getBoundingClientRect();
+    const rootBounds = root.current!.getBoundingClientRect();
     drag.current = {
       id,
       pointerId: event.pointerId,
@@ -226,10 +271,19 @@ export function DashboardEditor({
       y: event.clientY,
       started: false,
       scrollY: scrollContainer.scrollTop,
+      lastScrollY: scrollContainer.scrollTop,
+      overflowAnchor,
       scrollContainer,
+      geometry: {
+        x: bounds.left - rootBounds.left,
+        y: bounds.top - rootBounds.top,
+        width: bounds.width,
+        height: bounds.height,
+      },
+      destination: null,
     };
   }
-  function pointerMove(event: PointerEvent<HTMLButtonElement>) {
+  function pointerMove(event: PointerEvent<HTMLDivElement>) {
     const session = drag.current;
     if (!session || session.pointerId !== event.pointerId) return;
     if (
@@ -237,9 +291,12 @@ export function DashboardEditor({
       Math.hypot(event.clientX - session.x, event.clientY - session.y) < 8
     )
       return;
+    if (!session.started) root.current?.focus({ preventScroll: true });
     session.started = true;
+    session.lastScrollY = session.scrollContainer.scrollTop;
     pointer.current = { x: event.clientX, y: event.clientY };
     setDragging(session.id);
+    setGeometry(session.geometry);
     setOffset({
       x: event.clientX - session.x,
       y:
@@ -248,26 +305,36 @@ export function DashboardEditor({
         session.scrollContainer.scrollTop -
         session.scrollY,
     });
-    setTarget(dropTarget(event.clientX, event.clientY));
+    const destination = dropTarget(event.clientX, event.clientY);
+    session.destination = destination;
+    setTarget(destination);
   }
-  function pointerUp(event: PointerEvent<HTMLButtonElement>) {
+  function pointerUp(event: PointerEvent<HTMLDivElement>) {
     const session = drag.current;
     if (session?.pointerId !== event.pointerId) return;
-    const destination = session.started
-      ? dropTarget(event.clientX, event.clientY)
-      : null;
+    // Commit the preview the user sees, not a fresh hit test against its reflowed grid.
+    const destination = session.started ? session.destination : null;
     clearDrag();
     if (destination) move(session.id, destination.zone, destination.beforeId);
     else if (session.started)
       setAnnouncement("Move cancelled. Layout unchanged.");
   }
 
+  const preview =
+    dragging && target
+      ? moveDashboardItem(value, dragging, target.zone, target.beforeId)
+      : value;
   return (
     <div
       ref={root}
       tabIndex={-1}
       aria-label="Dashboard layout editor"
       className={`sui-dashboard-editor ${className}`}
+      data-drag-active={Boolean(dragging) || undefined}
+      onPointerMove={pointerMove}
+      onPointerUp={pointerUp}
+      onPointerCancel={clearDrag}
+      onLostPointerCapture={clearDrag}
       onKeyDownCapture={(event) => {
         if (event.key === "Escape" && drag.current) {
           clearDrag();
@@ -299,6 +366,22 @@ export function DashboardEditor({
           .filter((zone) => !renderWidget || zone !== "hidden")
           .map((zone) => {
             const entries = value.filter((item) => item.zone === zone);
+            const previewEntries = preview.filter((item) => item.zone === zone);
+            const placeholder =
+              geometry && previewEntries.find((item) => item.id === dragging);
+            const rendered: { item: DashboardItem; placeholder?: boolean }[] =
+              entries.map((item) => ({ item }));
+            if (placeholder) {
+              const nextId =
+                previewEntries[previewEntries.indexOf(placeholder) + 1]?.id;
+              const before = rendered.findIndex(
+                ({ item }) => item.id === nextId,
+              );
+              rendered.splice(before < 0 ? rendered.length : before, 0, {
+                item: placeholder,
+                placeholder: true,
+              });
+            }
             return (
               <section
                 key={zone}
@@ -317,9 +400,9 @@ export function DashboardEditor({
                   </h3>
                   <span
                     className="text-sui-label-sm text-sui-text-secondary"
-                    aria-label={`${entries.length} widgets`}
+                    aria-label={`${previewEntries.length} widgets`}
                   >
-                    {entries.length}
+                    {previewEntries.length}
                   </span>
                 </header>
                 {!renderWidget && (
@@ -332,29 +415,33 @@ export function DashboardEditor({
                     renderWidget ? "sui-dashboard-grid" : "flex flex-col gap-4"
                   }
                 >
-                  {entries.map((item, index) => {
+                  {rendered.map(({ item, placeholder: isPlaceholder }) => {
+                    if (isPlaceholder)
+                      return (
+                        <div
+                          key="drop-preview"
+                          aria-hidden="true"
+                          data-drop-preview
+                          data-size={item.size}
+                          className="sui-dashboard-slot sui-dashboard-drop-preview"
+                          style={{ height: geometry!.height }}
+                        />
+                      );
+                    const index = entries.indexOf(item);
                     const widget = widgets.find(
                       (widget) => widget.id === item.id,
                     )!;
                     if (renderWidget)
                       return (
                         <DashboardLiveCard
-                          key={item.id}
+                          key={`widget:${item.id}`}
                           widget={widget}
                           item={item}
                           index={index}
                           count={entries.length}
                           dragging={dragging === item.id}
                           offset={offset}
-                          insertBefore={
-                            target?.beforeId === item.id && dragging !== item.id
-                          }
-                          insertAfter={
-                            target?.zone === zone &&
-                            !target.beforeId &&
-                            index === entries.length - 1 &&
-                            dragging !== item.id
-                          }
+                          geometry={geometry}
                           handleProps={{
                             ref: (node) => {
                               if (node) handles.current.set(item.id, node);
@@ -363,10 +450,6 @@ export function DashboardEditor({
                             "aria-describedby": instructions,
                             onPointerDown: (event) =>
                               pointerDown(event, item.id),
-                            onPointerMove: pointerMove,
-                            onPointerUp: pointerUp,
-                            onPointerCancel: clearDrag,
-                            onLostPointerCapture: clearDrag,
                           }}
                           onSizeChange={(size) => {
                             onChange(
@@ -394,130 +477,146 @@ export function DashboardEditor({
                         </DashboardLiveCard>
                       );
                     return (
-                      <Card
-                        key={item.id}
-                        padding="compact"
+                      <div
+                        key={`widget:${item.id}`}
+                        className="sui-dashboard-edit-slot"
                         role="group"
                         aria-label={widget.title}
                         data-editor-card={item.id}
                         data-dragging={dragging === item.id || undefined}
-                        data-insert-before={
-                          target?.beforeId === item.id || undefined
-                        }
+                        style={dragSlotStyle(
+                          dragging === item.id ? geometry : undefined,
+                        )}
                       >
-                        <div className="flex items-center gap-2">
-                          <button
-                            type="button"
-                            ref={(node) => {
-                              if (node) handles.current.set(item.id, node);
-                              else handles.current.delete(item.id);
-                            }}
-                            aria-label={`Drag ${widget.title}`}
-                            aria-describedby={instructions}
-                            className="sui-dashboard-drag"
-                            onPointerDown={(event) =>
-                              pointerDown(event, item.id)
-                            }
-                            onPointerMove={pointerMove}
-                            onPointerUp={pointerUp}
-                            onPointerCancel={clearDrag}
-                            onLostPointerCapture={clearDrag}
-                          >
-                            <AssetIcon src={dragIcon} size={16} />
-                          </button>
-                          <h4 className="min-w-0 break-words text-sui-heading-xs">
-                            {widget.title}
-                          </h4>
-                        </div>
-                        <div className="flex flex-wrap gap-2">
-                          <span className="sui-dashboard-chip">
-                            {widget.kind}
-                          </span>
-                          <span
-                            className="sui-dashboard-chip"
-                            data-size-chip
-                            aria-label={`${sizeNames[item.size]} widget`}
-                          >
-                            {item.size}
-                          </span>
-                        </div>
-                        <CardFooter>
-                          <DashboardWidgetSettings
-                            title={widget.title}
-                            size={item.size}
-                            sizes={widget.sizes}
-                            onSizeChange={(size) => {
-                              onChange(
-                                value.map((entry) =>
-                                  entry.id === item.id
-                                    ? { ...entry, size }
-                                    : entry,
-                                ),
-                              );
-                              setAnnouncement(
-                                `${widget.title} size set to ${sizeNames[size]}.`,
-                              );
-                            }}
-                          />
-                          {zone === "hidden" ? (
+                        <Card
+                          padding="compact"
+                          className="sui-dashboard-live-card"
+                          style={
+                            dragging === item.id
+                              ? {
+                                  transform: `translate3d(${offset.x}px, ${offset.y}px, 0)`,
+                                }
+                              : undefined
+                          }
+                        >
+                          <div className="flex items-center gap-2">
+                            <button
+                              type="button"
+                              ref={(node) => {
+                                if (node) handles.current.set(item.id, node);
+                                else handles.current.delete(item.id);
+                              }}
+                              aria-label={`Drag ${widget.title}`}
+                              aria-describedby={instructions}
+                              className="sui-dashboard-drag"
+                              onPointerDown={(event) =>
+                                pointerDown(event, item.id)
+                              }
+                            >
+                              <AssetIcon src={dragIcon} size={16} />
+                            </button>
+                            <h4 className="min-w-0 break-words text-sui-heading-xs">
+                              {widget.title}
+                            </h4>
+                          </div>
+                          <div className="flex flex-wrap gap-2">
+                            <span className="sui-dashboard-chip">
+                              {widget.kind}
+                            </span>
+                            <span
+                              className="sui-dashboard-chip"
+                              data-size-chip
+                              aria-label={`${sizeNames[item.size]} widget`}
+                            >
+                              {item.size}
+                            </span>
+                          </div>
+                          <CardFooter>
+                            <DashboardWidgetSettings
+                              title={widget.title}
+                              size={item.size}
+                              sizes={widget.sizes}
+                              onSizeChange={(size) => {
+                                onChange(
+                                  value.map((entry) =>
+                                    entry.id === item.id
+                                      ? { ...entry, size }
+                                      : entry,
+                                  ),
+                                );
+                                setAnnouncement(
+                                  `${widget.title} size set to ${sizeNames[size]}.`,
+                                );
+                              }}
+                            />
+                            {zone === "hidden" ? (
+                              <Button
+                                variant="secondary"
+                                leftIcon={
+                                  <AssetIcon src={showIcon} size={16} />
+                                }
+                                onClick={() =>
+                                  move(item.id, widget.defaultZone)
+                                }
+                              >
+                                Show
+                              </Button>
+                            ) : (
+                              <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                  <Button
+                                    variant="secondary"
+                                    rightIcon={
+                                      <AssetIcon src={chevronIcon} size={16} />
+                                    }
+                                  >
+                                    Move to…
+                                  </Button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent
+                                  onCloseAutoFocus={closeMenu}
+                                >
+                                  {dashboardZones
+                                    .filter(
+                                      (destination) => destination !== zone,
+                                    )
+                                    .map((destination) => (
+                                      <DropdownMenuItem
+                                        key={destination}
+                                        onSelect={() => {
+                                          menuFocus.current = item.id;
+                                          move(item.id, destination);
+                                        }}
+                                      >
+                                        {dashboardZoneNames[destination]}
+                                      </DropdownMenuItem>
+                                    ))}
+                                </DropdownMenuContent>
+                              </DropdownMenu>
+                            )}
+                          </CardFooter>
+                          <CardFooter>
                             <Button
                               variant="secondary"
-                              leftIcon={<AssetIcon src={showIcon} size={16} />}
-                              onClick={() => move(item.id, widget.defaultZone)}
+                              disabled={index === 0}
+                              onClick={() => reorder(item, -1)}
                             >
-                              Show
+                              Move up
                             </Button>
-                          ) : (
-                            <DropdownMenu>
-                              <DropdownMenuTrigger asChild>
-                                <Button
-                                  variant="secondary"
-                                  rightIcon={
-                                    <AssetIcon src={chevronIcon} size={16} />
-                                  }
-                                >
-                                  Move to…
-                                </Button>
-                              </DropdownMenuTrigger>
-                              <DropdownMenuContent onCloseAutoFocus={closeMenu}>
-                                {dashboardZones
-                                  .filter((destination) => destination !== zone)
-                                  .map((destination) => (
-                                    <DropdownMenuItem
-                                      key={destination}
-                                      onSelect={() => {
-                                        menuFocus.current = item.id;
-                                        move(item.id, destination);
-                                      }}
-                                    >
-                                      {dashboardZoneNames[destination]}
-                                    </DropdownMenuItem>
-                                  ))}
-                              </DropdownMenuContent>
-                            </DropdownMenu>
-                          )}
-                        </CardFooter>
-                        <CardFooter>
-                          <Button
-                            variant="secondary"
-                            disabled={index === 0}
-                            onClick={() => reorder(item, -1)}
-                          >
-                            Move up
-                          </Button>
-                          <Button
-                            variant="secondary"
-                            disabled={index === entries.length - 1}
-                            onClick={() => reorder(item, 1)}
-                          >
-                            Move down
-                          </Button>
-                        </CardFooter>
-                      </Card>
+                            <Button
+                              variant="secondary"
+                              disabled={index === entries.length - 1}
+                              onClick={() => reorder(item, 1)}
+                            >
+                              Move down
+                            </Button>
+                          </CardFooter>
+                        </Card>
+                      </div>
                     );
                   })}
                 </div>
-                {!entries.length && (
+                {!previewEntries.length && (
                   <p className="rounded-sui-control border border-dashed border-sui-border-default p-4 text-sui-body-sm text-sui-text-secondary">
                     Drop a widget here or use its Move to… menu.
                   </p>

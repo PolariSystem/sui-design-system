@@ -4,6 +4,7 @@
     container-type: inline-size;
   }
   .sui-dashboard-editor {
+    position: relative;
     display: flex;
     flex-direction: column;
     gap: var(--sui-space-4);
@@ -27,12 +28,6 @@
   .sui-dashboard-zone[data-drop-target] {
     outline: var(--sui-border-focus) solid var(--sui-color-border-focus);
     outline-offset: -2px;
-  }
-  .sui-dashboard-zone [data-dragging] {
-    opacity: var(--sui-opacity-disabled);
-  }
-  .sui-dashboard-zone [data-insert-before] {
-    box-shadow: 0 -4px 0 var(--sui-color-border-focus);
   }
   .sui-dashboard-drag {
     display: flex;
@@ -107,34 +102,44 @@
     border-radius: var(--sui-radius-lg);
     box-shadow: var(--shadow-sui-elevation-subtle);
   }
+  .sui-dashboard-editor[data-drag-active] .sui-dashboard-canvas {
+    overflow: visible;
+  }
+  .sui-dashboard-editor[data-drag-active] {
+    /* The held card and destination provide gesture focus; restore normal focus on release. */
+    outline: none;
+    /* Preview reflow must not fight pointer-driven edge scrolling. */
+    overflow-anchor: none;
+    overflow: clip;
+    overflow-clip-margin: 16px;
+  }
   .sui-dashboard-edit-slot[data-dragging] {
-    background: var(--sui-color-action-secondary-pressed);
-    outline: var(--sui-border-focus) dashed var(--sui-color-border-focus);
-    outline-offset: -2px;
+    pointer-events: none;
   }
   .sui-dashboard-edit-slot[data-dragging] > .sui-dashboard-live-card {
-    z-index: 30;
     pointer-events: none;
-    box-shadow: var(--shadow-sui-elevation-floating);
-    opacity: 0.92;
+    will-change: transform;
+    border-color: var(--sui-color-border-focus);
   }
-  .sui-dashboard-edit-slot:is(
-      [data-insert-before],
-      [data-insert-after]
-    )::after {
+  .sui-dashboard-live-card::before {
     position: absolute;
-    z-index: 1;
-    inset-inline: 0;
-    height: 4px;
-    background: var(--sui-color-border-focus);
+    inset: 0;
     content: "";
-    border-radius: var(--sui-radius-xs);
+    pointer-events: none;
+    border-radius: inherit;
+    box-shadow: var(--shadow-sui-elevation-floating);
+    opacity: 0;
   }
-  .sui-dashboard-edit-slot[data-insert-before]::after {
-    top: -8px;
+  .sui-dashboard-edit-slot[data-dragging] > .sui-dashboard-live-card::before {
+    opacity: 1;
   }
-  .sui-dashboard-edit-slot[data-insert-after]::after {
-    bottom: -8px;
+  .sui-dashboard-drop-preview {
+    min-width: 0;
+    border: var(--sui-border-focus) dashed var(--sui-color-border-focus);
+    border-radius: var(--sui-radius-lg);
+    background: var(--sui-color-action-secondary-pressed);
+    box-shadow: inset 0 0 0 4px var(--sui-color-surface-canvas);
+    pointer-events: auto;
   }
   .sui-dashboard-edit-toolbar {
     display: flex;
@@ -190,6 +195,17 @@
     }
   }
   @media (prefers-reduced-motion: no-preference) {
+    .sui-dashboard-live-card {
+      transition: scale var(--sui-motion-duration-standard)
+        var(--sui-motion-easing-enter);
+    }
+    .sui-dashboard-live-card::before {
+      transition: opacity var(--sui-motion-duration-fast)
+        var(--sui-motion-easing-standard);
+    }
+    .sui-dashboard-edit-slot[data-dragging] > .sui-dashboard-live-card {
+      scale: 1.02;
+    }
     .sui-dashboard-drag {
       transition: background-color var(--sui-motion-duration-fast)
         var(--sui-motion-easing-standard);

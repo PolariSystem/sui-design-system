@@ -15,4 +15,6 @@ This example consumes the built public package. Its service uses in-memory data 
 | `PersistedDashboard.tsx` | Draft editing, save, conflict handling and explicit reload |
 | `dev.mjs` | Same-origin Vite proxy and service lifecycle |
 
-`npm run test:integration` starts its own server on port 5176; stop the manual example before running it. See [application integration](../../docs/INTEGRATION.md) for public component contracts and application responsibilities.
+The example loads DM Sans and scopes host heading styles so dialog portals retain the kit's typography. Successful dashboard saves use the shared toast at the top-right; errors stay beside the draft. Dragging lifts the existing card and previews the destination footprint before committing a move.
+
+`npm run test:integration` starts its own server on port 5176; stop the manual example before running it, or set `SUI_INTEGRATION_PORT` to another free port (for example, 5178). The same variable configures the manual example. See [application integration](../../docs/INTEGRATION.md) for public component contracts and application responsibilities.

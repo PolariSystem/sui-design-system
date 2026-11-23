@@ -1,9 +1,22 @@
+/* Register the self-hosted font under the exact family named by Serenity's tokens. */
+@font-face {
+  font-family: "DM Sans";
+  font-style: normal;
+  font-weight: 100 1000;
+  font-display: swap;
+  src: url("@fontsource-variable/dm-sans/files/dm-sans-latin-wght-normal.woff2")
+    format("woff2");
+}
+
 :root {
-  font-family: var(--sui-font-family, system-ui, sans-serif);
+  font-family:
+    var(--sui-type-body-md-family), ui-sans-serif, system-ui, sans-serif;
+  font-optical-sizing: none;
+  font-variation-settings: "opsz" 14;
   color: var(--sui-color-text-primary);
   background: var(--sui-color-surface-canvas);
 }
-main {
+.integration-page {
   max-width: 960px;
   margin-inline: auto;
   padding: 16px;
@@ -13,17 +26,17 @@ main {
   flex-direction: column;
   gap: 16px;
 }
-h1 {
+.integration-title {
   font-size: 28px;
   font-weight: 600;
 }
-h2 {
+.integration-heading {
   font-size: 20px;
   font-weight: 600;
   margin-bottom: 16px;
 }
 @media (width < 640px) {
-  h1 {
+  .integration-title {
     font-size: 24px;
   }
 }

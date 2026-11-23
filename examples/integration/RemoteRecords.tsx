@@ -40,7 +40,7 @@ export function RemoteRecords({ revision }: { revision: number }) {
   );
   return (
     <Card padding="comfortable">
-      <h2>Remote records</h2>
+      <h2 className="integration-heading">Remote records</h2>
       <Input
         label="Search workspaces"
         value={query}

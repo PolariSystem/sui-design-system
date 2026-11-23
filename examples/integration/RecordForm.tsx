@@ -66,7 +66,7 @@ export function RecordForm({ onCreated }: { onCreated: () => void }) {
 
   return (
     <Card padding="comfortable">
-      <h2>Create a workspace</h2>
+      <h2 className="integration-heading">Create a workspace</h2>
       <form
         onSubmit={submit}
         aria-label="Create workspace"

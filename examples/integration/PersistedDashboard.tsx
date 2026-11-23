@@ -32,9 +32,11 @@ const widgets: DashboardWidgetDefinition[] = [
 function LayoutEditor({
   snapshot,
   reload,
+  onSaved,
 }: {
   snapshot: LayoutSnapshot;
   reload: () => void;
+  onSaved: () => void;
 }) {
   const [items, setItems] = useState<DashboardItem[]>(snapshot.items);
   const [version, setVersion] = useState(snapshot.version);
@@ -56,7 +58,7 @@ function LayoutEditor({
       });
       if (!controller.signal.aborted) {
         setVersion(next.version);
-        setFeedback("Dashboard saved.");
+        onSaved();
       }
     } catch (error) {
       if (!controller.signal.aborted) setFeedback(errorMessage(error));
@@ -74,7 +76,7 @@ function LayoutEditor({
           if (!pending) setItems(next);
         }}
       />
-      <p role="status">{feedback}</p>
+      {feedback && <p role="alert">{feedback}</p>}
       <CardFooter>
         <Button loading={pending} onClick={() => void save()}>
           Save dashboard
@@ -86,13 +88,13 @@ function LayoutEditor({
     </>
   );
 }
-export function PersistedDashboard() {
+export function PersistedDashboard({ onSaved }: { onSaved: () => void }) {
   const [revision, setRevision] = useState(0);
   const remote = useRemoteResource("/api/dashboard", isLayout, revision);
   const reload = () => setRevision((value) => value + 1);
   return (
     <Card padding="comfortable">
-      <h2>Saved dashboard</h2>
+      <h2 className="integration-heading">Saved dashboard</h2>
       {remote.loading && <p role="status">Loading dashboard…</p>}
       {remote.error && (
         <p role="alert">
@@ -100,7 +102,12 @@ export function PersistedDashboard() {
         </p>
       )}
       {remote.data && (
-        <LayoutEditor key={revision} snapshot={remote.data} reload={reload} />
+        <LayoutEditor
+          key={revision}
+          snapshot={remote.data}
+          reload={reload}
+          onSaved={onSaved}
+        />
       )}
     </Card>
   );

@@ -15,6 +15,8 @@ export interface ToastViewportProps extends ComponentPropsWithRef<
   typeof Primitive.Viewport
 > {
   inline?: boolean;
+  /** Floating notification position. Inline workshop previews ignore this setting. */
+  position?: "top-right" | "bottom-right";
 }
 export interface ToastProps extends Omit<
   ComponentPropsWithRef<typeof Primitive.Root>,
@@ -33,6 +35,7 @@ export function ToastProvider(props: ToastProviderProps) {
 }
 export function ToastViewport({
   inline = false,
+  position = "bottom-right",
   className = "",
   ...props
 }: ToastViewportProps) {
@@ -40,7 +43,8 @@ export function ToastViewport({
     <Primitive.Viewport
       {...props}
       data-inline={inline}
-      className={`sui-toast-viewport flex flex-col gap-2 outline-none ${inline ? "relative w-full overflow-visible p-0" : "fixed right-4 bottom-4 z-50 max-h-[calc(100dvh-32px)] w-[448px] max-w-[calc(100vw-32px)] overflow-y-auto p-1"} ${className}`}
+      data-position={position}
+      className={`sui-toast-viewport flex flex-col gap-2 outline-none ${inline ? "relative w-full overflow-visible p-0" : `fixed right-4 z-50 max-h-[calc(100dvh-32px)] w-[448px] max-w-[calc(100vw-32px)] overflow-y-auto p-1 ${position === "top-right" ? "top-4" : "bottom-4"}`} ${className}`}
     />
   );
 }

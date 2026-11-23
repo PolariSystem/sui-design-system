@@ -35,7 +35,7 @@ These names describe intent; the existing token names remain compatible. The pri
 | Chart and chart widgets | Values and marks grow from zero over 1,600 ms (two slow durations); titles, axes and containers stay visible | Source data and semantic table; targets and scale ceilings |
 | Progress and empty-state illustrations | Wrapper reveals once over 800 ms, opacity 0 to 1, translateY 8 px to 0 | Accessible descriptions and determinate values |
 | Skeleton and indeterminate Progress | Decorative 2-second cycle (2.5 slow durations) | Loading state and status text |
-| Dashboard editor | Shared action/paint feedback; mounted chart reveal | Drag follows the pointer directly; no easing lag or animated grid reflow |
+| Dashboard editor | Held card lifts to 1.02 scale over Settle; floating shadow fades over Respond; full-size destination outline reserves the drop space | Pointer tracking, grid reflow and keyboard moves are immediate. Widgets remain mounted during the gesture. Reduced motion keeps the outline and direct movement without lift scaling. |
 | Authentication compositions | Shared form interactions; original decorative leaf timeline | Form state, navigation and validation |
 
 ## Implementation rules

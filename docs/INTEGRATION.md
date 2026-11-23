@@ -88,6 +88,10 @@ The example's resource hook aborts previous reads and checks request identity be
 
 `DashboardEditor` edits a controlled draft through `value` and `onChange`. Save and cancel belong to the application. The example sends `{ version, items }` to its service; a successful save increments the version. A stale write returns `409`, preserves the local draft and offers an explicit reload. Reload intentionally discards the draft. A production service must also enforce ownership and allowed widgets, zones and sizes for the authenticated user.
 
+Dragging lifts the existing card and reserves its destination with a full-size outline. Hovering previews a move without changing the controlled value; dropping commits it. Escape, pointer cancellation, window blur or resize cancel the gesture. Keyboard move controls use the same model operations. Chart state is retained during the gesture; crossing zones on drop can remount the widget, so durable state belongs in the application.
+
+Confirm a successful request with a `Toast` inside one application-level `ToastProvider`, alongside `<ToastViewport position="top-right" />`. The reference app displays “Dashboard saved.” only after the service accepts the write. Failed saves remain visible beside the draft and its recovery controls. Repeated successful saves restart the notification rather than stacking duplicate messages. The viewport's existing default remains bottom-right for other consumers.
+
 ## Authentication compositions
 
 Auth components are UI, not an authentication service. Their callbacks receive an `AbortSignal` and may return a promise. Use the signal in your API client and reject on failure; do not resolve a failed HTTP response as a successful sign-in.
@@ -114,6 +118,8 @@ The application handles sessions, redirects, recovery tokens, authorization and 
 See [installation](./INSTALLATION.md) for `styles.css`, the optional `styles-no-preflight.css` entry, React peers and server/client boundaries. No-Preflight means no global Tailwind element reset; it does not namespace utility classes or isolate the stylesheet in a shadow root. Your application must supply a compatible base reset for component geometry, borders and native controls.
 
 The packed consumer verifies representative server rendering and browser hydration. It is not certification of every framework, every component or React Server Components. Framework-specific routing, streaming, font loading and serialized initial data remain application integration work.
+
+Load the font declared by the theme in the host application. The reference app self-hosts the font from `@fontsource-variable/dm-sans` and registers it as `"DM Sans"`, matching the theme token. The package's default CSS registers `"DM Sans Variable"`, so importing it alone does not match that token. Scope application heading and layout rules to application classes. Unlayered global selectors such as `h2` can override the kit's layered utility styles, including headings rendered in dialog portals. Floating surfaces include a system sans-serif fallback when the configured font is unavailable.
 
 ## Verification
 

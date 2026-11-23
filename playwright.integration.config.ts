@@ -1,4 +1,5 @@
 import { defineConfig, devices } from "@playwright/test";
+const port = Number(process.env.SUI_INTEGRATION_PORT ?? 5176);
 
 export default defineConfig({
   testDir: "tests/integration-browser",
@@ -7,7 +8,7 @@ export default defineConfig({
   retries: 0,
   reporter: "list",
   use: {
-    baseURL: "http://127.0.0.1:5176",
+    baseURL: `http://127.0.0.1:${port}`,
     trace: "retain-on-failure",
     launchOptions: { channel: process.env.SUI_BROWSER_CHANNEL || undefined },
   },
@@ -20,7 +21,7 @@ export default defineConfig({
   ],
   webServer: {
     command: "node examples/integration/dev.mjs",
-    url: "http://127.0.0.1:5176",
+    url: `http://127.0.0.1:${port}`,
     reuseExistingServer: false,
     timeout: 60_000,
   },

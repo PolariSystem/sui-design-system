@@ -28,7 +28,8 @@
     padding: var(--sui-space-4);
     background: var(--sui-color-surface-default);
     color: var(--sui-color-text-primary);
-    font-family: var(--sui-type-body-md-family);
+    font-family:
+      var(--sui-type-body-md-family), ui-sans-serif, system-ui, sans-serif;
     box-shadow: var(--shadow-sui-elevation-floating);
     outline: none;
   }
@@ -83,7 +84,8 @@
     border: 1px solid var(--sui-color-border-default);
     border-radius: var(--sui-radius-card);
     box-shadow: var(--shadow-sui-elevation-floating);
-    font-family: var(--sui-type-body-md-family);
+    font-family:
+      var(--sui-type-body-md-family), ui-sans-serif, system-ui, sans-serif;
     outline: none;
   }
   .sui-popover {

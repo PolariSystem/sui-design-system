@@ -158,7 +158,20 @@ test("pointer dragging reorders cards and Escape cancels a drag", async ({
   const end = await revealDropTarget(page, target, (x, y) =>
     page.mouse.move(x, y, { steps: 4 }),
   );
-  await page.mouse.move(end.x + 40, end.y + 16, { steps: 10 });
+  // Target the measured position directly: intermediate hovers deliberately reflow the grid.
+  await page.mouse.move(end.x + 40, end.y + 16);
+  const preview = dashboard.locator("[data-drop-preview]");
+  await expect(preview).toBeVisible();
+  const reserved = (await preview.boundingBox())!;
+  expect(
+    await preview.evaluate((node) =>
+      Boolean(
+        node.compareDocumentPosition(
+          document.querySelector('[data-editor-card="active"]')!,
+        ) & Node.DOCUMENT_POSITION_FOLLOWING,
+      ),
+    ),
+  ).toBe(true);
   await page.mouse.up();
   await expect(
     dashboard
@@ -166,6 +179,11 @@ test("pointer dragging reorders cards and Escape cancels a drag", async ({
       .getByRole("group")
       .first(),
   ).toHaveAttribute("aria-label", "Milestones complete");
+  const dropped = (await dashboard
+    .getByRole("group", { name: "Milestones complete", exact: true })
+    .boundingBox())!;
+  expect(dropped.width).toBeCloseTo(reserved.width, 0);
+  expect(dropped.height).toBeCloseTo(reserved.height, 0);
   const again = await handle.boundingBox();
   await page.mouse.move(again!.x + 8, again!.y + 8);
   await page.mouse.down();
@@ -219,6 +237,16 @@ test("edit mode drags the actual chart, preserves its data and cancels drops out
   await page.mouse.down();
   await page.mouse.move(start.x + 60, start.y + 64, { steps: 6 });
   await expect(card).toHaveAttribute("data-dragging", "true");
+  const placeholder = dashboard.locator("[data-drop-preview]");
+  await expect(placeholder).toHaveCount(1);
+  expect((await placeholder.boundingBox())!.height).toBeCloseTo(
+    (await card.boundingBox())!.height,
+    0,
+  );
+  await expect(card.locator(".sui-dashboard-live-card")).toHaveCSS(
+    "scale",
+    "1.02",
+  );
   await expect(card.locator(".sui-dashboard-live-card")).not.toHaveCSS(
     "transform",
     "none",
@@ -236,6 +264,7 @@ test("edit mode drags the actual chart, preserves its data and cancels drops out
   await page.mouse.move(0, 120, { steps: 4 });
   await page.mouse.up();
   await expect(card).not.toHaveAttribute("data-dragging", "true");
+  await expect(placeholder).toHaveCount(0);
   await expect(card.locator(".sui-dashboard-live-card")).toHaveCSS(
     "transform",
     "none",
@@ -285,7 +314,12 @@ test("pointer movement transfers a widget between zones, including touch input",
       });
     };
     const to = await revealDropTarget(page, destination, move);
-    await move(to.x + 40, to.y + 8);
+    // The edge-scroll exit may already enter Analysis. Its header then shifts up
+    // when the source slot leaves Summary; keep the valid preview instead of
+    // moving back to a header that may now be behind the sticky navigation.
+    if ((await zone.locator("[data-drop-preview]").count()) === 0)
+      await move(to.x + 40, to.y + 8);
+    await expect(zone.locator("[data-drop-preview]")).toHaveCount(1);
     await client.send("Input.dispatchTouchEvent", {
       type: "touchEnd",
       touchPoints: [],
@@ -398,6 +432,13 @@ async function revealDropTarget(
   }
   // Leave the edge before measuring the final drop position; scrolling continues while held.
   await move(viewport.x + 40, (viewport.y + bottom) / 2);
-  await page.evaluate(() => new Promise(requestAnimationFrame));
+  // A hover updates React's destination preview after the pointer event. Wait for
+  // that reflow before measuring; one frame can still contain the previous slot.
+  await page.evaluate(
+    () =>
+      new Promise<void>((resolve) => {
+        requestAnimationFrame(() => requestAnimationFrame(() => resolve()));
+      }),
+  );
   return (await target.boundingBox())!;
 }

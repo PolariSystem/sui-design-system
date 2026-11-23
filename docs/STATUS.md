@@ -2,6 +2,8 @@
 
 Serenity UI v0.2.0 is open source under MIT. The public repository contains all implemented components, tokens, examples and technical documentation. No npm registry release has been published yet.
 
+The unreleased [Phase 15 follow-up](./phases/15-integration-interaction-polish.md) adds scoped integration typography, top-right save notifications and lifted dashboard dragging with a full-size destination preview. Existing public defaults remain compatible.
+
 | Block                                                         | Status                                                      |
 | ------------------------------------------------------------- | ----------------------------------------------------------- |
 | Light/Dark tokens and Tailwind theme                               | Implemented; 808 variables, 44 type styles, 9 effect styles |

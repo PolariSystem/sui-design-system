@@ -54,7 +54,7 @@ test("server errors focus the field, successful forms refresh data, and records 
 test("dashboard save survives a reload and conflicts preserve the local draft", async ({
   page,
   request,
-}) => {
+}, info) => {
   await page.goto("/");
   const save = page.getByRole("button", { name: "Save dashboard" });
   await expect(save).toBeVisible();
@@ -64,12 +64,41 @@ test("dashboard save survives a reload and conflicts preserve the local draft", 
     .getByRole("group", { name: "Activity", exact: true })
     .getByRole("button", { name: "Settings" })
     .click();
+  await page.evaluate(() => document.fonts.ready);
+  const dialog = page.getByRole("dialog", { name: "Activity settings" });
+  const heading = dialog.getByRole("heading", { name: "Activity settings" });
+  await expect(dialog).toHaveCSS("font-family", /DM Sans/);
+  await expect(heading).toHaveCSS("font-size", "16px");
+  await expect(heading).toHaveCSS("margin-bottom", "0px");
+  expect(
+    await page.evaluate(async () => {
+      const fonts = await document.fonts.load('16px "DM Sans"');
+      return (
+        fonts.length > 0 && fonts.every((font) => font.status === "loaded")
+      );
+    }),
+  ).toBe(true);
+  await dialog.screenshot({ path: info.outputPath("dashboard-settings.png") });
   await page.getByRole("radio", { name: "Large (L)", exact: true }).check();
   await page.getByRole("button", { name: "Apply size" }).click();
   await save.click();
   await expect(
     page.getByText("Dashboard saved.", { exact: true }),
   ).toBeVisible();
+  const viewport = page.locator(
+    '.sui-toast-viewport[data-position="top-right"]',
+  );
+  await expect(viewport.locator(".sui-toast")).toHaveCSS("opacity", "1");
+  await expect(viewport).toHaveCSS("position", "fixed");
+  const toastBounds = (await viewport.boundingBox())!;
+  expect(toastBounds.y).toBe(16);
+  expect(toastBounds.x + toastBounds.width).toBeCloseTo(
+    page.viewportSize()!.width - 16,
+    0,
+  );
+  await viewport.screenshot({
+    path: info.outputPath("dashboard-saved-toast.png"),
+  });
   const saved = await (await request.get("/api/dashboard")).json();
   expect(saved.version).toBe(initial.version + 1);
   expect(
@@ -94,6 +123,51 @@ test("dashboard save survives a reload and conflicts preserve the local draft", 
   await expect(
     page.getByText("Dashboard saved.", { exact: true }),
   ).toBeVisible();
+});
+
+test("compact dragging lifts the card and previews the exact destination footprint", async ({
+  page,
+}, info) => {
+  await page.goto("/");
+  const card = page.getByRole("group", { name: "Activity", exact: true });
+  const handle = card.getByRole("button", { name: "Drag Activity" });
+  await handle.scrollIntoViewIfNeeded();
+  const source = (await card.boundingBox())!;
+  const start = (await handle.boundingBox())!;
+  const handleNode = await handle.elementHandle();
+  await page.mouse.move(start.x + 8, start.y + 8);
+  await page.mouse.down();
+  await page.mouse.move(start.x + 32, start.y + 24, { steps: 4 });
+  await expect(card).toHaveAttribute("data-dragging", "true");
+  await expect(card.locator(".sui-dashboard-live-card")).toHaveCSS(
+    "scale",
+    "1.02",
+  );
+  const preview = page.locator("[data-drop-preview]");
+  await expect(preview).toHaveCount(1);
+  const footprint = (await preview.boundingBox())!;
+  expect(footprint.height).toBeCloseTo(source.height, 0);
+  expect(footprint.width).toBeCloseTo(source.width, 0);
+  expect(await handleNode!.evaluate((node) => node.isConnected)).toBe(true);
+  await page.screenshot({ path: info.outputPath("compact-drag-preview.png") });
+  await page.keyboard.press("Escape");
+  await page.mouse.up();
+  await expect(preview).toHaveCount(0);
+  await expect(handle).toBeFocused();
+  await expect(card).not.toHaveAttribute("data-dragging");
+
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  const again = (await handle.boundingBox())!;
+  await page.mouse.move(again.x + 8, again.y + 8);
+  await page.mouse.down();
+  await page.mouse.move(again.x + 32, again.y + 24, { steps: 4 });
+  await expect(preview).toHaveCount(1);
+  await expect(card.locator(".sui-dashboard-live-card")).toHaveCSS(
+    "scale",
+    "none",
+  );
+  await page.keyboard.press("Escape");
+  await page.mouse.up();
 });
 
 test("failed reads retry and superseded requests cannot replace the latest filter", async ({
