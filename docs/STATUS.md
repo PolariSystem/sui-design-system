@@ -24,7 +24,7 @@ Serenity UI v0.1.0 is open source under MIT. The public repository contains all 
 | DatePicker and TimePicker | Implemented; single/range date examples, circular hour/minute selection, 12/24-hour switch, staged values and native forms |
 | Auth compositions and leaf animation                          | Implemented; AuthLayout, AuthScreen, SignInForm, PasswordRecoveryForm, RecoveryEmailSent, ResetPasswordForm and TwoStepVerificationForm. Six responsive screens, original leaf motion, validation, retry/cancellation, resend cooldown and expired/invalid reset-link states. Authentication services remain application integrations. |
 | Vue, Angular, Svelte, Astro                                   | Pending; shared tokens are framework independent            |
-| Responsive layout and ScrollArea | Implemented; seven mobile heading styles below 640 px, 16 px compact container spacing, overlay ScrollBar variants and bounded panel scrolling. See Phase 08. |
+| Responsive layout and ScrollArea | Implemented; seven mobile heading styles below 640 px, 16 px compact container spacing, overlay ScrollBar variants and bounded panel scrolling. See the component API and theming documentation. |
 | Dark theme | Implemented in Figma, shared tokens, workshop and landing; automatic browser preference until a manual Light/Dark override; white Serenity branding in Dark |
 
 
