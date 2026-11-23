@@ -38,6 +38,20 @@ The first full cloud run passed the HTTP integration job, package checks and 152
 
 Both pointer scenarios passed three times on desktop and mobile with two concurrent browser workers (12 checks). TypeScript and diff checks passed. Full GitHub verification runs against the follow-up commit.
 
+## Figma parity follow-up — 2026-11-23
+
+Compared the affected Toast, Dialog, Card, Radio and Button families with the current Figma source before changing shared implementation. The new [Inline action Toast](https://www.figma.com/design/2jnGtX6x5wYdoJDum40ovM/Serenity-UI---Design-System?node-id=519-92) belongs to the existing Toast component set. Its Light/Dark desktop and mobile instances preserve bound variables and reuse the existing Secondary button and Solar Unread asset. No unrelated component families were restyled.
+
+- Add `Toast.layout="inline"`: actions occupy the far-right column, message text fills the remaining width and grows vertically. The existing stacked CardFooter remains the default. The HTTP save confirmation and workshop specimen use the new variant.
+- Restore the Toast's 12 px radius, muted description and 14 px action typography. A scoped typography selector prevents Button's default label utility from overriding the Figma token. The success asset uses semantic dark-mode ink.
+- Center the standard Dialog header with its approved 12 px gap. Keep the featured header and native focus behavior unchanged.
+- Replace example-only titles and feedback with semantic typography, Alert and Skeleton. Dashboard settings reuse IconButton for icon-only controls and theme-aware Solar artwork.
+- Record the shared-component/Figma-parity rule in AGENTS.md and the application integration guide. Application CSS owns layout and font registration; the root rem scale remains intact.
+
+Verification: `npm run check` passed (120 tests, types, library styles/declarations and workshop/public artifact checks); the final typography refinement also passed a library rebuild. Targeted dashboard, overlays, feedback and toast browser suites passed 53 checks with one existing desktop-only check skipped on mobile. Eight HTTP integration checks passed. Packed-consumer installation, typing, SSR/hydration and interactions passed; the private website production build passed.
+
+Visually reviewed Figma's Light/Dark inline specimens and browser captures of the application, settings dialog and toast at desktop and mobile widths. The toast regression also covers a 320 px viewport, translated action text, dismissal and both themes. No horizontal overflow was observed in the application captures. This verification covers the affected families and examples, not a complete visual audit of every kit page.
+
 ## Boundaries
 
 The local service remains an in-memory integration example. These changes add no production backend or authentication guarantees. A widget can remount when a completed drop moves it into a different zone; durable widget state should remain application-owned. Pointer tracking and grid reflow are immediate, with no eased pointer lag or animated layout dimensions. Mobile browser automation emulates touch; physical-device coverage remains future work.

@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import {
+  Alert,
   Button,
   Card,
   CardFooter,
@@ -17,7 +18,10 @@ export function RecordForm({ onCreated }: { onCreated: () => void }) {
   const request = useRef<AbortController | null>(null);
   const [pending, setPending] = useState(false);
   const [fields, setFields] = useState<FieldErrors>({});
-  const [feedback, setFeedback] = useState("");
+  const [feedback, setFeedback] = useState<{
+    tone: "success" | "danger";
+    message: string;
+  } | null>(null);
   useEffect(() => () => request.current?.abort(), []);
 
   async function submit(event: FormEvent<HTMLFormElement>) {
@@ -29,7 +33,7 @@ export function RecordForm({ onCreated }: { onCreated: () => void }) {
     request.current = controller;
     setPending(true);
     setFields({});
-    setFeedback("");
+    setFeedback(null);
     try {
       await requestJson("/api/records", isRecord, {
         method: "POST",
@@ -42,11 +46,11 @@ export function RecordForm({ onCreated }: { onCreated: () => void }) {
       });
       if (controller.signal.aborted) return;
       form.reset();
-      setFeedback("Workspace created.");
+      setFeedback({ tone: "success", message: "Workspace created." });
       onCreated();
     } catch (error) {
       if (controller.signal.aborted) return;
-      setFeedback(errorMessage(error));
+      setFeedback({ tone: "danger", message: errorMessage(error) });
       if (error instanceof ApiError) {
         setFields(error.fields);
         const first = error.fields.name
@@ -66,7 +70,7 @@ export function RecordForm({ onCreated }: { onCreated: () => void }) {
 
   return (
     <Card padding="comfortable">
-      <h2 className="integration-heading">Create a workspace</h2>
+      <h2 className="text-sui-heading-xs">Create a workspace</h2>
       <form
         onSubmit={submit}
         aria-label="Create workspace"
@@ -98,8 +102,21 @@ export function RecordForm({ onCreated }: { onCreated: () => void }) {
           aria-invalid={Boolean(fields.updates) || undefined}
           aria-describedby={fields.updates ? "updates-error" : undefined}
         />
-        {fields.updates && <p id="updates-error">{fields.updates}</p>}
-        <p role="status">{feedback}</p>
+        {fields.updates && (
+          <p
+            id="updates-error"
+            className="text-sui-body-sm text-sui-status-danger-foreground"
+          >
+            {fields.updates}
+          </p>
+        )}
+        {feedback && (
+          <Alert
+            title={feedback.message}
+            tone={feedback.tone}
+            announcement="polite"
+          />
+        )}
         <CardFooter>
           <Button type="submit" loading={pending}>
             Create workspace

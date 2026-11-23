@@ -1,7 +1,9 @@
 import { useState } from "react";
 import {
+  Alert,
   Button,
   Card,
+  CardFooter,
   DataTable,
   Input,
   type DataTableColumn,
@@ -40,7 +42,7 @@ export function RemoteRecords({ revision }: { revision: number }) {
   );
   return (
     <Card padding="comfortable">
-      <h2 className="integration-heading">Remote records</h2>
+      <h2 className="text-sui-heading-xs">Remote records</h2>
       <Input
         label="Search workspaces"
         value={query}
@@ -59,15 +61,17 @@ export function RemoteRecords({ revision }: { revision: number }) {
         loading={remote.loading}
         error={
           remote.error && (
-            <span>
-              {remote.error}{" "}
-              <Button
-                variant="tertiary"
-                onClick={() => setRetry((value) => value + 1)}
-              >
-                Retry records
-              </Button>
-            </span>
+            <div className="integration-stack">
+              <Alert title={remote.error} tone="danger" />
+              <CardFooter>
+                <Button
+                  variant="tertiary"
+                  onClick={() => setRetry((value) => value + 1)}
+                >
+                  Retry records
+                </Button>
+              </CardFooter>
+            </div>
           )
         }
         sort={sort}

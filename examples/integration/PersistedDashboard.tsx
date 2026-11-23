@@ -1,9 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import {
+  Alert,
   Button,
   Card,
   CardFooter,
   DashboardEditor,
+  Skeleton,
   type DashboardItem,
   type DashboardWidgetDefinition,
 } from "@serenity-ui/react";
@@ -76,7 +78,9 @@ function LayoutEditor({
           if (!pending) setItems(next);
         }}
       />
-      {feedback && <p role="alert">{feedback}</p>}
+      {feedback && (
+        <Alert title={feedback} tone="danger" announcement="assertive" />
+      )}
       <CardFooter>
         <Button loading={pending} onClick={() => void save()}>
           Save dashboard
@@ -94,12 +98,22 @@ export function PersistedDashboard({ onSaved }: { onSaved: () => void }) {
   const reload = () => setRevision((value) => value + 1);
   return (
     <Card padding="comfortable">
-      <h2 className="integration-heading">Saved dashboard</h2>
-      {remote.loading && <p role="status">Loading dashboard…</p>}
+      <h2 className="text-sui-heading-xs">Saved dashboard</h2>
+      {remote.loading && (
+        <div role="status">
+          <span className="sr-only">Loading dashboard…</span>
+          <Skeleton />
+        </div>
+      )}
       {remote.error && (
-        <p role="alert">
-          {remote.error} <Button onClick={reload}>Retry dashboard</Button>
-        </p>
+        <>
+          <Alert title={remote.error} tone="danger" announcement="assertive" />
+          <CardFooter>
+            <Button variant="secondary" onClick={reload}>
+              Retry dashboard
+            </Button>
+          </CardFooter>
+        </>
       )}
       {remote.data && (
         <LayoutEditor

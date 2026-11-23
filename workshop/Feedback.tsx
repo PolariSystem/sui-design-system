@@ -57,12 +57,20 @@ function AlertExample() {
   );
 }
 
-function ToastSpecimen({ action = false }: { action?: boolean }) {
+function ToastSpecimen({
+  action = false,
+  inline = false,
+}: {
+  action?: boolean;
+  inline?: boolean;
+}) {
   const [open, setOpen] = useState(true);
   return (
     <ToastProvider>
       <div className="flex min-w-0 flex-col gap-4">
         <Toast
+          layout={inline ? "inline" : "stacked"}
+          dismissible={inline || action}
           open={open}
           onOpenChange={setOpen}
           duration={Infinity}
@@ -81,7 +89,13 @@ function ToastSpecimen({ action = false }: { action?: boolean }) {
         <ToastViewport
           inline
           hotkey={[]}
-          label={action ? "Action toast specimen" : "Compact toast specimen"}
+          label={
+            inline
+              ? "Inline action toast specimen"
+              : action
+                ? "Action toast specimen"
+                : "Compact toast specimen"
+          }
         />
         {!open && (
           <Button variant="secondary" onClick={() => setOpen(true)}>
@@ -291,6 +305,7 @@ export function Feedback() {
         <Specimen>
           <div className="grid items-start gap-4 md:grid-cols-2">
             <ToastSpecimen action />
+            <ToastSpecimen inline />
             <ToastSpecimen />
           </div>
         </Specimen>

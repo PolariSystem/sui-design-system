@@ -5,6 +5,7 @@
 - Write maintainable, idiomatic TypeScript and React: explicit public contracts, semantic HTML, focused responsibilities and abstractions justified by actual reuse. Do not simplify engineering standards for a beginner audience.
 - Keep code consistently formatted. Document public component behavior with concise JSDoc and explain non-obvious decisions, accessibility constraints and integration boundaries inline. Avoid comments that merely repeat the code, and update comments when behavior changes.
 - Figma is the approved design reference. Preserve the user's changes; inspect relevant nodes before implementing new families.
+- Every example must compose Serenity's own components and semantic typography, spacing, colors and effects. Do not introduce example-only visual substitutes for existing kit patterns. If a shared component differs from Figma, inspect its current source nodes and correct the shared implementation; document and verify any new variant in Figma and the workshop before using it in an example.
 - Use existing semantic tokens. Regenerate `tokens/serenity-theme.css` with `npm run tokens`; never hand-edit it.
 - Use 4 px metric multiples, 8 px action gaps, right-aligned card footers, native semantics and growing text. Typography/borders/effects keep their own scales.
 - Solar Bold for controls; Solar Bold Duotone for inactive navigation and Bold for active navigation. Checkbox uses Unread, never Check Read.

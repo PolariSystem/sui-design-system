@@ -1,6 +1,8 @@
 import { useId, useState } from "react";
 import type { DashboardSize } from "../Dashboard.types";
 import { Button } from "../Button";
+import { IconButton } from "../IconButton";
+import { AssetIcon } from "./AssetIcon";
 import { CardFooter } from "../Card";
 import { Dialog, DialogContent, DialogTrigger } from "../Dialog";
 import { Radio } from "../Radio";
@@ -32,14 +34,27 @@ export function DashboardWidgetSettings({
       }}
     >
       <DialogTrigger asChild>
-        <Button
-          variant={compact ? "tertiary" : "secondary"}
-          iconOnly={compact}
-          aria-label={compact ? "Settings" : undefined}
-          leftIcon={compact ? undefined : <img src={settingsIcon} alt="" />}
-        >
-          {compact ? <img src={settingsIcon} alt="" /> : "Settings"}
-        </Button>
+        {compact ? (
+          <IconButton
+            aria-label="Settings"
+            variant="tertiary"
+            icon={
+              <span
+                className="size-full bg-current"
+                style={{
+                  mask: `url("${settingsIcon}") center / contain no-repeat`,
+                }}
+              />
+            }
+          />
+        ) : (
+          <Button
+            variant="secondary"
+            leftIcon={<AssetIcon src={settingsIcon} size={16} />}
+          >
+            Settings
+          </Button>
+        )}
       </DialogTrigger>
       <DialogContent
         title={`${title} settings`}

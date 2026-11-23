@@ -47,7 +47,13 @@ export function DialogContent({
           : {})}
         className={`sui-dialog sui-modal-surface ${variant === "featured" ? "sui-dialog-featured" : ""} ${className}`}
       >
-        <div className="flex items-start gap-4">
+        <div
+          className={
+            variant === "featured"
+              ? "flex items-start gap-4"
+              : "flex items-center gap-3"
+          }
+        >
           {icon && (
             <span aria-hidden className="shrink-0">
               {icon}

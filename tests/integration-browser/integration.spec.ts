@@ -70,6 +70,11 @@ test("dashboard save survives a reload and conflicts preserve the local draft", 
   await expect(dialog).toHaveCSS("font-family", /DM Sans/);
   await expect(heading).toHaveCSS("font-size", "16px");
   await expect(heading).toHaveCSS("margin-bottom", "0px");
+  await expect(dialog.locator(":scope > div").first()).toHaveCSS(
+    "align-items",
+    "center",
+  );
+  await expect(dialog.locator(":scope > div").first()).toHaveCSS("gap", "12px");
   expect(
     await page.evaluate(async () => {
       const fonts = await document.fonts.load('16px "DM Sans"');
@@ -89,6 +94,16 @@ test("dashboard save survives a reload and conflicts preserve the local draft", 
     '.sui-toast-viewport[data-position="top-right"]',
   );
   await expect(viewport.locator(".sui-toast")).toHaveCSS("opacity", "1");
+  const toast = viewport.locator(".sui-toast");
+  await expect(toast).toHaveAttribute("data-layout", "inline");
+  await expect(toast).toHaveCSS("border-radius", "12px");
+  const message = (await toast.locator(".sui-toast-message").boundingBox())!;
+  const action = (await toast
+    .getByRole("button", { name: "Dismiss" })
+    .boundingBox())!;
+  expect(action.x).toBeGreaterThan(message.x + message.width);
+  expect(action.y).toBeLessThan(message.y + message.height);
+  expect(action.height).toBe(44);
   await expect(viewport).toHaveCSS("position", "fixed");
   const toastBounds = (await viewport.boundingBox())!;
   expect(toastBounds.y).toBe(16);

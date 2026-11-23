@@ -1,6 +1,6 @@
 import { StrictMode, useState } from "react";
 import { createRoot } from "react-dom/client";
-import { Toast, ToastProvider, ToastViewport } from "@serenity-ui/react";
+import { Alert, Toast, ToastProvider, ToastViewport } from "@serenity-ui/react";
 import "@serenity-ui/react/styles.css";
 import "./styles.css";
 import { RecordForm } from "./RecordForm";
@@ -14,16 +14,16 @@ function App() {
     <ToastProvider>
       <main className="integration-page integration-stack">
         <header>
-          <h1 className="integration-title">Application integration</h1>
-          <p>
+          <h1 className="text-sui-heading-lg">Application integration</h1>
+          <p className="text-sui-body-md text-sui-text-secondary">
             Real HTTP requests, server validation and application-owned
             persistence.
           </p>
         </header>
-        <p>
+        <Alert title="Local integration example" tone="info">
           This local example stores data in memory. Restarting the service
           resets it.
-        </p>
+        </Alert>
         <RecordForm onCreated={() => setRevision((value) => value + 1)} />
         <RemoteRecords revision={revision} />
         <PersistedDashboard
@@ -34,6 +34,7 @@ function App() {
         <Toast
           key={notification}
           title="Dashboard saved."
+          layout="inline"
           type="foreground"
           dismissible
         />

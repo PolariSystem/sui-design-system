@@ -23,6 +23,14 @@ The source is in [examples/integration](../examples/integration/README.md). It d
 
 The service is a development reference. Its memory resets when the process stops. It has no authentication, production authorization or durable database. Do not deploy it as a production backend. Cancellation stops client work; it does not guarantee rollback of a mutation already accepted by a server. Production mutations may require idempotency keys and transaction handling.
 
+## Visual composition
+
+Examples use the same public components as consuming applications: Card and CardFooter for surfaces/actions, Alert for contextual feedback, Skeleton for loading and Toast for completed background work. Use the semantic `text-sui-*` utilities for headings and copy. Keep application CSS focused on layout; do not override component typography through broad heading selectors or change the root font size to style body copy.
+
+For a save confirmation with its action on the far right, use `<Toast layout="inline" title="Dashboard saved." dismissible />` and `<ToastViewport position="top-right" />`. The inline action stays beside wrapping content on mobile. The default stacked variant retains its responsive CardFooter. Use an inline Alert for errors that require contextual recovery.
+
+When a shared component differs from its approved Figma source, correct the shared component and verify its workshop and application usage. Do not hide the mismatch behind example-specific styling.
+
 ## Form contracts
 
 | Control | Value contract | Focus target | Submission |

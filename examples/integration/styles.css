@@ -16,27 +16,19 @@
   color: var(--sui-color-text-primary);
   background: var(--sui-color-surface-canvas);
 }
+/* Keep the root rem scale intact; body copy follows the semantic typography tokens. */
+body {
+  font-size: var(--sui-type-body-md-size);
+  font-weight: var(--sui-type-body-md-weight);
+  line-height: var(--sui-type-body-md-line-height);
+}
 .integration-page {
   max-width: 960px;
   margin-inline: auto;
-  padding: 16px;
+  padding: var(--sui-space-4);
 }
 .integration-stack {
   display: flex;
   flex-direction: column;
-  gap: 16px;
-}
-.integration-title {
-  font-size: 28px;
-  font-weight: 600;
-}
-.integration-heading {
-  font-size: 20px;
-  font-weight: 600;
-  margin-bottom: 16px;
-}
-@media (width < 640px) {
-  .integration-title {
-    font-size: 24px;
-  }
+  gap: var(--sui-space-4);
 }
