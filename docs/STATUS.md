@@ -1,6 +1,6 @@
 # Implementation status
 
-Serenity UI v0.1.0 is open source under MIT. The public repository contains all implemented components, tokens, examples and technical documentation. No npm registry release has been published yet.
+Serenity UI v0.2.0 is open source under MIT. The public repository contains all implemented components, tokens, examples and technical documentation. No npm registry release has been published yet.
 
 | Block                                                         | Status                                                      |
 | ------------------------------------------------------------- | ----------------------------------------------------------- |
@@ -12,6 +12,8 @@ Serenity UI v0.1.0 is open source under MIT. The public repository contains all 
 | Tag, Avatar, Link                                            | Implemented; named identities, explicit removal and native links |
 | Tabs, Breadcrumb, Pagination, Navbar, Sidebar, Stepper        | Implemented; Sidebar includes expanded/compact rails and mobile Drawer integration |
 | Alert, Toast, Progress, Skeleton, EmptyState                 | Implemented; live feedback, persistent actions and reduced-motion loading |
+| Application integration | Implemented: native Checkbox refs, picker trigger refs/events, real HTTP reference app, server validation, cancellation, remote tables and versioned dashboard persistence. See [integration](./INTEGRATION.md). |
+| Distribution compatibility | Packed consumer with strict types, representative SSR/hydration checks and optional CSS without Tailwind Preflight; framework-specific certification remains pending. |
 | Full Solar icon catalog                                      | Pending; approved assets needed by implemented families are included |
 | Dialog, Drawer, DropdownMenu, Tooltip, Popover                 | Implemented; focus management, dismissal, shared motion and interactive examples |
 | File upload                                                  | Pending                                                     |

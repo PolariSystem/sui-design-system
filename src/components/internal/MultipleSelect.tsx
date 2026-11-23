@@ -1,4 +1,5 @@
 import { AssetIcon } from "./AssetIcon";
+import { useControlRef } from "./useControlRef";
 import { useEffect, useImperativeHandle, useRef, useState } from "react";
 import * as Popover from "@radix-ui/react-popover";
 import type { MultipleSelectProps } from "../Select.types";
@@ -50,6 +51,7 @@ export function MultipleSelect({
 }: MultipleSelectProps) {
   const native = useRef<HTMLSelectElement>(null);
   const trigger = useRef<HTMLButtonElement>(null);
+  const triggerRef = useControlRef(trigger, triggerProps?.ref);
   const openingEdge = useRef<"first" | "last" | undefined>(undefined);
   const leavingByTab = useRef(false);
   const [open, setOpen] = useState(false);
@@ -213,12 +215,7 @@ export function MultipleSelect({
             <Popover.Trigger
               {...triggerProps}
               {...control}
-              ref={(element) => {
-                trigger.current = element;
-                const forwarded = triggerProps?.ref;
-                if (typeof forwarded === "function") return forwarded(element);
-                if (forwarded) forwarded.current = element;
-              }}
+              ref={triggerRef}
               role="combobox"
               aria-haspopup="listbox"
               aria-label={props["aria-label"]}

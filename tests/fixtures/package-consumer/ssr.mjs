@@ -20,6 +20,10 @@ assert.match(
   /serenity-ui\.css$/,
 );
 assert.match(
+  import.meta.resolve("@serenity-ui/react/styles-no-preflight.css"),
+  /serenity-ui-no-preflight\.css$/,
+);
+assert.match(
   import.meta.resolve("@serenity-ui/react/theme.css"),
   /serenity-theme\.css$/,
 );

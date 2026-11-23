@@ -71,6 +71,7 @@ try {
     "package.json",
     "dist/serenity-ui.js",
     "dist/serenity-ui.css",
+    "dist/serenity-ui-no-preflight.css",
     "dist/types/index.d.ts",
     "tokens/serenity-theme.css",
     "tokens/figma-tokens.json",
@@ -235,6 +236,18 @@ try {
   );
   console.log(run(["ssr.mjs"], consumer).trim());
   run(["node_modules/vite/bin/vite.js", "build"], consumer);
+  run(
+    [
+      "node_modules/vite/bin/vite.js",
+      "build",
+      "--ssr",
+      "App.tsx",
+      "--outDir",
+      "ssr-dist",
+    ],
+    consumer,
+  );
+  run(["render-hydration.mjs"], consumer);
   server = await preview({
     root: consumer,
     configFile: false,
@@ -245,6 +258,32 @@ try {
   browser = await chromium.launch({
     channel: process.env.SUI_BROWSER_CHANNEL || undefined,
   });
+  const hostPage = await browser.newPage();
+  await hostPage.setContent(
+    '<h1 id="host-heading">Existing application heading</h1><p id="host-copy">Existing copy</p>',
+  );
+  const hostMetrics = () =>
+    hostPage.locator("#host-heading").evaluate((node) => {
+      const style = getComputedStyle(node);
+      return {
+        margin: style.margin,
+        fontSize: style.fontSize,
+        fontWeight: style.fontWeight,
+      };
+    });
+  const beforeStyles = await hostMetrics();
+  await hostPage.addStyleTag({
+    content: await readFile(
+      path.join(root, "dist/serenity-ui-no-preflight.css"),
+      "utf8",
+    ),
+  });
+  assert.deepEqual(
+    await hostMetrics(),
+    beforeStyles,
+    "No-Preflight styles reset native host headings.",
+  );
+  await hostPage.close();
   for (const [name, width, height] of [
     ["desktop", 1280, 900],
     ["mobile", 392, 852],
@@ -255,7 +294,18 @@ try {
     });
     const errors = [];
     page.on("pageerror", (error) => errors.push(error.message));
+    page.on("console", (message) => {
+      if (
+        message.type() === "error" &&
+        /hydrat|server rendered|didn't match/i.test(message.text())
+      )
+        errors.push(message.text());
+    });
     await page.goto(`http://127.0.0.1:${address.port}`);
+    await expect(page.locator("html")).toHaveAttribute("data-hydrated", "true");
+    await expect(page.locator("html")).not.toHaveAttribute(
+      "data-hydration-error",
+    );
     const button = page.getByRole("button", { name: "Save preferences" });
     await expect(button).toHaveCSS("min-height", "40px");
     await expect(button).toHaveCSS("background-color", "rgb(0, 111, 159)");
@@ -314,6 +364,8 @@ try {
       "isolated offline install",
       "strict consumer declarations",
       "Node server rendering",
+      "server markup hydration without recoverable errors",
+      "no-Preflight stylesheet preserves native host headings",
       "Vite consumer build without Tailwind",
       "desktop and mobile interactions, CSS and assets",
     ],

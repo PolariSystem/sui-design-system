@@ -1,6 +1,6 @@
 {
   "name": "@serenity-ui/react",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": false,
   "description": "Open-source React components and framework-independent design tokens for SaaS and dashboards.",
   "type": "module",
@@ -24,7 +24,8 @@
     },
     "./styles.css": "./dist/serenity-ui.css",
     "./theme.css": "./tokens/serenity-theme.css",
-    "./tokens.json": "./tokens/figma-tokens.json"
+    "./tokens.json": "./tokens/figma-tokens.json",
+    "./styles-no-preflight.css": "./dist/serenity-ui-no-preflight.css"
   },
   "sideEffects": [
     "**/*.css"
@@ -33,7 +34,7 @@
     "dev": "vite --host 127.0.0.1",
     "tokens": "node tokens/generate.mjs",
     "typecheck": "tsc --noEmit",
-    "build": "npm run tokens && npm run typecheck && vite build --config vite.library.config.ts && tsc -p tsconfig.build.json",
+    "build": "npm run tokens && npm run typecheck && vite build --config vite.library.config.ts && vite build --config vite.styles.config.ts && tsc -p tsconfig.build.json",
     "build:workshop": "vite build && node scripts/check-public-site.mjs",
     "preview": "vite preview --host 127.0.0.1",
     "test": "vitest run",
@@ -43,7 +44,9 @@
     "check:package": "npm run build && node scripts/check-package.mjs",
     "pack:local": "npm pack",
     "prepack": "npm run build",
-    "check:public": "npm run build:workshop && node scripts/check-public-runtime.mjs"
+    "check:public": "npm run build:workshop && node scripts/check-public-runtime.mjs",
+    "example:integration": "npm run build && node examples/integration/dev.mjs",
+    "test:integration": "playwright test --config playwright.integration.config.ts"
   },
   "peerDependencies": {
     "react": "^19.0.0",

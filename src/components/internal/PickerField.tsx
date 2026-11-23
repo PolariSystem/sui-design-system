@@ -6,7 +6,9 @@ import {
   useState,
   type ReactNode,
   type RefObject,
+  type ComponentPropsWithRef,
 } from "react";
+import { useControlRef } from "./useControlRef";
 import { Field, type FieldProps } from "./Field";
 import { PickerSurface } from "./PickerSurface";
 
@@ -16,6 +18,11 @@ export interface PickerFieldProps extends FieldProps {
   readOnly?: boolean;
   placeholder?: string;
   "aria-describedby"?: string;
+  /** Visible button ref and events for focus management and touched-state integration. */
+  triggerProps?: Omit<
+    ComponentPropsWithRef<"button">,
+    "children" | "id" | "disabled" | "type" | "role"
+  >;
 }
 /** A button provides the visible control; the native bridge preserves submission and required validation. */
 export function PickerField({
@@ -33,6 +40,7 @@ export function PickerField({
   readOnly,
   disabled,
   required,
+  triggerProps,
   "aria-describedby": describedBy,
   ...field
 }: PickerFieldProps & {
@@ -46,6 +54,7 @@ export function PickerField({
   children: ReactNode;
 }) {
   const triggerRef = useRef<HTMLButtonElement>(null);
+  const controlRef = useControlRef(triggerRef, triggerProps?.ref);
   const requiredId = useId();
   const [invalid, setInvalid] = useState(false);
   const error =
@@ -112,8 +121,9 @@ export function PickerField({
             }}
             trigger={
               <button
+                {...triggerProps}
                 {...control}
-                ref={triggerRef}
+                ref={controlRef}
                 type="button"
                 disabled={disabled}
                 aria-invalid={Boolean(error || validationMessage) || undefined}
@@ -121,7 +131,7 @@ export function PickerField({
                 data-readonly={Boolean(readOnly)}
                 data-disabled={Boolean(disabled)}
                 data-error={Boolean(error || validationMessage)}
-                className="sui-input-control sui-picker-trigger flex min-h-11 w-full items-center gap-2 rounded-sui-control border border-sui-border-control bg-sui-surface-default px-3 py-2 text-start text-sui-body-md text-sui-text-primary"
+                className={`sui-input-control sui-picker-trigger flex min-h-11 w-full items-center gap-2 rounded-sui-control border border-sui-border-control bg-sui-surface-default px-3 py-2 text-start text-sui-body-md text-sui-text-primary ${triggerProps?.className ?? ""}`}
               >
                 <span
                   className={`min-w-0 flex-1 break-words ${displayValue ? "" : "text-sui-text-secondary"}`}

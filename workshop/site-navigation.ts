@@ -58,6 +58,11 @@ export const sectionEntries: Record<SiteSection, IndexEntry[]> = {
   documentation: [
     { name: "Getting started", href: "#documentation", group: "Guides" },
     {
+      name: "Application integration",
+      href: "#documentation/integration",
+      group: "Guides",
+    },
+    {
       name: "Installation",
       href: "#documentation/installation",
       group: "Guides",

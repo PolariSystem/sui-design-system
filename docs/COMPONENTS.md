@@ -1,6 +1,6 @@
 # Component API
 
-All components use the light Serenity tokens. Native HTML props are forwarded unless explicitly replaced. Text can grow; icon slots are optional and occupy no space when omitted.
+All components use the semantic Serenity tokens in Light and Dark modes. Native HTML props are forwarded unless explicitly replaced. Text can grow; icon slots are optional and occupy no space when omitted. See [application integration](./INTEGRATION.md) for form contracts, refs, server errors, remote data and persistence.
 
 | Component  | Main props                                                                                             | Native behavior                                                                                                                |
 | ---------- | ------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------ |
@@ -12,6 +12,8 @@ All components use the light Serenity tokens. Native HTML props are forwarded un
 | CardFooter | standard div props                                                                                     | Stacks full-width actions below 640 px; aligns actions right on desktop, with an 8 px gap                                                                       |
 
 `Input.className` styles the field wrapper. Icon slots accept decorative React nodes; do not place interactive controls inside an aria-hidden slot. Use `PasswordInput` for password visibility. Checkbox `indeterminate` is applied to the DOM property; in a controlled selection group, update it together with `checked` after each change.
+
+Checkbox forwards `ref` to its native input, supporting both object refs and React 19 callback-ref cleanup. DatePicker and TimePicker expose their visible button through `triggerProps.ref`, with button events such as `onBlur`; their committed value and native form serialization contracts remain unchanged.
 
 Cards placed on `color/surface/canvas` use at least `elevation/subtle` at every viewport size. `Card` provides it by default; custom card wrappers use `shadow-sui-elevation-subtle`. Keep stronger approved elevation where required, and avoid adding duplicate shadows to nested content.
 

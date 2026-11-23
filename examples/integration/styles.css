@@ -1,0 +1,29 @@
+:root {
+  font-family: var(--sui-font-family, system-ui, sans-serif);
+  color: var(--sui-color-text-primary);
+  background: var(--sui-color-surface-canvas);
+}
+main {
+  max-width: 960px;
+  margin-inline: auto;
+  padding: 16px;
+}
+.integration-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+h1 {
+  font-size: 28px;
+  font-weight: 600;
+}
+h2 {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+@media (width < 640px) {
+  h1 {
+    font-size: 24px;
+  }
+}

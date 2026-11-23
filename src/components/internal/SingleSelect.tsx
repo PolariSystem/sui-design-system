@@ -1,4 +1,5 @@
 import { AssetIcon } from "./AssetIcon";
+import { useControlRef } from "./useControlRef";
 import { useEffect, useImperativeHandle, useRef, useState } from "react";
 import * as SelectPrimitive from "@radix-ui/react-select";
 import { Field } from "./Field";
@@ -73,6 +74,7 @@ export function SingleSelect({
 }: SingleSelectProps) {
   const native = useRef<HTMLSelectElement>(null);
   const trigger = useRef<HTMLButtonElement>(null);
+  const triggerRef = useControlRef(trigger, triggerProps?.ref);
   const resetting = useRef(false);
   const [open, setOpen] = useState(false);
   const groups = readSelectOptions(children);
@@ -189,12 +191,7 @@ export function SingleSelect({
             <SelectPrimitive.Trigger
               {...triggerProps}
               {...control}
-              ref={(element) => {
-                trigger.current = element;
-                const forwarded = triggerProps?.ref;
-                if (typeof forwarded === "function") return forwarded(element);
-                if (forwarded) forwarded.current = element;
-              }}
+              ref={triggerRef}
               aria-label={props["aria-label"]}
               aria-labelledby={props["aria-labelledby"]}
               aria-invalid={error ? true : props["aria-invalid"]}

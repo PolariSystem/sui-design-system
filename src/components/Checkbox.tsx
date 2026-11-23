@@ -1,13 +1,14 @@
 import {
   useEffect,
   useRef,
-  type ComponentPropsWithoutRef,
+  type ComponentPropsWithRef,
   type ReactNode,
 } from "react";
 import { CheckboxArtwork } from "./internal/CheckboxArtwork";
+import { useControlRef } from "./internal/useControlRef";
 
 export interface CheckboxProps extends Omit<
-  ComponentPropsWithoutRef<"input">,
+  ComponentPropsWithRef<"input">,
   "type" | "size" | "children"
 > {
   label: ReactNode;
@@ -27,9 +28,11 @@ export function Checkbox({
   size = 20,
   disabled,
   className = "",
+  ref,
   ...props
 }: CheckboxProps) {
   const input = useRef<HTMLInputElement>(null);
+  const controlRef = useControlRef(input, ref);
   // indeterminate is a DOM property, not an HTML attribute. User activation clears it;
   // controlled selection groups must derive it alongside checked on subsequent updates.
   useEffect(() => {
@@ -44,7 +47,7 @@ export function Checkbox({
       >
         <input
           {...props}
-          ref={input}
+          ref={controlRef}
           type="checkbox"
           disabled={disabled}
           className="peer absolute inset-0 z-10 m-0 size-full cursor-[inherit] opacity-0"

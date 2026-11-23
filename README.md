@@ -36,6 +36,8 @@ For browser checks, install Chromium with npx playwright install chromium. Packa
 ## Documentation
 
 - [Component API](./docs/COMPONENTS.md)
+- [Application integration](./docs/INTEGRATION.md)
+- [Release notes](./docs/releases/0.2.0.md)
 - [Theming](./docs/THEMING.md)
 - [Motion](./docs/MOTION.md)
 - [Implementation status](./docs/STATUS.md)

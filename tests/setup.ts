@@ -5,7 +5,9 @@ afterEach(cleanup);
 
 // jsdom does not implement these browser APIs. Real geometry and pointer behavior
 // are verified by Playwright; unit tests exercise the component's form contract.
-HTMLElement.prototype.scrollIntoView ??= () => {};
-HTMLElement.prototype.hasPointerCapture ??= () => false;
-HTMLElement.prototype.setPointerCapture ??= () => {};
-HTMLElement.prototype.releasePointerCapture ??= () => {};
+if (typeof HTMLElement !== "undefined") {
+  HTMLElement.prototype.scrollIntoView ??= () => {};
+  HTMLElement.prototype.hasPointerCapture ??= () => false;
+  HTMLElement.prototype.setPointerCapture ??= () => {};
+  HTMLElement.prototype.releasePointerCapture ??= () => {};
+}

@@ -10,10 +10,10 @@ From the kit repository, install the locked dependencies with `npm ci`, then run
 npm run pack:local
 ```
 
-The prepack hook regenerates tokens, checks TypeScript and rebuilds JavaScript, CSS and declarations before creating `serenity-ui-react-0.1.0.tgz` in the repository root. Install that file in a React 19 application:
+The prepack hook regenerates tokens, checks TypeScript and rebuilds JavaScript, CSS and declarations before creating `serenity-ui-react-0.2.0.tgz` in the repository root. Install that file in a React 19 application:
 
 ```sh
-npm install /absolute/path/to/serenity-ui-react-0.1.0.tgz
+npm install /absolute/path/to/serenity-ui-react-0.2.0.tgz
 ```
 
 PowerShell users can use `npm.cmd` and quote paths containing spaces. Keep the archive outside Git; archive names reflect the package version, not the implementation phase. Rebuilding the same version replaces the local archive, so retain the package-check integrity when comparing builds.
@@ -42,13 +42,13 @@ For applications that also compile their own Tailwind utilities, import the Sere
 @import "@serenity-ui/react/theme.css";
 ```
 
-Continue to import `@serenity-ui/react/styles.css` once for the component rules and shared motion. Avoid using the raw theme as a replacement for those compiled component styles. Both stylesheets use the existing Tailwind layers; verify application overrides and reset interactions in the consuming application. A reset-free bundle is not currently provided.
+Continue to import `@serenity-ui/react/styles.css` once for the component rules and shared motion. Avoid using the raw theme as a replacement for those compiled component styles. Both stylesheets use the existing Tailwind layers; verify application overrides and reset interactions in the consuming application. If your application already supplies a compatible reset, import `@serenity-ui/react/styles-no-preflight.css` instead of `styles.css` to avoid adding Tailwind Preflight a second time. Choose one entry, not both. This entry includes the same tokens, component utilities and motion, but does not supply base element normalization (including border style, box sizing and native control resets). It is not CSS isolation; utility class names and theme variables remain shared.
 
 `@serenity-ui/react/tokens.json` exposes the framework-independent Figma export for token tooling. Other frameworks can use tokens, but the component adapter currently requires React. Do not import private `dist` or source paths.
 
 ## Server-rendered applications
 
-The package can be imported and representative components rendered in Node without DOM globals. Interactive components still require a client React boundary. In frameworks that distinguish Server and Client Components, import them inside an application-owned `"use client"` module. The package does not claim complete framework integration or hydration coverage from the Node rendering smoke check alone. Authentication, sessions, authorization and persistence belong to the application.
+The package can be imported and representative components rendered in Node without DOM globals. Interactive components still require a client React boundary. In frameworks that distinguish Server and Client Components, import them inside an application-owned `"use client"` module. The isolated packed consumer also hydrates representative server-rendered forms and an auth composition in desktop/mobile Chromium and checks for recoverable hydration errors. This does not certify every component, Next.js, React Server Components or streaming. Keep the initial data, IDs and locale consistent between server and client. Authentication, sessions, authorization and persistence belong to the application.
 
 ## Verify the deliverable
 
@@ -57,9 +57,10 @@ npm run check
 npx playwright install chromium
 npm run check:package
 npm run test:browser
+npm run test:integration
 ```
 
-On Windows with Edge installed, set `$env:SUI_BROWSER_CHANNEL = 'msedge'` for browser checks. `check:package` creates a real archive, checks its contents, installs it into a temporary application outside the repository, verifies declarations and Node rendering, builds that application without Tailwind and exercises the production build at desktop/mobile widths. It uses the repository npm cache in offline mode; run `npm ci` first to populate that cache. The temporary installation is removed afterward. A report and screenshots remain in ignored `package-check-results/`.
+On Windows with Edge installed, set `$env:SUI_BROWSER_CHANNEL = 'msedge'` for browser checks. `check:package` creates a real archive, checks its contents, installs it into a temporary application outside the repository, verifies declarations, Node rendering and browser hydration, builds that application without Tailwind and exercises the production build at desktop/mobile widths. It uses the repository npm cache in offline mode; run `npm ci` first to populate that cache. The temporary installation is removed afterward. A report and screenshots remain in ignored `package-check-results/`.
 
 The fixture lives in `tests/fixtures/package-consumer` and imports public package names only. It is intentionally excluded from the repository TypeScript program: only the independent consumer compilation validates it. Its committed lockfile fixes registry resolutions, using versions from the repository lock so a clean CI cache contains the required packages. Each run updates only the temporary lock entry for the locally rebuilt archive. After dependency upgrades, run `npm run check:package -- --refresh-lock` and review the fixture lock change. Refreshing also uses the repository cache and lock; neither mode publishes or requires registry access. This is a pinned integration check, not a supported-version matrix.
 

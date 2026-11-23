@@ -125,6 +125,24 @@ export function DocumentationPage() {
         }
       />
       <div className="mt-4 grid gap-4 sm:grid-cols-2">
+        <Card
+          id="documentation-integration"
+          tabIndex={-1}
+          padding="comfortable"
+        >
+          <h2 className="text-sui-heading-sm">Connect your application</h2>
+          <p className="text-sui-body-md text-sui-text-secondary">
+            Integrate native forms, server validation, remote tables and saved
+            dashboards. Run the HTTP reference app with npm run
+            example:integration.
+          </p>
+          <a
+            className="docs-text-link"
+            href={`${repositoryHref}/blob/main/docs/INTEGRATION.md`}
+          >
+            Read the integration guide →
+          </a>
+        </Card>
         <Card id="documentation-theming" tabIndex={-1} padding="comfortable">
           <h2 className="text-sui-heading-sm">Light and Dark</h2>
           <p className="text-sui-body-md text-sui-text-secondary">
