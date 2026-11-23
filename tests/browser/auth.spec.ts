@@ -37,6 +37,19 @@ test("login validates, submits once, supports password visibility and recovers f
   await expect(form.getByRole("alert")).toHaveText(
     "Unable to sign in. Check your details and try again.",
   );
+  await expect(form).toHaveAttribute("aria-busy", "false");
+  // Restored controls transition out of disabled colors. Audit their settled
+  // contrast without disabling motion or waiting on the looping background leaf.
+  await form.evaluate((element) =>
+    Promise.all(
+      element
+        .getAnimations({ subtree: true })
+        .filter(
+          (animation) => animation.effect?.getTiming().iterations !== Infinity,
+        )
+        .map((animation) => animation.finished),
+    ),
+  );
   expect(
     (
       await new AxeBuilder({ page })
