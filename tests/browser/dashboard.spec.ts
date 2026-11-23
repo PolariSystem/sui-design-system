@@ -155,23 +155,27 @@ test("pointer dragging reorders cards and Escape cancels a drag", async ({
   const start = await handle.boundingBox();
   await page.mouse.move(start!.x + 8, start!.y + 8);
   await page.mouse.down();
-  const end = await revealDropTarget(page, target, (x, y) =>
+  await revealDropTarget(page, target, (x, y) =>
     page.mouse.move(x, y, { steps: 4 }),
   );
-  // Target the measured position directly: intermediate hovers deliberately reflow the grid.
-  await page.mouse.move(end.x + 40, end.y + 16);
   const preview = dashboard.locator("[data-drop-preview]");
-  await expect(preview).toBeVisible();
-  const reserved = (await preview.boundingBox())!;
-  expect(
-    await preview.evaluate((node) =>
+  const previewsFirstSlot = () =>
+    preview.evaluateAll((nodes) =>
       Boolean(
-        node.compareDocumentPosition(
+        nodes[0]?.compareDocumentPosition(
           document.querySelector('[data-editor-card="active"]')!,
         ) & Node.DOCUMENT_POSITION_FOLLOWING,
       ),
-    ),
-  ).toBe(true);
+    );
+  // Edge scrolling may already place the preview first. Moving onto the card's
+  // shifted position would request a different slot, so keep that valid preview.
+  if (!(await previewsFirstSlot())) {
+    const end = (await target.boundingBox())!;
+    await page.mouse.move(end.x + 40, end.y + 16);
+  }
+  await expect.poll(previewsFirstSlot).toBe(true);
+  await expect(preview).toBeVisible();
+  const reserved = (await preview.boundingBox())!;
   await page.mouse.up();
   await expect(
     dashboard

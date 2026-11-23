@@ -32,6 +32,12 @@ Regression work caught lost pointer capture during preview insertion and scroll 
 
 The existing Vite advisory for a production chunk above 500 kB remains. This phase adds no motion dependency and makes no new bundle-splitting claim.
 
+## CI follow-up — 2026-11-23
+
+The first full cloud run passed the HTTP integration job, package checks and 152 workshop scenarios, with three existing skips. One mobile reorder test issued a second pointer move after edge scrolling had already selected its intended destination. That unnecessary move could target the displaced card and select another slot. The test now retains an already-correct preview, or measures the current target before moving, and waits for the expected preview before releasing. Final order, reserved dimensions, persistence and Escape assertions remain enabled; component behavior is unchanged by this follow-up.
+
+Both pointer scenarios passed three times on desktop and mobile with two concurrent browser workers (12 checks). TypeScript and diff checks passed. Full GitHub verification runs against the follow-up commit.
+
 ## Boundaries
 
 The local service remains an in-memory integration example. These changes add no production backend or authentication guarantees. A widget can remount when a completed drop moves it into a different zone; durable widget state should remain application-owned. Pointer tracking and grid reflow are immediate, with no eased pointer lag or animated layout dimensions. Mobile browser automation emulates touch; physical-device coverage remains future work.
