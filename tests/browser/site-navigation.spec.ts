@@ -67,7 +67,7 @@ test("contextual mobile indexes preserve examples, scroll and keyboard focus", a
   const search = index.getByRole("searchbox");
   await expect(search).toBeFocused();
   await expect(page.locator(".site-content")).toHaveAttribute("inert", "");
-  await expect(index.getByRole("link")).toHaveCount(40);
+  await expect(index.getByRole("link")).toHaveCount(41);
   await search.fill("sign in");
   await expect(index.getByRole("status")).toHaveText(
     "No results found. Try another name.",
@@ -124,7 +124,7 @@ test("section navigation exposes meaningful home, page and documentation destina
   await bottom.getByRole("link", { name: "Documentation" }).click();
   await page.getByRole("button", { name: "Open Documentation index" }).click();
   const docs = page.getByRole("main", { name: "Documentation index" });
-  await expect(docs.getByRole("link")).toHaveCount(6);
+  await expect(docs.getByRole("link")).toHaveCount(10);
   await docs.getByRole("link", { name: "Application integration" }).click();
   await expect(page.locator("#documentation-integration")).toBeFocused();
   await expect(

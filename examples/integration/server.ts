@@ -3,7 +3,7 @@ import {
   type IncomingMessage,
   type ServerResponse,
 } from "node:http";
-import { randomUUID } from "node:crypto";
+import { randomUUID, createHash } from "node:crypto";
 import {
   isLayout,
   isObject,
@@ -69,6 +69,46 @@ export function createIntegrationServer() {
       )
         throw new HttpError(403, "Origin is not allowed.");
       const url = new URL(request.url ?? "/", "http://localhost");
+      if (url.pathname === "/api/uploads" && request.method === "POST") {
+        const name = url.searchParams.get("name") ?? "";
+        if (
+          !name.toLowerCase().endsWith(".csv") ||
+          name.length > 160 ||
+          /[\\/\x00-\x1f]/.test(name)
+        )
+          throw new HttpError(422, "Choose a CSV file with a valid filename.");
+        const chunks: Buffer[] = [];
+        let size = 0;
+        for await (const chunk of request) {
+          size += chunk.length;
+          if (size > 1_048_576)
+            throw new HttpError(413, "CSV files must be 1 MiB or smaller.");
+          chunks.push(chunk);
+        }
+        const bytes = Buffer.concat(chunks);
+        let content: string;
+        try {
+          content = new TextDecoder("utf-8", { fatal: true }).decode(bytes);
+        } catch {
+          throw new HttpError(422, "Use a UTF-8 CSV file.");
+        }
+        if (
+          !content.trim() ||
+          content.includes("\0") ||
+          !content.split(/\r?\n/, 1)[0].includes(",")
+        )
+          throw new HttpError(
+            422,
+            "Use a nonempty CSV file with comma-separated columns.",
+          );
+        // Validate the demo payload without writing user-controlled filenames or retaining contents.
+        return json(response, 201, {
+          id: randomUUID(),
+          name,
+          size,
+          sha256: createHash("sha256").update(bytes).digest("hex"),
+        });
+      }
       if (url.pathname === "/api/records" && request.method === "GET") {
         const page = Number(url.searchParams.get("page") ?? 1);
         const size = Number(url.searchParams.get("pageSize") ?? 4);

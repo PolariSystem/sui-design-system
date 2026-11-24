@@ -6,6 +6,7 @@ import "./styles.css";
 import { RecordForm } from "./RecordForm";
 import { RemoteRecords } from "./RemoteRecords";
 import { PersistedDashboard } from "./PersistedDashboard";
+import { UploadFiles } from "./UploadFiles";
 
 function App() {
   const [revision, setRevision] = useState(0);
@@ -26,6 +27,7 @@ function App() {
         </Alert>
         <RecordForm onCreated={() => setRevision((value) => value + 1)} />
         <RemoteRecords revision={revision} />
+        <UploadFiles />
         <PersistedDashboard
           onSaved={() => setNotification((value) => value + 1)}
         />

@@ -8,8 +8,6 @@ import {
   DialogTrigger,
   DialogContent,
 } from "../src";
-import { CodeBlock } from "./CodeBlock";
-import { repositoryHref } from "./site-config";
 import { Section } from "./components";
 
 function MotionExamples() {
@@ -108,122 +106,6 @@ export function MotionPage() {
       description="A shared rhythm for every Serenity interaction."
     >
       <MotionExamples />
-    </Section>
-  );
-}
-
-export function DocumentationPage() {
-  return (
-    <Section
-      name="Documentation"
-      description="Build with the same foundations, components and interaction language."
-    >
-      <CodeBlock
-        label="Getting started commands"
-        code={
-          "git clone https://github.com/PolariSystem/sui-design-system.git\ncd sui-design-system\nnpm ci\nnpm run dev"
-        }
-      />
-      <div className="mt-4 grid gap-4 sm:grid-cols-2">
-        <Card
-          id="documentation-integration"
-          tabIndex={-1}
-          padding="comfortable"
-        >
-          <h2 className="text-sui-heading-sm">Connect your application</h2>
-          <p className="text-sui-body-md text-sui-text-secondary">
-            Integrate native forms, server validation, remote tables and saved
-            dashboards. Run the HTTP reference app with npm run
-            example:integration.
-          </p>
-          <a
-            className="docs-text-link"
-            href={`${repositoryHref}/blob/main/docs/INTEGRATION.md`}
-          >
-            Read the integration guide →
-          </a>
-        </Card>
-        <Card id="documentation-theming" tabIndex={-1} padding="comfortable">
-          <h2 className="text-sui-heading-sm">Light and Dark</h2>
-          <p className="text-sui-body-md text-sui-text-secondary">
-            Shared semantic tokens keep controls, charts and elevated surfaces
-            consistent in both appearances.
-          </p>
-          <a className="docs-text-link" href={repositoryHref}>
-            Read the source →
-          </a>
-        </Card>
-        <Card
-          id="documentation-installation"
-          tabIndex={-1}
-          padding="comfortable"
-        >
-          <h2 className="text-sui-heading-sm">Start with the kit</h2>
-          <p className="text-sui-body-md text-sui-text-secondary">
-            Clone the repository, run npm ci, then npm run dev. All components,
-            tokens and examples are included under MIT. An npm registry release
-            has not been published yet.
-          </p>
-          <a className="docs-text-link" href={repositoryHref}>
-            Get the source →
-          </a>
-        </Card>
-        <Card padding="comfortable">
-          <h2 className="text-sui-heading-sm">Explore by doing</h2>
-          <p className="text-sui-body-md text-sui-text-secondary">
-            Try component states and working examples. Read and adapt the
-            complete component source and workshop examples on GitHub.
-          </p>
-          <a className="docs-text-link" href="#button">
-            Browse components →
-          </a>
-        </Card>
-        <Card padding="comfortable">
-          <h2 className="text-sui-heading-sm">Understand the foundations</h2>
-          <p className="text-sui-body-md text-sui-text-secondary">
-            Semantic colors, growing text, a four-pixel spacing scale and
-            consistent elevation.
-          </p>
-          <a className="docs-text-link" href="#foundations">
-            View foundations →
-          </a>
-        </Card>
-        <Card padding="comfortable">
-          <h2 className="text-sui-heading-sm">Compose real workflows</h2>
-          <p className="text-sui-body-md text-sui-text-secondary">
-            Try configurable dashboards and access screens built with the same
-            components.
-          </p>
-          <a className="docs-text-link" href="#dashboard">
-            Explore concepts →
-          </a>
-        </Card>
-        <Card id="documentation-motion" tabIndex={-1} padding="comfortable">
-          <h2 className="text-sui-heading-sm">Motion system</h2>
-          <p className="text-sui-body-md text-sui-text-secondary">
-            Use shared durations and easing for feedback, state changes and
-            reveals. Respect reduced motion and keep focus changes immediate.
-          </p>
-          <a className="docs-text-link" href="#motion">
-            Explore the motion system →
-          </a>
-        </Card>
-        <Card
-          id="documentation-accessibility"
-          tabIndex={-1}
-          padding="comfortable"
-        >
-          <h2 className="text-sui-heading-sm">Accessibility</h2>
-          <p className="text-sui-body-md text-sui-text-secondary">
-            Give controls meaningful names, preserve keyboard navigation and
-            visible focus, and pair status colors with text. Check contrast and
-            reduced motion in the context of your product.
-          </p>
-          <a className="docs-text-link" href={repositoryHref}>
-            Contribute improvements →
-          </a>
-        </Card>
-      </div>
     </Section>
   );
 }

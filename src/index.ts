@@ -204,3 +204,14 @@ export {
   type ScrollAreaViewportProps,
   type ScrollBarProps,
 } from "./components/ScrollArea";
+export {
+  FileUpload,
+  type FileUploadProps,
+  type FileRejection,
+  type FileRejectionCode,
+} from "./components/FileUpload";
+export {
+  FileUploadItem,
+  type FileUploadItemProps,
+  type FileUploadStatus,
+} from "./components/FileUploadItem";

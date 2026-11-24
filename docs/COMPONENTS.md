@@ -461,3 +461,6 @@ The library now exports seven `type/mobile/*` heading roles and matching `text-s
 | heading/xs | 16 / 24 | 16 / 24 |
 
 Existing 24 px container padding and inter-container gaps use 16 px. `padding/card`, `padding/auth-mobile` and `gap/page-section` alias dimension/16; the primitive dimension/24 and space/6 remain available. Card's legacy `comfortable` padding option now resolves to the 16 px card token; the existing `default` 20 px option remains unchanged.
+## File selection and upload feedback
+
+`FileUpload` and `FileUploadItem` provide file selection and controlled queue presentation. The application owns transport, storage and queue state. See the [upload guide](./FILE-UPLOAD.md) for limits, callbacks, cancellation, retry and the real HTTP reference. The [generated API reference](./API.md) contains exact public types for these and all other implemented modules.

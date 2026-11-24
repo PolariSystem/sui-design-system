@@ -12,6 +12,8 @@ This example consumes the built public package. Its service uses in-memory data 
 | `useRemoteResource.ts` | Cancellation, stale-result protection and request states |
 | `RecordForm.tsx` | Native forms, server errors and focus recovery |
 | `RemoteRecords.tsx` | Server pagination, filtering and sorting |
+| `UploadFiles.tsx` | Controlled file queue, selection, cancellation, retry and focus recovery |
+| `upload.ts` | XHR byte progress and validated upload receipts |
 | `PersistedDashboard.tsx` | Draft editing, save, conflict handling and explicit reload |
 | `dev.mjs` | Same-origin Vite proxy and service lifecycle |
 

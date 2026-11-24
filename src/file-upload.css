@@ -1,0 +1,44 @@
+@layer utilities {
+  .sui-file-upload-drop {
+    cursor: pointer;
+    transition: background-color var(--sui-motion-duration-fast)
+      var(--sui-motion-easing-standard);
+  }
+  .sui-file-upload-drop:enabled:hover {
+    background: var(--sui-color-action-secondary-hover);
+  }
+  .sui-file-upload-drop:focus-visible,
+  .sui-file-upload-drop[data-dragging="true"] {
+    outline: var(--sui-border-focus) solid var(--sui-color-border-focus);
+    outline-offset: 0;
+    background: var(--sui-color-surface-selected);
+  }
+  .sui-file-upload-drop[data-error="true"] {
+    outline: var(--sui-border-focus) solid var(--sui-color-border-danger);
+  }
+  .sui-file-upload-item {
+    container-type: inline-size;
+  }
+  .sui-file-upload-row {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: var(--sui-space-3);
+  }
+  @container (max-width: 440px) {
+    .sui-file-upload-row {
+      grid-template-columns: auto minmax(0, 1fr);
+    }
+    .sui-file-upload-actions {
+      grid-column: 1 / -1;
+    }
+    .sui-file-upload-actions > button {
+      flex: 1 1 100%;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .sui-file-upload-drop {
+      transition: none;
+    }
+  }
+}

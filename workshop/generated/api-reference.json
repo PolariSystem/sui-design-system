@@ -1,0 +1,567 @@
+[
+  {
+    "name": "Alert",
+    "exports": [
+      "Alert",
+      "AlertProps"
+    ],
+    "source": "src/components/Alert.tsx",
+    "declaration": "// components/Alert.d.ts\n\nimport type { ComponentPropsWithoutRef, ReactNode } from \"react\";\nexport interface AlertProps extends Omit<ComponentPropsWithoutRef<\"div\">, \"title\"> {\n    title: ReactNode;\n    tone?: \"info\" | \"success\" | \"warning\" | \"danger\";\n    /** Opt into live announcements only for newly arriving messages. Static guidance stays quiet. */\n    announcement?: \"off\" | \"polite\" | \"assertive\";\n}\n/** Inline feedback pairs its semantic tone with explicit text; it never clears field values. */\nexport declare function Alert({ title, tone, announcement, children, className, ...props }: AlertProps): import(\"react\").JSX.Element;"
+  },
+  {
+    "name": "Auth.types",
+    "exports": [
+      "AuthRequestContext",
+      "AuthNavigationProps",
+      "PasswordRecoveryFormProps",
+      "RecoveryEmailSentProps",
+      "ResetPasswordFormProps",
+      "TwoStepVerificationFormProps"
+    ],
+    "source": "src/components/Auth.types.ts",
+    "declaration": "// components/Auth.types.d.ts\n\nimport type { LinkProps } from \"./Link\";\nexport interface AuthRequestContext {\n    signal: AbortSignal;\n}\nexport interface AuthNavigationProps {\n    signInHref: string;\n    onBackToSignIn?: LinkProps[\"onClick\"];\n}\nexport interface PasswordRecoveryFormProps extends AuthNavigationProps {\n    onRequestReset: (email: string, context: AuthRequestContext) => void | Promise<void>;\n    defaultEmail?: string;\n    /** Safe application-owned feedback, never raw provider exceptions. */\n    error?: string;\n}\nexport interface RecoveryEmailSentProps extends AuthNavigationProps {\n    email: string;\n    onResend: (context: AuthRequestContext) => void | Promise<void>;\n    changeEmailHref: string;\n    onChangeEmail?: LinkProps[\"onClick\"];\n    /** UI delay after entering the screen and after a successful resend. Server throttling remains authoritative. */\n    resendCooldownSeconds?: number;\n    error?: string;\n}\nexport interface ResetPasswordFormProps extends AuthNavigationProps {\n    onResetPassword: (password: string, context: AuthRequestContext) => void | Promise<void>;\n    /** The application validates the reset token; the kit never reads or stores it. */\n    tokenStatus?: \"valid\" | \"expired\" | \"invalid\";\n    requestResetHref: string;\n    onRequestNewLink?: LinkProps[\"onClick\"];\n    minimumLength?: number;\n    /** Additional client policy; return safe error copy. The server still validates the password. */\n    validatePassword?: (password: string) => string | undefined;\n    error?: string;\n}\nexport interface TwoStepVerificationFormProps extends AuthNavigationProps {\n    /** The application owns the challenge identity, expiry and success navigation. */\n    onVerify: (code: string, context: AuthRequestContext) => void | Promise<void>;\n    error?: string;\n}\n\n// components/Link.d.ts\n\nimport type { ComponentPropsWithRef } from \"react\";\nexport interface LinkProps extends ComponentPropsWithRef<\"a\"> {\n    /** Removes the destination and activation while preserving the unavailable link label. */\n    disabled?: boolean;\n}\n/** A real navigation link; routers can intercept its native click without losing anchor semantics. */\nexport declare function Link({ disabled, href, onClick, className, tabIndex, ...props }: LinkProps): import(\"react\").JSX.Element;"
+  },
+  {
+    "name": "AuthLayout",
+    "exports": [
+      "AuthLayout",
+      "AuthLayoutProps"
+    ],
+    "source": "src/components/AuthLayout.tsx",
+    "declaration": "// components/AuthLayout.d.ts\n\nimport { type ReactNode } from \"react\";\nexport interface AuthLayoutProps {\n    children: ReactNode;\n    title: string;\n    description?: string;\n    footer?: ReactNode;\n    /** Replace the default Serenity brand with an accessible product logo. */\n    brand?: ReactNode;\n    headingLevel?: 1 | 2 | 3;\n    /** Decorative indicator above the title, such as the approved success shield. */\n    headingIcon?: ReactNode;\n    /** Focus changed step headings without moving focus on initial page load. */\n    focusHeadingOnChange?: boolean;\n    /** False renders a static leaf. OS reduced-motion preferences always take priority. */\n    animated?: boolean;\n    className?: string;\n}\n/** Centered access composition; the card grows with errors, translations and enlarged text. */\nexport declare function AuthLayout({ children, title, description, footer, brand, headingLevel, headingIcon, focusHeadingOnChange, animated, className, }: AuthLayoutProps): import(\"react\").JSX.Element;"
+  },
+  {
+    "name": "AuthScreen",
+    "exports": [
+      "AuthScreen",
+      "AuthScreenProps",
+      "AuthScreenState"
+    ],
+    "source": "src/components/AuthScreen.tsx",
+    "declaration": "// components/AuthScreen.d.ts\n\nimport { type AuthLayoutProps } from \"./AuthLayout\";\nimport { type SignInFormProps } from \"./SignInForm\";\nimport type { AuthNavigationProps, PasswordRecoveryFormProps, RecoveryEmailSentProps, ResetPasswordFormProps, TwoStepVerificationFormProps } from \"./Auth.types\";\n/** Each step requires its own integration contract; no credentials or tokens enter the step model. */\nexport type AuthScreenState = ({\n    step: \"sign-in\";\n} & SignInFormProps) | ({\n    step: \"forgot-password\";\n} & PasswordRecoveryFormProps) | ({\n    step: \"check-inbox\";\n} & RecoveryEmailSentProps) | ({\n    step: \"reset-password\";\n} & ResetPasswordFormProps) | ({\n    step: \"password-updated\";\n} & AuthNavigationProps) | ({\n    step: \"verify\";\n} & TwoStepVerificationFormProps);\nexport interface AuthScreenProps extends Omit<AuthLayoutProps, \"children\" | \"title\" | \"description\" | \"footer\" | \"headingIcon\"> {\n    screen: AuthScreenState;\n}\n/** Controlled access composition. Keep this component mounted as steps change to preserve leaf motion. */\nexport declare function AuthScreen({ screen, ...layout }: AuthScreenProps): import(\"react\").JSX.Element;\n\n// components/AuthLayout.d.ts\n\nimport { type ReactNode } from \"react\";\nexport interface AuthLayoutProps {\n    children: ReactNode;\n    title: string;\n    description?: string;\n    footer?: ReactNode;\n    /** Replace the default Serenity brand with an accessible product logo. */\n    brand?: ReactNode;\n    headingLevel?: 1 | 2 | 3;\n    /** Decorative indicator above the title, such as the approved success shield. */\n    headingIcon?: ReactNode;\n    /** Focus changed step headings without moving focus on initial page load. */\n    focusHeadingOnChange?: boolean;\n    /** False renders a static leaf. OS reduced-motion preferences always take priority. */\n    animated?: boolean;\n    className?: string;\n}\n/** Centered access composition; the card grows with errors, translations and enlarged text. */\nexport declare function AuthLayout({ children, title, description, footer, brand, headingLevel, headingIcon, focusHeadingOnChange, animated, className, }: AuthLayoutProps): import(\"react\").JSX.Element;\n\n// components/SignInForm.d.ts\n\nimport { type LinkProps } from \"./Link\";\nexport interface SignInValues {\n    email: string;\n    password: string;\n    rememberMe: boolean;\n}\nexport interface SignInFormProps {\n    /** Resolve after the application handles the result; reject to show a generic retry message.\n     * Never persist credentials here. The application owns sessions, MFA and navigation. */\n    onSignIn: (values: SignInValues, context: {\n        signal: AbortSignal;\n    }) => void | Promise<void>;\n    forgotPasswordHref: string;\n    onForgotPassword?: LinkProps[\"onClick\"];\n    defaultEmail?: string;\n    defaultRememberMe?: boolean;\n    /** Safe, user-facing provider feedback. Do not pass raw server exceptions. */\n    error?: string;\n    className?: string;\n}\n/** Native credential fields with password-manager hints, accessible validation and single-flight submit. */\nexport declare function SignInForm({ onSignIn, forgotPasswordHref, onForgotPassword, defaultEmail, defaultRememberMe, error, className, }: SignInFormProps): import(\"react\").JSX.Element;\n\n// components/Link.d.ts\n\nimport type { ComponentPropsWithRef } from \"react\";\nexport interface LinkProps extends ComponentPropsWithRef<\"a\"> {\n    /** Removes the destination and activation while preserving the unavailable link label. */\n    disabled?: boolean;\n}\n/** A real navigation link; routers can intercept its native click without losing anchor semantics. */\nexport declare function Link({ disabled, href, onClick, className, tabIndex, ...props }: LinkProps): import(\"react\").JSX.Element;\n\n// components/Auth.types.d.ts\n\nimport type { LinkProps } from \"./Link\";\nexport interface AuthRequestContext {\n    signal: AbortSignal;\n}\nexport interface AuthNavigationProps {\n    signInHref: string;\n    onBackToSignIn?: LinkProps[\"onClick\"];\n}\nexport interface PasswordRecoveryFormProps extends AuthNavigationProps {\n    onRequestReset: (email: string, context: AuthRequestContext) => void | Promise<void>;\n    defaultEmail?: string;\n    /** Safe application-owned feedback, never raw provider exceptions. */\n    error?: string;\n}\nexport interface RecoveryEmailSentProps extends AuthNavigationProps {\n    email: string;\n    onResend: (context: AuthRequestContext) => void | Promise<void>;\n    changeEmailHref: string;\n    onChangeEmail?: LinkProps[\"onClick\"];\n    /** UI delay after entering the screen and after a successful resend. Server throttling remains authoritative. */\n    resendCooldownSeconds?: number;\n    error?: string;\n}\nexport interface ResetPasswordFormProps extends AuthNavigationProps {\n    onResetPassword: (password: string, context: AuthRequestContext) => void | Promise<void>;\n    /** The application validates the reset token; the kit never reads or stores it. */\n    tokenStatus?: \"valid\" | \"expired\" | \"invalid\";\n    requestResetHref: string;\n    onRequestNewLink?: LinkProps[\"onClick\"];\n    minimumLength?: number;\n    /** Additional client policy; return safe error copy. The server still validates the password. */\n    validatePassword?: (password: string) => string | undefined;\n    error?: string;\n}\nexport interface TwoStepVerificationFormProps extends AuthNavigationProps {\n    /** The application owns the challenge identity, expiry and success navigation. */\n    onVerify: (code: string, context: AuthRequestContext) => void | Promise<void>;\n    error?: string;\n}"
+  },
+  {
+    "name": "Avatar",
+    "exports": [
+      "Avatar",
+      "AvatarProps"
+    ],
+    "source": "src/components/Avatar.tsx",
+    "declaration": "// components/Avatar.d.ts\n\nimport type { ComponentPropsWithoutRef } from \"react\";\nexport interface AvatarProps extends Omit<ComponentPropsWithoutRef<\"span\">, \"children\"> {\n    name: string;\n    initials?: string;\n    size?: 24 | 30 | 32 | 40 | 48;\n}\n/** Initials identify a person or workspace. Set aria-hidden when adjacent text already names it. */\nexport declare function Avatar({ name, initials, size, className, ...props }: AvatarProps): import(\"react\").JSX.Element;"
+  },
+  {
+    "name": "Badge",
+    "exports": [
+      "Badge",
+      "BadgeProps"
+    ],
+    "source": "src/components/Badge.tsx",
+    "declaration": "// components/Badge.d.ts\n\nimport type { ComponentPropsWithoutRef, ReactNode } from \"react\";\nexport interface BadgeProps extends ComponentPropsWithoutRef<\"span\"> {\n    tone?: \"neutral\" | \"info\" | \"success\" | \"warning\" | \"danger\";\n    size?: \"sm\" | \"md\";\n    leftIcon?: ReactNode;\n    rightIcon?: ReactNode;\n}\n/**\n * Noninteractive status label. Tone complements its text, never replaces it.\n * Live announcements belong to the consuming flow, so no role=\"status\" is added here.\n */\nexport declare function Badge({ tone, size, leftIcon, rightIcon, children, className, ...props }: BadgeProps): import(\"react\").JSX.Element;"
+  },
+  {
+    "name": "Breadcrumb",
+    "exports": [
+      "Breadcrumb",
+      "BreadcrumbProps",
+      "BreadcrumbItem"
+    ],
+    "source": "src/components/Breadcrumb.tsx",
+    "declaration": "// components/Breadcrumb.d.ts\n\nimport { type ComponentPropsWithoutRef, type ReactNode } from \"react\";\nexport interface BreadcrumbItem {\n    label: string;\n    href?: string;\n}\nexport interface BreadcrumbProps extends Omit<ComponentPropsWithoutRef<\"nav\">, \"children\"> {\n    items: BreadcrumbItem[];\n    /** Compact trails show the nearest parent and current location. */\n    compact?: boolean;\n    leadingAction?: ReactNode;\n}\n/** The current location is text, not a redundant link. Keep destinations owned by the application. */\nexport declare function Breadcrumb({ items, compact, leadingAction, className, \"aria-label\": label, ...props }: BreadcrumbProps): import(\"react\").JSX.Element;"
+  },
+  {
+    "name": "Button",
+    "exports": [
+      "Button",
+      "ButtonProps"
+    ],
+    "source": "src/components/Button.tsx",
+    "declaration": "// components/Button.d.ts\n\nimport type { ComponentPropsWithRef, ReactNode } from \"react\";\nexport interface ButtonProps extends ComponentPropsWithRef<\"button\"> {\n    variant?: \"primary\" | \"secondary\" | \"tertiary\" | \"danger\";\n    size?: \"sm\" | \"md\" | \"lg\";\n    /** Uses compact padding for a decorative icon child. Supply aria-label for its action. */\n    iconOnly?: boolean;\n    /** Prevents activation and exposes aria-busy while an action is pending. */\n    loading?: boolean;\n    /** Replaces the visible and accessible label while loading; localize at the call site. */\n    loadingLabel?: string;\n    /** Decorative content only. The button label supplies its accessible name. */\n    leftIcon?: ReactNode;\n    /** Decorative content only; do not nest another interactive control here. */\n    rightIcon?: ReactNode;\n}\n/**\n * Native action button. Defaults to type=\"button\" to avoid accidental form submission.\n * Minimum heights preserve the Figma sizes while allowing enlarged text to grow.\n */\nexport declare function Button({ variant, size, iconOnly, loading, loadingLabel, leftIcon, rightIcon, children, disabled, type, className, ...props }: ButtonProps): import(\"react\").JSX.Element;"
+  },
+  {
+    "name": "Calendar",
+    "exports": [
+      "Calendar",
+      "CalendarProps",
+      "CalendarEvent"
+    ],
+    "source": "src/components/Calendar.tsx",
+    "declaration": "// components/Calendar.d.ts\n\nexport interface CalendarEvent {\n    id: string;\n    date: string;\n    start: string;\n    end: string;\n    title: string;\n    type?: \"meeting\" | \"note\";\n    tone?: \"default\" | \"success\";\n    initials?: string;\n}\nexport interface CalendarProps {\n    /** ISO date for the first visible day. The standard workweek displays five days. */\n    startDate: string;\n    events: CalendarEvent[];\n    onEventClick?: (event: CalendarEvent) => void;\n    today?: string;\n    locale?: string;\n    startHour?: number;\n    endHour?: number;\n    label?: string;\n}\n/** Weekly planner with a chronological agenda on narrow screens. Events remain ordinary named buttons. */\nexport declare function Calendar({ startDate, events, onEventClick, today, locale, startHour, endHour, label, }: CalendarProps): import(\"react\").JSX.Element;"
+  },
+  {
+    "name": "Card",
+    "exports": [
+      "Card",
+      "CardFooter",
+      "CardProps"
+    ],
+    "source": "src/components/Card.tsx",
+    "declaration": "// components/Card.d.ts\n\nimport type { ComponentPropsWithoutRef } from \"react\";\nexport interface CardProps extends ComponentPropsWithoutRef<\"div\"> {\n    /** Padding variants retain compatibility and share the 16 px card spacing. */\n    padding?: \"compact\" | \"default\" | \"comfortable\";\n    elevation?: \"subtle\" | \"floating\";\n}\n/**\n * Surface primitive with content-driven height. Consumers provide headings and semantics.\n * Default subtle elevation separates cards from the canvas at every viewport size;\n * elevation alone does not turn this container into a dialog or an interactive widget.\n */\nexport declare function Card({ padding, elevation, className, ...props }: CardProps): import(\"react\").JSX.Element;\n/**\n * Place the primary action first in the DOM for mobile reading and keyboard order.\n * Actions fill a vertical stack on mobile; desktop keeps the primary at the right.\n */\nexport declare function CardFooter({ className, ...props }: ComponentPropsWithoutRef<\"div\">): import(\"react\").JSX.Element;"
+  },
+  {
+    "name": "Chart",
+    "exports": [
+      "Chart",
+      "ChartProps",
+      "ChartDatum",
+      "ChartMatrixRow",
+      "ChartPoint"
+    ],
+    "source": "src/components/Chart.tsx",
+    "declaration": "// components/Chart.d.ts\n\nimport type { ChartProps } from \"./Chart.types\";\nexport type { ChartProps, ChartDatum, ChartMatrixRow, ChartPoint, } from \"./Chart.types\";\n/** Responsive, zero-based visualizations with an always-available semantic data alternative. */\nexport declare function Chart(props: ChartProps): import(\"react\").JSX.Element;\n\n// components/Chart.types.d.ts\n\nexport interface ChartDatum {\n    id: string;\n    label: string;\n    value: number;\n}\nexport interface ChartMatrixRow {\n    id: string;\n    label: string;\n    values: readonly number[];\n}\nexport interface ChartPoint {\n    id: string;\n    label: string;\n    x: number;\n    y: number;\n}\ninterface ChartBase {\n    label: string;\n    /** Animate visual values from zero on first data presentation. Reduced motion always wins. */\n    animated?: boolean;\n    /** Change this key to replay values without unmounting the chart, axes or data table. */\n    animationKey?: string | number;\n    description?: string;\n    className?: string;\n    /** The same data table is always available to assistive technology. */\n    showDataTable?: boolean;\n    dataTableLabel?: string;\n    emptyLabel?: string;\n    emptyDescription?: string;\n    formatValue?: (value: number) => string;\n    categoryLabel?: string;\n    valueLabel?: string;\n}\ninterface SeriesChart extends ChartBase {\n    type: \"line\" | \"area\" | \"column\" | \"histogram\" | \"horizontal-bar\" | \"funnel\";\n    data: readonly ChartDatum[];\n    /** Positive zero-based ceiling; must include every value. Auto-derived when omitted. */\n    max?: number;\n    note?: string;\n}\ninterface MetricChart extends ChartBase {\n    type: \"metric\";\n    value: number;\n    data: readonly ChartDatum[];\n    comparison?: string;\n    comparisonTone?: \"neutral\" | \"success\" | \"danger\";\n}\ninterface DonutChart extends ChartBase {\n    type: \"donut\";\n    /** At most six parts; zero-valued parts remain in the legend and data table. */\n    data: readonly ChartDatum[];\n    unit?: string;\n}\ninterface GoalChart extends ChartBase {\n    type: \"goal\";\n    value: number;\n    max: number;\n    target?: number;\n    summary?: string;\n}\ninterface StackedChart extends ChartBase {\n    type: \"stacked-bar\";\n    /** One to six series. Values are normalized per row; an all-zero row stays empty. */\n    series: readonly string[];\n    data: readonly ChartMatrixRow[];\n}\ninterface HeatmapChart extends ChartBase {\n    type: \"heatmap\";\n    columns: readonly string[];\n    data: readonly ChartMatrixRow[];\n    max?: number;\n    note?: string;\n}\ninterface ScatterChart extends ChartBase {\n    type: \"scatter\";\n    data: readonly ChartPoint[];\n    xLabel: string;\n    yLabel: string;\n    xMax?: number;\n    yMax?: number;\n}\n/** Count-based charts accept finite nonnegative values, with unique, nonempty data IDs. */\nexport type ChartProps = SeriesChart | MetricChart | DonutChart | GoalChart | StackedChart | HeatmapChart | ScatterChart;\nexport {};"
+  },
+  {
+    "name": "Checkbox",
+    "exports": [
+      "Checkbox",
+      "CheckboxProps"
+    ],
+    "source": "src/components/Checkbox.tsx",
+    "declaration": "// components/Checkbox.d.ts\n\nimport { type ComponentPropsWithRef, type ReactNode } from \"react\";\nexport interface CheckboxProps extends Omit<ComponentPropsWithRef<\"input\">, \"type\" | \"size\" | \"children\"> {\n    label: ReactNode;\n    /** Visual mixed state, independent of checked. Native form submission still uses checked. */\n    indeterminate?: boolean;\n    /** The approved Records table uses a 16 px control; other fields default to 20 px. */\n    size?: 16 | 20;\n}\n/**\n * Native form control with Solar Unread artwork layered above it.\n * The input retains focus, keyboard behavior and form semantics; artwork is decorative.\n */\nexport declare function Checkbox({ label, indeterminate, size, disabled, className, ref, ...props }: CheckboxProps): import(\"react\").JSX.Element;"
+  },
+  {
+    "name": "Dashboard",
+    "exports": [
+      "Dashboard",
+      "moveDashboardItem",
+      "restoreDashboardLayout",
+      "serializeDashboardLayout"
+    ],
+    "source": "src/components/Dashboard.tsx",
+    "declaration": "// components/Dashboard.d.ts\n\nimport type { DashboardProps } from \"./Dashboard.types\";\nexport type * from \"./Dashboard.types\";\nexport { moveDashboardItem, restoreDashboardLayout, serializeDashboardLayout, } from \"./internal/dashboard-layout\";\n/** Responsive layout without visual reordering: DOM, keyboard and reading order stay aligned. */\nexport declare function Dashboard({ widgets, value, renderWidget, children, className, }: DashboardProps): import(\"react\").JSX.Element;\n\n// components/Dashboard.types.d.ts\n\nimport type { ReactNode } from \"react\";\nexport type DashboardZone = \"summary\" | \"analysis\" | \"hidden\";\nexport type DashboardSize = \"S\" | \"M\" | \"L\";\nexport interface DashboardItem {\n    id: string;\n    zone: DashboardZone;\n    size: DashboardSize;\n}\n/** Array order is reading order within each zone. IDs must be stable across sessions. */\nexport type DashboardLayout = readonly DashboardItem[];\nexport interface DashboardWidgetDefinition {\n    id: string;\n    title: string;\n    kind: string;\n    defaultZone: Exclude<DashboardZone, \"hidden\">;\n    defaultSize: DashboardSize;\n    /** Restrict sizes when a visualization cannot remain readable in a small card. */\n    sizes: readonly DashboardSize[];\n}\nexport interface DashboardProps {\n    widgets: readonly DashboardWidgetDefinition[];\n    value: DashboardLayout;\n    renderWidget: (widget: DashboardWidgetDefinition, item: DashboardItem) => ReactNode;\n    /** Records or other fixed content remain outside customizable zones. */\n    children?: ReactNode;\n    className?: string;\n}\nexport interface DashboardEditorProps {\n    widgets: readonly DashboardWidgetDefinition[];\n    value: DashboardLayout;\n    /** Updates a draft. Saving, cancellation and persistence belong to the consumer. */\n    onChange: (layout: DashboardItem[]) => void;\n    /** Render actual widgets in their responsive grid. Omit for the compact zone-management view.\n     * Hidden widgets are restored through the consumer's catalog in this mode. */\n    renderWidget?: DashboardProps[\"renderWidget\"];\n    className?: string;\n}\n\n// components/internal/dashboard-layout.d.ts\n\nimport type { DashboardItem, DashboardLayout, DashboardWidgetDefinition, DashboardZone } from \"../Dashboard.types\";\nexport declare const dashboardZones: readonly [\"summary\", \"analysis\", \"hidden\"];\nexport declare const dashboardZoneNames: {\n    summary: string;\n    analysis: string;\n    hidden: string;\n};\n/** Reject programming errors; use restoreDashboardLayout for untrusted persisted data. */\nexport declare function validateDashboardLayout(widgets: readonly DashboardWidgetDefinition[], value: DashboardLayout): void;\n/** Move before a target or append to a zone. Other widgets retain their relative order. */\nexport declare function moveDashboardItem(value: DashboardLayout, id: string, zone: DashboardZone, beforeId?: string): DashboardItem[];\n/** Versioned, metadata-only persistence. Never serialize widget content or business data. */\nexport declare function serializeDashboardLayout(value: DashboardLayout): string;\n/** Reconcile old catalogs safely: discard removed/duplicate entries and append newly available widgets. */\nexport declare function restoreDashboardLayout(serialized: string | null, widgets: readonly DashboardWidgetDefinition[], defaults: DashboardLayout): DashboardItem[];"
+  },
+  {
+    "name": "Dashboard.types",
+    "exports": [
+      "DashboardProps",
+      "DashboardEditorProps",
+      "DashboardItem",
+      "DashboardLayout",
+      "DashboardSize",
+      "DashboardZone",
+      "DashboardWidgetDefinition"
+    ],
+    "source": "src/components/Dashboard.types.ts",
+    "declaration": "// components/Dashboard.types.d.ts\n\nimport type { ReactNode } from \"react\";\nexport type DashboardZone = \"summary\" | \"analysis\" | \"hidden\";\nexport type DashboardSize = \"S\" | \"M\" | \"L\";\nexport interface DashboardItem {\n    id: string;\n    zone: DashboardZone;\n    size: DashboardSize;\n}\n/** Array order is reading order within each zone. IDs must be stable across sessions. */\nexport type DashboardLayout = readonly DashboardItem[];\nexport interface DashboardWidgetDefinition {\n    id: string;\n    title: string;\n    kind: string;\n    defaultZone: Exclude<DashboardZone, \"hidden\">;\n    defaultSize: DashboardSize;\n    /** Restrict sizes when a visualization cannot remain readable in a small card. */\n    sizes: readonly DashboardSize[];\n}\nexport interface DashboardProps {\n    widgets: readonly DashboardWidgetDefinition[];\n    value: DashboardLayout;\n    renderWidget: (widget: DashboardWidgetDefinition, item: DashboardItem) => ReactNode;\n    /** Records or other fixed content remain outside customizable zones. */\n    children?: ReactNode;\n    className?: string;\n}\nexport interface DashboardEditorProps {\n    widgets: readonly DashboardWidgetDefinition[];\n    value: DashboardLayout;\n    /** Updates a draft. Saving, cancellation and persistence belong to the consumer. */\n    onChange: (layout: DashboardItem[]) => void;\n    /** Render actual widgets in their responsive grid. Omit for the compact zone-management view.\n     * Hidden widgets are restored through the consumer's catalog in this mode. */\n    renderWidget?: DashboardProps[\"renderWidget\"];\n    className?: string;\n}"
+  },
+  {
+    "name": "DashboardEditor",
+    "exports": [
+      "DashboardEditor"
+    ],
+    "source": "src/components/DashboardEditor.tsx",
+    "declaration": "// components/DashboardEditor.d.ts\n\nimport type { DashboardEditorProps } from \"./Dashboard.types\";\n/** Controlled draft editor. Pointer handles and explicit controls use the same move operation. */\nexport declare function DashboardEditor({ widgets, value, onChange, renderWidget, className, }: DashboardEditorProps): import(\"react\").JSX.Element;\n\n// components/Dashboard.types.d.ts\n\nimport type { ReactNode } from \"react\";\nexport type DashboardZone = \"summary\" | \"analysis\" | \"hidden\";\nexport type DashboardSize = \"S\" | \"M\" | \"L\";\nexport interface DashboardItem {\n    id: string;\n    zone: DashboardZone;\n    size: DashboardSize;\n}\n/** Array order is reading order within each zone. IDs must be stable across sessions. */\nexport type DashboardLayout = readonly DashboardItem[];\nexport interface DashboardWidgetDefinition {\n    id: string;\n    title: string;\n    kind: string;\n    defaultZone: Exclude<DashboardZone, \"hidden\">;\n    defaultSize: DashboardSize;\n    /** Restrict sizes when a visualization cannot remain readable in a small card. */\n    sizes: readonly DashboardSize[];\n}\nexport interface DashboardProps {\n    widgets: readonly DashboardWidgetDefinition[];\n    value: DashboardLayout;\n    renderWidget: (widget: DashboardWidgetDefinition, item: DashboardItem) => ReactNode;\n    /** Records or other fixed content remain outside customizable zones. */\n    children?: ReactNode;\n    className?: string;\n}\nexport interface DashboardEditorProps {\n    widgets: readonly DashboardWidgetDefinition[];\n    value: DashboardLayout;\n    /** Updates a draft. Saving, cancellation and persistence belong to the consumer. */\n    onChange: (layout: DashboardItem[]) => void;\n    /** Render actual widgets in their responsive grid. Omit for the compact zone-management view.\n     * Hidden widgets are restored through the consumer's catalog in this mode. */\n    renderWidget?: DashboardProps[\"renderWidget\"];\n    className?: string;\n}"
+  },
+  {
+    "name": "DataTable",
+    "exports": [
+      "DataTable",
+      "DataTableProps",
+      "DataTableColumn",
+      "DataTableSort"
+    ],
+    "source": "src/components/DataTable.tsx",
+    "declaration": "// components/DataTable.d.ts\n\nimport type { CSSProperties, ReactNode } from \"react\";\nimport { type PaginationProps } from \"./Pagination\";\nexport interface DataTableSort {\n    columnId: string;\n    direction: \"ascending\" | \"descending\";\n}\nexport interface DataTableColumn<T> {\n    id: string;\n    header: string;\n    cell: (row: T) => ReactNode;\n    /** Enables a sort request; the owner supplies the resulting row order. */\n    sortable?: boolean;\n    width?: CSSProperties[\"width\"];\n    minWidth?: CSSProperties[\"minWidth\"];\n    leftIcon?: (row: T) => ReactNode;\n    rightIcon?: (row: T) => ReactNode;\n}\nexport interface DataTableProps<T> {\n    label: string;\n    columns: readonly DataTableColumn<T>[];\n    /** Visible page only. Filtering, sorting and pagination belong to the data owner. */\n    rows: readonly T[];\n    getRowId: (row: T) => string;\n    getRowLabel: (row: T) => string;\n    /** Renders an independent trailing cell. Use tertiary IconButton controls with row-specific names. */\n    rowActions?: (row: T) => ReactNode;\n    /** Screen-reader-only column heading; no visible title is rendered. */\n    actionsLabel?: string;\n    selection?: {\n        selectedIds: readonly string[];\n        onSelectedIdsChange: (ids: string[]) => void;\n        isRowSelectable?: (row: T) => boolean;\n        selectPageLabel?: string;\n        getSelectionLabel?: (row: T) => string;\n    };\n    sort?: DataTableSort | null;\n    onSortChange?: (sort: DataTableSort) => void;\n    getSortLabel?: (column: DataTableColumn<T>) => string;\n    pagination?: Pick<PaginationProps, \"page\" | \"totalItems\" | \"pageSize\" | \"onPageChange\" | \"previousLabel\" | \"nextLabel\" | \"formatRange\" | \"getPageLabel\">;\n    loading?: boolean;\n    loadingLabel?: string;\n    error?: ReactNode;\n    emptyState?: ReactNode;\n    className?: string;\n}\n/** Controlled data presentation. Stable IDs preserve selection across pages and sorting. */\nexport declare function DataTable<T>({ label, columns, rows, getRowId, getRowLabel, rowActions, actionsLabel, selection, sort, onSortChange, getSortLabel, pagination, loading, loadingLabel, error, emptyState, className, }: DataTableProps<T>): import(\"react\").JSX.Element;\n\n// components/Pagination.d.ts\n\nimport type { ComponentPropsWithoutRef } from \"react\";\nexport interface PaginationProps extends Omit<ComponentPropsWithoutRef<\"nav\">, \"children\" | \"onChange\"> {\n    page: number;\n    totalItems: number;\n    pageSize: number;\n    onPageChange: (page: number) => void;\n    disabled?: boolean;\n    previousLabel?: string;\n    nextLabel?: string;\n    getPageLabel?: (page: number) => string;\n    formatRange?: (start: number, end: number, total: number) => string;\n}\n/** Controlled pagination. The parent loads/slices data; this component never changes the table. */\nexport declare function Pagination({ page, totalItems, pageSize, onPageChange, disabled, previousLabel, nextLabel, getPageLabel, formatRange, className, \"aria-label\": label, ...props }: PaginationProps): import(\"react\").JSX.Element;"
+  },
+  {
+    "name": "DateCalendar",
+    "exports": [
+      "DateCalendar",
+      "DateCalendarProps",
+      "DateRange"
+    ],
+    "source": "src/components/DateCalendar.tsx",
+    "declaration": "// components/DateCalendar.d.ts\n\nexport interface DateRange {\n    start: string;\n    end: string;\n}\nexport interface DateCalendarProps {\n    value?: string;\n    range?: DateRange;\n    mode?: \"single\" | \"range\";\n    onSelect?: (date: string) => void;\n    min?: string;\n    max?: string;\n    isDateUnavailable?: (date: string) => boolean;\n    defaultMonth?: string;\n    today?: string;\n    locale?: string;\n    autoFocus?: boolean;\n}\n/** Monday-first date grid. Focus and selection are independent; unavailable dates remain discoverable. */\nexport declare function DateCalendar({ value, range, mode, onSelect, min, max, isDateUnavailable, defaultMonth, today, locale, autoFocus, }: DateCalendarProps): import(\"react\").JSX.Element;"
+  },
+  {
+    "name": "DatePicker",
+    "exports": [
+      "DatePicker",
+      "DatePickerProps"
+    ],
+    "source": "src/components/DatePicker.tsx",
+    "declaration": "// components/DatePicker.d.ts\n\nimport { type DateRange } from \"./DateCalendar\";\nimport { type PickerFieldProps } from \"./internal/PickerField\";\ninterface DatePickerBase extends PickerFieldProps {\n    min?: string;\n    max?: string;\n    isDateUnavailable?: (date: string) => boolean;\n    defaultMonth?: string;\n    locale?: string;\n    applyLabel?: string;\n    clearLabel?: string;\n}\nexport type DatePickerProps = DatePickerBase & ({\n    mode?: \"single\";\n    value?: string;\n    defaultValue?: string;\n    onValueChange?: (value: string) => void;\n} | {\n    mode: \"range\";\n    value?: DateRange;\n    defaultValue?: DateRange;\n    onValueChange?: (value: DateRange) => void;\n});\n/** ISO date values are committed only by Apply. Range form values use start/end names. */\nexport declare function DatePicker(props: DatePickerProps): import(\"react\").JSX.Element;\nexport {};\n\n// components/DateCalendar.d.ts\n\nexport interface DateRange {\n    start: string;\n    end: string;\n}\nexport interface DateCalendarProps {\n    value?: string;\n    range?: DateRange;\n    mode?: \"single\" | \"range\";\n    onSelect?: (date: string) => void;\n    min?: string;\n    max?: string;\n    isDateUnavailable?: (date: string) => boolean;\n    defaultMonth?: string;\n    today?: string;\n    locale?: string;\n    autoFocus?: boolean;\n}\n/** Monday-first date grid. Focus and selection are independent; unavailable dates remain discoverable. */\nexport declare function DateCalendar({ value, range, mode, onSelect, min, max, isDateUnavailable, defaultMonth, today, locale, autoFocus, }: DateCalendarProps): import(\"react\").JSX.Element;\n\n// components/internal/PickerField.d.ts\n\nimport { type ReactNode, type RefObject, type ComponentPropsWithRef } from \"react\";\nimport { type FieldProps } from \"./Field\";\nexport interface PickerFieldProps extends FieldProps {\n    name?: string;\n    form?: string;\n    readOnly?: boolean;\n    placeholder?: string;\n    \"aria-describedby\"?: string;\n    /** Visible button ref and events for focus management and touched-state integration. */\n    triggerProps?: Omit<ComponentPropsWithRef<\"button\">, \"children\" | \"id\" | \"disabled\" | \"type\" | \"role\">;\n}\n/** A button provides the visible control; the native bridge preserves submission and required validation. */\nexport declare function PickerField({ displayValue, serializedValue, validationMessage, icon, open, onOpenChange, inputRef, children, placeholder, name, form, readOnly, disabled, required, triggerProps, \"aria-describedby\": describedBy, ...field }: PickerFieldProps & {\n    displayValue: string;\n    serializedValue: string;\n    validationMessage?: string;\n    icon: string;\n    open: boolean;\n    onOpenChange: (open: boolean) => void;\n    inputRef: RefObject<HTMLInputElement | null>;\n    children: ReactNode;\n}): import(\"react\").JSX.Element;\n\n// components/internal/Field.d.ts\n\nimport { type ReactNode } from \"react\";\nexport interface FieldProps {\n    label: string;\n    hideLabel?: boolean;\n    helperText?: string;\n    error?: string;\n    id?: string;\n    required?: boolean;\n    disabled?: boolean;\n    className?: string;\n}\ninterface FieldControl {\n    id: string;\n    \"aria-describedby\": string | undefined;\n}\n/** Shared label/message wiring; each control retains its own native semantics. */\nexport declare function Field({ label, hideLabel, helperText, error, id, required, disabled, className, describedBy, children, labelTone, }: FieldProps & {\n    describedBy?: string;\n    labelTone?: \"primary\" | \"body\";\n    children: (control: FieldControl) => ReactNode;\n}): import(\"react\").JSX.Element;\nexport {};"
+  },
+  {
+    "name": "Dialog",
+    "exports": [
+      "Dialog",
+      "DialogTrigger",
+      "DialogClose",
+      "DialogContent",
+      "DialogProps",
+      "DialogContentProps"
+    ],
+    "source": "src/components/Dialog.tsx",
+    "declaration": "// components/Dialog.d.ts\n\nimport type { ComponentPropsWithRef, ComponentPropsWithoutRef, ReactNode } from \"react\";\nimport * as Primitive from \"@radix-ui/react-dialog\";\nexport type DialogProps = ComponentPropsWithoutRef<typeof Primitive.Root>;\nexport declare const Dialog: import(\"react\").FC<Primitive.DialogProps>;\nexport declare const DialogTrigger: import(\"react\").ForwardRefExoticComponent<Primitive.DialogTriggerProps & import(\"react\").RefAttributes<HTMLButtonElement>>;\nexport declare const DialogClose: import(\"react\").ForwardRefExoticComponent<Primitive.DialogCloseProps & import(\"react\").RefAttributes<HTMLButtonElement>>;\nexport interface DialogContentProps extends Omit<ComponentPropsWithRef<typeof Primitive.Content>, \"title\" | \"asChild\"> {\n    title: string;\n    description?: string;\n    icon?: ReactNode;\n    footer?: ReactNode;\n    closeLabel?: string;\n    showClose?: boolean;\n    variant?: \"standard\" | \"featured\";\n}\n/** Modal surface with named content, focus containment and restoration supplied by Radix. */\nexport declare function DialogContent({ title, description, icon, footer, closeLabel, showClose, variant, children, className, ...props }: DialogContentProps): import(\"react\").JSX.Element;"
+  },
+  {
+    "name": "Drawer",
+    "exports": [
+      "Drawer",
+      "DrawerTrigger",
+      "DrawerClose",
+      "DrawerContent",
+      "DrawerProps",
+      "DrawerContentProps"
+    ],
+    "source": "src/components/Drawer.tsx",
+    "declaration": "// components/Drawer.d.ts\n\nimport type { ComponentPropsWithRef, ComponentPropsWithoutRef, ReactNode } from \"react\";\nimport * as Primitive from \"@radix-ui/react-dialog\";\nexport type DrawerProps = ComponentPropsWithoutRef<typeof Primitive.Root>;\nexport declare const Drawer: import(\"react\").FC<Primitive.DialogProps>;\nexport declare const DrawerTrigger: import(\"react\").ForwardRefExoticComponent<Primitive.DialogTriggerProps & import(\"react\").RefAttributes<HTMLButtonElement>>;\nexport declare const DrawerClose: import(\"react\").ForwardRefExoticComponent<Primitive.DialogCloseProps & import(\"react\").RefAttributes<HTMLButtonElement>>;\nexport interface DrawerContentProps extends Omit<ComponentPropsWithRef<typeof Primitive.Content>, \"title\" | \"asChild\"> {\n    title: string;\n    description?: string;\n    footer?: ReactNode;\n    /** Optional navigation identity, shown above the title alongside the close action. */\n    brand?: ReactNode;\n    /** Decorative close artwork; closeLabel supplies the accessible action name. */\n    closeIcon?: ReactNode;\n    closeLabel?: string;\n    side?: \"left\" | \"right\";\n    size?: \"content\" | \"navigation\";\n}\n/** Modal side panel. Internal scrolling preserves the reachable heading and close action. */\nexport declare function DrawerContent({ title, description, footer, brand, closeIcon: closeArtwork, closeLabel, side, size, children, className, ...props }: DrawerContentProps): import(\"react\").JSX.Element;"
+  },
+  {
+    "name": "DropdownMenu",
+    "exports": [
+      "DropdownMenu",
+      "DropdownMenuTrigger",
+      "DropdownMenuContent",
+      "DropdownMenuItem",
+      "DropdownMenuProps",
+      "DropdownMenuContentProps",
+      "DropdownMenuItemProps"
+    ],
+    "source": "src/components/DropdownMenu.tsx",
+    "declaration": "// components/DropdownMenu.d.ts\n\nimport type { ComponentPropsWithRef, ComponentPropsWithoutRef, ReactNode } from \"react\";\nimport * as Primitive from \"@radix-ui/react-dropdown-menu\";\nexport type DropdownMenuProps = ComponentPropsWithoutRef<typeof Primitive.Root>;\nexport type DropdownMenuContentProps = ComponentPropsWithRef<typeof Primitive.Content>;\nexport interface DropdownMenuItemProps extends ComponentPropsWithRef<typeof Primitive.Item> {\n    danger?: boolean;\n    leftIcon?: ReactNode;\n    rightIcon?: ReactNode;\n}\nexport declare const DropdownMenu: import(\"react\").FC<Primitive.DropdownMenuProps>;\nexport declare const DropdownMenuTrigger: import(\"react\").ForwardRefExoticComponent<Primitive.DropdownMenuTriggerProps & import(\"react\").RefAttributes<HTMLButtonElement>>;\n/** Actions use menu semantics; selecting field values remains the Select component's responsibility. */\nexport declare function DropdownMenuContent({ className, sideOffset, collisionPadding, ...props }: DropdownMenuContentProps): import(\"react\").JSX.Element;\n/** With asChild, supply one control that forwards its props and ref; icons remain decorative. */\nexport declare function DropdownMenuItem({ asChild, danger, leftIcon, rightIcon, children, className, ...props }: DropdownMenuItemProps): import(\"react\").JSX.Element;"
+  },
+  {
+    "name": "EmptyState",
+    "exports": [
+      "EmptyState",
+      "EmptyStateProps"
+    ],
+    "source": "src/components/EmptyState.tsx",
+    "declaration": "// components/EmptyState.d.ts\n\nimport type { ComponentPropsWithoutRef, ReactNode } from \"react\";\nimport { type EmptyStateIllustrationName } from \"./EmptyStateIllustration\";\nexport interface EmptyStateProps extends Omit<ComponentPropsWithoutRef<\"div\">, \"title\"> {\n    title: string;\n    description: ReactNode;\n    action?: ReactNode;\n    icon?: ReactNode;\n    /** Subtle presentation shares the surrounding surface without a nested card. */\n    variant?: \"card\" | \"subtle\";\n    /** A full illustration takes precedence over the small icon slot. */\n    illustration?: EmptyStateIllustrationName;\n    headingLevel?: 2 | 3 | 4;\n}\n/** Empty and no-results states share a surface; applications supply accurate wording and recovery. */\nexport declare function EmptyState({ title, description, action, icon, variant, illustration, headingLevel, className, ...props }: EmptyStateProps): import(\"react\").JSX.Element;\n\n// components/EmptyStateIllustration.d.ts\n\ndeclare const illustrations: {\n    readonly error: string;\n    readonly search: string;\n    readonly wallet: string;\n    readonly \"card-error\": string;\n    readonly files: string;\n    readonly chat: string;\n    readonly products: string;\n    readonly purchases: string;\n    readonly content: string;\n    readonly saved: string;\n    readonly connection: string;\n    readonly \"payment-success\": string;\n    readonly \"payment-error\": string;\n};\nexport type EmptyStateIllustrationName = keyof typeof illustrations;\nexport interface EmptyStateIllustrationProps {\n    name: EmptyStateIllustrationName;\n    className?: string;\n}\n/** Decorative Figma artwork. Supply its meaning through the surrounding heading and copy. */\nexport declare function EmptyStateIllustration({ name, className, }: EmptyStateIllustrationProps): import(\"react\").JSX.Element;\nexport {};"
+  },
+  {
+    "name": "EmptyStateIllustration",
+    "exports": [
+      "EmptyStateIllustration",
+      "EmptyStateIllustrationName",
+      "EmptyStateIllustrationProps"
+    ],
+    "source": "src/components/EmptyStateIllustration.tsx",
+    "declaration": "// components/EmptyStateIllustration.d.ts\n\ndeclare const illustrations: {\n    readonly error: string;\n    readonly search: string;\n    readonly wallet: string;\n    readonly \"card-error\": string;\n    readonly files: string;\n    readonly chat: string;\n    readonly products: string;\n    readonly purchases: string;\n    readonly content: string;\n    readonly saved: string;\n    readonly connection: string;\n    readonly \"payment-success\": string;\n    readonly \"payment-error\": string;\n};\nexport type EmptyStateIllustrationName = keyof typeof illustrations;\nexport interface EmptyStateIllustrationProps {\n    name: EmptyStateIllustrationName;\n    className?: string;\n}\n/** Decorative Figma artwork. Supply its meaning through the surrounding heading and copy. */\nexport declare function EmptyStateIllustration({ name, className, }: EmptyStateIllustrationProps): import(\"react\").JSX.Element;\nexport {};"
+  },
+  {
+    "name": "FileUpload",
+    "exports": [
+      "FileUpload",
+      "FileUploadProps",
+      "FileRejection",
+      "FileRejectionCode"
+    ],
+    "source": "src/components/FileUpload.tsx",
+    "declaration": "// components/FileUpload.d.ts\n\nimport { type ComponentPropsWithRef, type Ref } from \"react\";\nimport { type FileRejection } from \"./internal/file-selection\";\nexport type { FileRejection, FileRejectionCode, } from \"./internal/file-selection\";\nexport interface FileUploadProps extends Omit<ComponentPropsWithRef<\"div\">, \"children\" | \"onDrop\" | \"onDragEnter\" | \"onDragLeave\" | \"onDragOver\"> {\n    label: string;\n    helperText?: string;\n    error?: string;\n    accept?: string;\n    multiple?: boolean;\n    /** Maximum bytes per file. Omit for no client-side size limit. */\n    maxSize?: number;\n    /** Maximum accepted files in this selection, not in an application-owned queue. */\n    maxFiles?: number;\n    disabled?: boolean;\n    browseLabel?: string;\n    dropLabel?: string;\n    disabledLabel?: string;\n    errorLabel?: string;\n    onFilesSelect: (files: File[]) => void;\n    onReject?: (rejections: FileRejection[]) => void;\n    rejectionMessage?: (rejection: FileRejection) => string;\n    inputRef?: Ref<HTMLInputElement>;\n    triggerProps?: Omit<ComponentPropsWithRef<\"button\">, \"children\" | \"type\" | \"disabled\">;\n}\n/**\n * Selection only: accepted File objects are delivered to the application, never uploaded here.\n * The native picker resets after selection so the same file can be retried. Submit files through\n * application-owned FormData; this control deliberately does not serialize a form field.\n */\nexport declare function FileUpload({ label, helperText, error, accept, multiple, maxSize, maxFiles, disabled, browseLabel, dropLabel, disabledLabel, errorLabel, onFilesSelect, onReject, rejectionMessage, inputRef, triggerProps, className, ...props }: FileUploadProps): import(\"react\").JSX.Element;\n\n// components/internal/file-selection.d.ts\n\nexport type FileRejectionCode = \"type\" | \"size\" | \"count\";\nexport interface FileRejection {\n    file: File;\n    code: FileRejectionCode;\n}\n/** Browser accept rules are usability filters; a server must validate uploaded content independently. */\nexport declare function selectFiles(files: readonly File[], accept: string, maxBytes: number, maxFiles: number): {\n    accepted: File[];\n    rejected: FileRejection[];\n};"
+  },
+  {
+    "name": "FileUploadItem",
+    "exports": [
+      "FileUploadItem",
+      "FileUploadItemProps",
+      "FileUploadStatus"
+    ],
+    "source": "src/components/FileUploadItem.tsx",
+    "declaration": "// components/FileUploadItem.d.ts\n\nimport type { ComponentPropsWithRef } from \"react\";\nexport type FileUploadStatus = \"queued\" | \"uploading\" | \"success\" | \"error\" | \"cancelled\";\nexport interface FileUploadItemProps extends Omit<ComponentPropsWithRef<\"div\">, \"children\"> {\n    name: string;\n    detail?: string;\n    status: FileUploadStatus;\n    /** Omit while uploading when the transport cannot measure progress. 100 is not server success. */\n    progress?: number;\n    statusLabel?: string;\n    error?: string;\n    disabled?: boolean;\n    onCancel?: () => void;\n    onRetry?: () => void;\n    onRemove?: () => void;\n    cancelLabel?: string;\n    retryLabel?: string;\n    removeLabel?: string;\n    progressLabel?: string;\n}\n/** A controlled transfer row. Status changes and cancellation are owned by the application. */\nexport declare function FileUploadItem({ name, detail, status, progress, statusLabel, error, disabled, onCancel, onRetry, onRemove, cancelLabel, retryLabel, removeLabel, progressLabel, className, ...props }: FileUploadItemProps): import(\"react\").JSX.Element;"
+  },
+  {
+    "name": "IconButton",
+    "exports": [
+      "IconButton",
+      "IconButtonProps"
+    ],
+    "source": "src/components/IconButton.tsx",
+    "declaration": "// components/IconButton.d.ts\n\nimport type { ReactNode } from \"react\";\nimport { type ButtonProps } from \"./Button\";\nexport interface IconButtonProps extends Omit<ButtonProps, \"children\" | \"iconOnly\" | \"leftIcon\" | \"rightIcon\" | \"aria-label\"> {\n    /** Describes the action, rather than the icon's appearance. Localize at the call site. */\n    \"aria-label\": string;\n    /** A decorative Solar Bold icon; do not nest interactive content. */\n    icon: ReactNode;\n}\n/** Square action control sharing Button's native semantics, states and motion policy. */\nexport declare function IconButton({ icon, size, variant, className, ...props }: IconButtonProps): import(\"react\").JSX.Element;\n\n// components/Button.d.ts\n\nimport type { ComponentPropsWithRef, ReactNode } from \"react\";\nexport interface ButtonProps extends ComponentPropsWithRef<\"button\"> {\n    variant?: \"primary\" | \"secondary\" | \"tertiary\" | \"danger\";\n    size?: \"sm\" | \"md\" | \"lg\";\n    /** Uses compact padding for a decorative icon child. Supply aria-label for its action. */\n    iconOnly?: boolean;\n    /** Prevents activation and exposes aria-busy while an action is pending. */\n    loading?: boolean;\n    /** Replaces the visible and accessible label while loading; localize at the call site. */\n    loadingLabel?: string;\n    /** Decorative content only. The button label supplies its accessible name. */\n    leftIcon?: ReactNode;\n    /** Decorative content only; do not nest another interactive control here. */\n    rightIcon?: ReactNode;\n}\n/**\n * Native action button. Defaults to type=\"button\" to avoid accidental form submission.\n * Minimum heights preserve the Figma sizes while allowing enlarged text to grow.\n */\nexport declare function Button({ variant, size, iconOnly, loading, loadingLabel, leftIcon, rightIcon, children, disabled, type, className, ...props }: ButtonProps): import(\"react\").JSX.Element;"
+  },
+  {
+    "name": "Input",
+    "exports": [
+      "Input",
+      "InputProps"
+    ],
+    "source": "src/components/Input.tsx",
+    "declaration": "// components/Input.d.ts\n\nimport type { ComponentPropsWithRef, ReactNode } from \"react\";\nexport interface InputProps extends Omit<ComponentPropsWithRef<\"input\">, \"size\"> {\n    label: string;\n    /** Visually hides the label while keeping the input programmatically named. */\n    hideLabel?: boolean;\n    helperText?: string;\n    error?: string;\n    size?: \"compact\" | \"standard\";\n    /** Decorative slots must not contain focusable controls. */\n    leftIcon?: ReactNode;\n    rightIcon?: ReactNode;\n}\n/** Labeled native input; className styles the wrapper and ref reaches the input. */\nexport declare function Input(props: InputProps): import(\"react\").JSX.Element;\nexport declare function InputField({ label, hideLabel, helperText, error, size, leftIcon, rightIcon, id, required, disabled, readOnly, className, trailingAction, \"aria-describedby\": describedBy, ...props }: InputProps & {\n    trailingAction?: ReactNode;\n}): import(\"react\").JSX.Element;"
+  },
+  {
+    "name": "Link",
+    "exports": [
+      "Link",
+      "LinkProps"
+    ],
+    "source": "src/components/Link.tsx",
+    "declaration": "// components/Link.d.ts\n\nimport type { ComponentPropsWithRef } from \"react\";\nexport interface LinkProps extends ComponentPropsWithRef<\"a\"> {\n    /** Removes the destination and activation while preserving the unavailable link label. */\n    disabled?: boolean;\n}\n/** A real navigation link; routers can intercept its native click without losing anchor semantics. */\nexport declare function Link({ disabled, href, onClick, className, tabIndex, ...props }: LinkProps): import(\"react\").JSX.Element;"
+  },
+  {
+    "name": "Navbar",
+    "exports": [
+      "Navbar",
+      "NavbarSearch",
+      "NavbarProps",
+      "NavbarSearchProps"
+    ],
+    "source": "src/components/Navbar.tsx",
+    "declaration": "// components/Navbar.d.ts\n\nimport type { ComponentPropsWithRef, ComponentPropsWithoutRef, ReactNode } from \"react\";\nimport { type NavigationItemProps } from \"./NavigationItem\";\nexport interface NavbarProps extends Omit<ComponentPropsWithoutRef<\"div\">, \"children\"> {\n    leading: ReactNode;\n    search?: ReactNode;\n    actions?: ReactNode;\n    items: Omit<NavigationItemProps, \"layout\">[];\n    navigationLabel?: string;\n    layout?: \"auto\" | \"desktop\" | \"mobile\";\n}\n/** Desktop toolbar and mobile navigation. The consuming shell owns fixed positioning and routes. */\nexport declare function Navbar({ leading, search, actions, items, navigationLabel, layout, className, ...props }: NavbarProps): import(\"react\").JSX.Element;\nexport interface NavbarSearchProps extends Omit<ComponentPropsWithRef<\"input\">, \"type\" | \"size\"> {\n    label: string;\n}\n/** Search presentation only. Submit, shortcuts and result handling belong to the consuming form. */\nexport declare function NavbarSearch({ label, className, ...props }: NavbarSearchProps): import(\"react\").JSX.Element;\n\n// components/NavigationItem.d.ts\n\nimport type { ComponentPropsWithRef, ReactNode } from \"react\";\nexport interface NavigationItemProps extends Omit<ComponentPropsWithRef<\"a\">, \"children\"> {\n    label: string;\n    /** Supply the approved Bold Duotone icon; activeIcon supplies its Bold counterpart. */\n    icon: ReactNode;\n    activeIcon: ReactNode;\n    active?: boolean;\n    layout?: \"expanded\" | \"compact\" | \"mobile\";\n}\n/** Persistent route selection uses aria-current, independently of press and keyboard focus. */\nexport declare function NavigationItem({ label, icon, activeIcon, active, layout, className, ...props }: NavigationItemProps): import(\"react\").JSX.Element;"
+  },
+  {
+    "name": "NavigationItem",
+    "exports": [
+      "NavigationItem",
+      "NavigationItemProps"
+    ],
+    "source": "src/components/NavigationItem.tsx",
+    "declaration": "// components/NavigationItem.d.ts\n\nimport type { ComponentPropsWithRef, ReactNode } from \"react\";\nexport interface NavigationItemProps extends Omit<ComponentPropsWithRef<\"a\">, \"children\"> {\n    label: string;\n    /** Supply the approved Bold Duotone icon; activeIcon supplies its Bold counterpart. */\n    icon: ReactNode;\n    activeIcon: ReactNode;\n    active?: boolean;\n    layout?: \"expanded\" | \"compact\" | \"mobile\";\n}\n/** Persistent route selection uses aria-current, independently of press and keyboard focus. */\nexport declare function NavigationItem({ label, icon, activeIcon, active, layout, className, ...props }: NavigationItemProps): import(\"react\").JSX.Element;"
+  },
+  {
+    "name": "OTPInput",
+    "exports": [
+      "OTPInput",
+      "OTPInputProps"
+    ],
+    "source": "src/components/OTPInput.tsx",
+    "declaration": "// components/OTPInput.d.ts\n\nimport { type ComponentPropsWithRef } from \"react\";\nimport { type FieldProps } from \"./internal/Field\";\nexport interface OTPInputProps extends Omit<ComponentPropsWithRef<\"input\">, \"type\" | \"size\" | \"children\" | \"value\" | \"defaultValue\" | \"onChange\" | \"maxLength\" | \"minLength\" | \"pattern\" | \"placeholder\">, FieldProps {\n    /** Six ASCII digits at most. Keep this a string to preserve leading zeros. */\n    value?: string;\n    defaultValue?: string;\n    onValueChange?: (value: string) => void;\n}\n/**\n * One native input, six decorative cells: a single tab stop and one submitted value.\n * Native selection/deletion stays intact. Completing the code never submits a form.\n */\nexport declare function OTPInput({ label, hideLabel, helperText, error, id, required, disabled, readOnly, className, ref, value, defaultValue, onValueChange, onPaste, onSelect, onClick, onFocus, autoComplete, inputMode, \"aria-describedby\": describedBy, ...props }: OTPInputProps): import(\"react\").JSX.Element;\n\n// components/internal/Field.d.ts\n\nimport { type ReactNode } from \"react\";\nexport interface FieldProps {\n    label: string;\n    hideLabel?: boolean;\n    helperText?: string;\n    error?: string;\n    id?: string;\n    required?: boolean;\n    disabled?: boolean;\n    className?: string;\n}\ninterface FieldControl {\n    id: string;\n    \"aria-describedby\": string | undefined;\n}\n/** Shared label/message wiring; each control retains its own native semantics. */\nexport declare function Field({ label, hideLabel, helperText, error, id, required, disabled, className, describedBy, children, labelTone, }: FieldProps & {\n    describedBy?: string;\n    labelTone?: \"primary\" | \"body\";\n    children: (control: FieldControl) => ReactNode;\n}): import(\"react\").JSX.Element;\nexport {};"
+  },
+  {
+    "name": "Pagination",
+    "exports": [
+      "Pagination",
+      "PaginationProps"
+    ],
+    "source": "src/components/Pagination.tsx",
+    "declaration": "// components/Pagination.d.ts\n\nimport type { ComponentPropsWithoutRef } from \"react\";\nexport interface PaginationProps extends Omit<ComponentPropsWithoutRef<\"nav\">, \"children\" | \"onChange\"> {\n    page: number;\n    totalItems: number;\n    pageSize: number;\n    onPageChange: (page: number) => void;\n    disabled?: boolean;\n    previousLabel?: string;\n    nextLabel?: string;\n    getPageLabel?: (page: number) => string;\n    formatRange?: (start: number, end: number, total: number) => string;\n}\n/** Controlled pagination. The parent loads/slices data; this component never changes the table. */\nexport declare function Pagination({ page, totalItems, pageSize, onPageChange, disabled, previousLabel, nextLabel, getPageLabel, formatRange, className, \"aria-label\": label, ...props }: PaginationProps): import(\"react\").JSX.Element;"
+  },
+  {
+    "name": "PasswordInput",
+    "exports": [
+      "PasswordInput",
+      "PasswordInputProps"
+    ],
+    "source": "src/components/PasswordInput.tsx",
+    "declaration": "// components/PasswordInput.d.ts\n\nimport { type ReactNode } from \"react\";\nimport { type InputProps } from \"./Input\";\nexport interface PasswordInputProps extends Omit<InputProps, \"type\"> {\n    showPasswordLabel?: string;\n    hidePasswordLabel?: string;\n    /** Optional decorative artwork for the visibility action; labels always describe its behavior. */\n    visibilityIcon?: ReactNode;\n}\n/** Password value stays in the native input; visibility changes only its type. */\nexport declare function PasswordInput({ ref, id, disabled, showPasswordLabel, hidePasswordLabel, visibilityIcon, ...props }: PasswordInputProps): import(\"react\").JSX.Element;\n\n// components/Input.d.ts\n\nimport type { ComponentPropsWithRef, ReactNode } from \"react\";\nexport interface InputProps extends Omit<ComponentPropsWithRef<\"input\">, \"size\"> {\n    label: string;\n    /** Visually hides the label while keeping the input programmatically named. */\n    hideLabel?: boolean;\n    helperText?: string;\n    error?: string;\n    size?: \"compact\" | \"standard\";\n    /** Decorative slots must not contain focusable controls. */\n    leftIcon?: ReactNode;\n    rightIcon?: ReactNode;\n}\n/** Labeled native input; className styles the wrapper and ref reaches the input. */\nexport declare function Input(props: InputProps): import(\"react\").JSX.Element;\nexport declare function InputField({ label, hideLabel, helperText, error, size, leftIcon, rightIcon, id, required, disabled, readOnly, className, trailingAction, \"aria-describedby\": describedBy, ...props }: InputProps & {\n    trailingAction?: ReactNode;\n}): import(\"react\").JSX.Element;"
+  },
+  {
+    "name": "PasswordRecoveryForm",
+    "exports": [
+      "PasswordRecoveryForm"
+    ],
+    "source": "src/components/PasswordRecoveryForm.tsx",
+    "declaration": "// components/PasswordRecoveryForm.d.ts\n\nimport type { PasswordRecoveryFormProps } from \"./Auth.types\";\n/** Requests recovery without revealing whether an account exists. Navigation belongs to the application. */\nexport declare function PasswordRecoveryForm({ onRequestReset, defaultEmail, error, ...navigation }: PasswordRecoveryFormProps): import(\"react\").JSX.Element;\n\n// components/Auth.types.d.ts\n\nimport type { LinkProps } from \"./Link\";\nexport interface AuthRequestContext {\n    signal: AbortSignal;\n}\nexport interface AuthNavigationProps {\n    signInHref: string;\n    onBackToSignIn?: LinkProps[\"onClick\"];\n}\nexport interface PasswordRecoveryFormProps extends AuthNavigationProps {\n    onRequestReset: (email: string, context: AuthRequestContext) => void | Promise<void>;\n    defaultEmail?: string;\n    /** Safe application-owned feedback, never raw provider exceptions. */\n    error?: string;\n}\nexport interface RecoveryEmailSentProps extends AuthNavigationProps {\n    email: string;\n    onResend: (context: AuthRequestContext) => void | Promise<void>;\n    changeEmailHref: string;\n    onChangeEmail?: LinkProps[\"onClick\"];\n    /** UI delay after entering the screen and after a successful resend. Server throttling remains authoritative. */\n    resendCooldownSeconds?: number;\n    error?: string;\n}\nexport interface ResetPasswordFormProps extends AuthNavigationProps {\n    onResetPassword: (password: string, context: AuthRequestContext) => void | Promise<void>;\n    /** The application validates the reset token; the kit never reads or stores it. */\n    tokenStatus?: \"valid\" | \"expired\" | \"invalid\";\n    requestResetHref: string;\n    onRequestNewLink?: LinkProps[\"onClick\"];\n    minimumLength?: number;\n    /** Additional client policy; return safe error copy. The server still validates the password. */\n    validatePassword?: (password: string) => string | undefined;\n    error?: string;\n}\nexport interface TwoStepVerificationFormProps extends AuthNavigationProps {\n    /** The application owns the challenge identity, expiry and success navigation. */\n    onVerify: (code: string, context: AuthRequestContext) => void | Promise<void>;\n    error?: string;\n}\n\n// components/Link.d.ts\n\nimport type { ComponentPropsWithRef } from \"react\";\nexport interface LinkProps extends ComponentPropsWithRef<\"a\"> {\n    /** Removes the destination and activation while preserving the unavailable link label. */\n    disabled?: boolean;\n}\n/** A real navigation link; routers can intercept its native click without losing anchor semantics. */\nexport declare function Link({ disabled, href, onClick, className, tabIndex, ...props }: LinkProps): import(\"react\").JSX.Element;"
+  },
+  {
+    "name": "Popover",
+    "exports": [
+      "Popover",
+      "PopoverTrigger",
+      "PopoverClose",
+      "PopoverContent",
+      "PopoverProps",
+      "PopoverContentProps"
+    ],
+    "source": "src/components/Popover.tsx",
+    "declaration": "// components/Popover.d.ts\n\nimport type { ComponentPropsWithRef, ComponentPropsWithoutRef } from \"react\";\nimport * as Primitive from \"@radix-ui/react-popover\";\nexport type PopoverProps = ComponentPropsWithoutRef<typeof Primitive.Root>;\nexport type PopoverContentProps = ComponentPropsWithRef<typeof Primitive.Content>;\nexport declare const Popover: import(\"react\").FC<Primitive.PopoverProps>;\nexport declare const PopoverTrigger: import(\"react\").ForwardRefExoticComponent<Primitive.PopoverTriggerProps & import(\"react\").RefAttributes<HTMLButtonElement>>;\nexport declare const PopoverClose: import(\"react\").ForwardRefExoticComponent<Primitive.PopoverCloseProps & import(\"react\").RefAttributes<HTMLButtonElement>>;\n/** Interactive contextual content: name the dialog and keep actions reachable by keyboard/touch. */\nexport declare function PopoverContent({ className, sideOffset, collisionPadding, ...props }: PopoverContentProps): import(\"react\").JSX.Element;"
+  },
+  {
+    "name": "Progress",
+    "exports": [
+      "Progress",
+      "ProgressProps"
+    ],
+    "source": "src/components/Progress.tsx",
+    "declaration": "// components/Progress.d.ts\n\nimport { type ComponentPropsWithoutRef } from \"react\";\nexport interface ProgressProps extends Omit<ComponentPropsWithoutRef<\"div\">, \"children\"> {\n    label: string;\n    /** Omit value for indeterminate work. Data proportions are not rounded to the spacing grid. */\n    value?: number;\n    max?: number;\n    error?: boolean;\n    valueLabel?: string;\n    workingLabel?: string;\n}\n/** Values update immediately. The track reveals once; indeterminate decoration loops separately. */\nexport declare function Progress({ label, value, max, error, valueLabel, workingLabel, className, ...props }: ProgressProps): import(\"react\").JSX.Element;"
+  },
+  {
+    "name": "Radio",
+    "exports": [
+      "Radio",
+      "RadioProps"
+    ],
+    "source": "src/components/Radio.tsx",
+    "declaration": "// components/Radio.d.ts\n\nimport type { ComponentPropsWithRef, ReactNode } from \"react\";\nexport interface RadioProps extends Omit<ComponentPropsWithRef<\"input\">, \"type\" | \"size\" | \"children\"> {\n    label: ReactNode;\n    hideLabel?: boolean;\n}\n/** Use a shared name within a fieldset/legend for native exclusive selection and arrow keys. */\nexport declare function Radio({ label, hideLabel, disabled, className, ...props }: RadioProps): import(\"react\").JSX.Element;"
+  },
+  {
+    "name": "RecoveryEmailSent",
+    "exports": [
+      "RecoveryEmailSent"
+    ],
+    "source": "src/components/RecoveryEmailSent.tsx",
+    "declaration": "// components/RecoveryEmailSent.d.ts\n\nimport type { RecoveryEmailSentProps } from \"./Auth.types\";\n/** Inbox guidance and resend action. The timer is a UI affordance, never a rate-limit boundary. */\nexport declare function RecoveryEmailSent(props: RecoveryEmailSentProps): import(\"react\").JSX.Element;\n\n// components/Auth.types.d.ts\n\nimport type { LinkProps } from \"./Link\";\nexport interface AuthRequestContext {\n    signal: AbortSignal;\n}\nexport interface AuthNavigationProps {\n    signInHref: string;\n    onBackToSignIn?: LinkProps[\"onClick\"];\n}\nexport interface PasswordRecoveryFormProps extends AuthNavigationProps {\n    onRequestReset: (email: string, context: AuthRequestContext) => void | Promise<void>;\n    defaultEmail?: string;\n    /** Safe application-owned feedback, never raw provider exceptions. */\n    error?: string;\n}\nexport interface RecoveryEmailSentProps extends AuthNavigationProps {\n    email: string;\n    onResend: (context: AuthRequestContext) => void | Promise<void>;\n    changeEmailHref: string;\n    onChangeEmail?: LinkProps[\"onClick\"];\n    /** UI delay after entering the screen and after a successful resend. Server throttling remains authoritative. */\n    resendCooldownSeconds?: number;\n    error?: string;\n}\nexport interface ResetPasswordFormProps extends AuthNavigationProps {\n    onResetPassword: (password: string, context: AuthRequestContext) => void | Promise<void>;\n    /** The application validates the reset token; the kit never reads or stores it. */\n    tokenStatus?: \"valid\" | \"expired\" | \"invalid\";\n    requestResetHref: string;\n    onRequestNewLink?: LinkProps[\"onClick\"];\n    minimumLength?: number;\n    /** Additional client policy; return safe error copy. The server still validates the password. */\n    validatePassword?: (password: string) => string | undefined;\n    error?: string;\n}\nexport interface TwoStepVerificationFormProps extends AuthNavigationProps {\n    /** The application owns the challenge identity, expiry and success navigation. */\n    onVerify: (code: string, context: AuthRequestContext) => void | Promise<void>;\n    error?: string;\n}\n\n// components/Link.d.ts\n\nimport type { ComponentPropsWithRef } from \"react\";\nexport interface LinkProps extends ComponentPropsWithRef<\"a\"> {\n    /** Removes the destination and activation while preserving the unavailable link label. */\n    disabled?: boolean;\n}\n/** A real navigation link; routers can intercept its native click without losing anchor semantics. */\nexport declare function Link({ disabled, href, onClick, className, tabIndex, ...props }: LinkProps): import(\"react\").JSX.Element;"
+  },
+  {
+    "name": "ResetPasswordForm",
+    "exports": [
+      "ResetPasswordForm"
+    ],
+    "source": "src/components/ResetPasswordForm.tsx",
+    "declaration": "// components/ResetPasswordForm.d.ts\n\nimport type { ResetPasswordFormProps } from \"./Auth.types\";\n/** Applies the displayed client policy; token validity and password acceptance belong to the server. */\nexport declare function ResetPasswordForm({ onResetPassword, tokenStatus, requestResetHref, onRequestNewLink, minimumLength, validatePassword, error, ...navigation }: ResetPasswordFormProps): import(\"react\").JSX.Element;\n\n// components/Auth.types.d.ts\n\nimport type { LinkProps } from \"./Link\";\nexport interface AuthRequestContext {\n    signal: AbortSignal;\n}\nexport interface AuthNavigationProps {\n    signInHref: string;\n    onBackToSignIn?: LinkProps[\"onClick\"];\n}\nexport interface PasswordRecoveryFormProps extends AuthNavigationProps {\n    onRequestReset: (email: string, context: AuthRequestContext) => void | Promise<void>;\n    defaultEmail?: string;\n    /** Safe application-owned feedback, never raw provider exceptions. */\n    error?: string;\n}\nexport interface RecoveryEmailSentProps extends AuthNavigationProps {\n    email: string;\n    onResend: (context: AuthRequestContext) => void | Promise<void>;\n    changeEmailHref: string;\n    onChangeEmail?: LinkProps[\"onClick\"];\n    /** UI delay after entering the screen and after a successful resend. Server throttling remains authoritative. */\n    resendCooldownSeconds?: number;\n    error?: string;\n}\nexport interface ResetPasswordFormProps extends AuthNavigationProps {\n    onResetPassword: (password: string, context: AuthRequestContext) => void | Promise<void>;\n    /** The application validates the reset token; the kit never reads or stores it. */\n    tokenStatus?: \"valid\" | \"expired\" | \"invalid\";\n    requestResetHref: string;\n    onRequestNewLink?: LinkProps[\"onClick\"];\n    minimumLength?: number;\n    /** Additional client policy; return safe error copy. The server still validates the password. */\n    validatePassword?: (password: string) => string | undefined;\n    error?: string;\n}\nexport interface TwoStepVerificationFormProps extends AuthNavigationProps {\n    /** The application owns the challenge identity, expiry and success navigation. */\n    onVerify: (code: string, context: AuthRequestContext) => void | Promise<void>;\n    error?: string;\n}\n\n// components/Link.d.ts\n\nimport type { ComponentPropsWithRef } from \"react\";\nexport interface LinkProps extends ComponentPropsWithRef<\"a\"> {\n    /** Removes the destination and activation while preserving the unavailable link label. */\n    disabled?: boolean;\n}\n/** A real navigation link; routers can intercept its native click without losing anchor semantics. */\nexport declare function Link({ disabled, href, onClick, className, tabIndex, ...props }: LinkProps): import(\"react\").JSX.Element;"
+  },
+  {
+    "name": "ScrollArea",
+    "exports": [
+      "ScrollArea",
+      "ScrollAreaViewport",
+      "ScrollBar",
+      "ScrollAreaProps",
+      "ScrollAreaViewportProps",
+      "ScrollBarProps"
+    ],
+    "source": "src/components/ScrollArea.tsx",
+    "declaration": "// components/ScrollArea.d.ts\n\nimport type { ComponentPropsWithRef } from \"react\";\nimport * as Primitive from \"@radix-ui/react-scroll-area\";\nexport type ScrollAreaProps = ComponentPropsWithRef<typeof Primitive.Root>;\nexport type ScrollAreaViewportProps = ComponentPropsWithRef<typeof Primitive.Viewport>;\nexport type ScrollBarProps = Omit<ComponentPropsWithRef<typeof Primitive.Scrollbar>, \"children\">;\n/** A bounded scroll region with overlay indicators. Give the root a height or width constraint. */\nexport declare function ScrollArea({ className, type, ...props }: ScrollAreaProps): import(\"react\").JSX.Element;\n/** Keep padding on an inner content wrapper so the indicator follows the container edge. */\nexport declare function ScrollAreaViewport({ className, tabIndex, ...props }: ScrollAreaViewportProps): import(\"react\").JSX.Element;\n/** The 4 px thumb sits inside a wider pointer target without reserving a content gutter. */\nexport declare function ScrollBar({ className, orientation, style, ...props }: ScrollBarProps): import(\"react\").JSX.Element;"
+  },
+  {
+    "name": "Select",
+    "exports": [
+      "Select",
+      "SelectProps",
+      "SingleSelectProps",
+      "MultipleSelectProps"
+    ],
+    "source": "src/components/Select.tsx",
+    "declaration": "// components/Select.d.ts\n\nimport type { SelectProps } from \"./Select.types\";\nexport type { SelectProps, SingleSelectProps, MultipleSelectProps, } from \"./Select.types\";\n/**\n * An items-only Figma selection menu backed by a native form control.\n * Single selection closes on choice; multiple selection stays open while toggling.\n */\nexport declare function Select(props: SelectProps): import(\"react\").JSX.Element;\n\n// components/Select.types.d.ts\n\nimport type { ComponentPropsWithRef, ReactNode } from \"react\";\nimport type { FieldProps } from \"./internal/Field\";\ninterface SelectBaseProps extends Omit<ComponentPropsWithRef<\"select\">, \"size\" | \"multiple\" | \"value\" | \"defaultValue\">, FieldProps {\n    leftIcon?: ReactNode;\n    rightIcon?: ReactNode;\n    /** Visible trigger events/ref. The component ref remains the native form select. */\n    triggerProps?: Omit<ComponentPropsWithRef<\"button\">, \"children\" | \"id\" | \"disabled\" | \"type\" | \"role\">;\n}\nexport interface SingleSelectProps extends SelectBaseProps {\n    multiple?: false;\n    value?: string;\n    defaultValue?: string;\n    /** Receives the submitted string; onChange remains a native select change event. */\n    onValueChange?: (value: string) => void;\n}\nexport interface MultipleSelectProps extends SelectBaseProps {\n    multiple: true;\n    value?: string[];\n    defaultValue?: string[];\n    /** Displayed only when no options are selected; never rendered inside the popup. */\n    placeholder?: string;\n    /** Receives selected values in option order. Native forms omit disabled options. */\n    onValueChange?: (value: string[]) => void;\n}\nexport type SelectProps = SingleSelectProps | MultipleSelectProps;\nexport {};\n\n// components/internal/Field.d.ts\n\nimport { type ReactNode } from \"react\";\nexport interface FieldProps {\n    label: string;\n    hideLabel?: boolean;\n    helperText?: string;\n    error?: string;\n    id?: string;\n    required?: boolean;\n    disabled?: boolean;\n    className?: string;\n}\ninterface FieldControl {\n    id: string;\n    \"aria-describedby\": string | undefined;\n}\n/** Shared label/message wiring; each control retains its own native semantics. */\nexport declare function Field({ label, hideLabel, helperText, error, id, required, disabled, className, describedBy, children, labelTone, }: FieldProps & {\n    describedBy?: string;\n    labelTone?: \"primary\" | \"body\";\n    children: (control: FieldControl) => ReactNode;\n}): import(\"react\").JSX.Element;\nexport {};"
+  },
+  {
+    "name": "Sidebar",
+    "exports": [
+      "Sidebar",
+      "SidebarIdentity",
+      "SidebarProps",
+      "SidebarIdentityProps"
+    ],
+    "source": "src/components/Sidebar.tsx",
+    "declaration": "// components/Sidebar.d.ts\n\nimport type { ComponentPropsWithoutRef, ReactNode } from \"react\";\nimport { type NavigationItemProps } from \"./NavigationItem\";\nexport interface SidebarProps extends Omit<ComponentPropsWithoutRef<\"nav\">, \"children\"> {\n    brand: ReactNode;\n    compactBrand?: ReactNode;\n    toggle?: ReactNode;\n    workspace: ReactNode;\n    account: ReactNode;\n    items: Omit<NavigationItemProps, \"layout\">[];\n    footerItems?: Omit<NavigationItemProps, \"layout\">[];\n    groupLabel?: string;\n    compact?: boolean;\n}\n/** A rail, not an overlay. On small screens compose a Drawer around it in the application shell. */\nexport declare function Sidebar({ brand, compactBrand, toggle, workspace, account, items, footerItems, groupLabel, compact, className, \"aria-label\": label, ...props }: SidebarProps): import(\"react\").JSX.Element;\nexport interface SidebarIdentityProps extends Omit<ComponentPropsWithoutRef<\"button\">, \"children\"> {\n    name: string;\n    description?: string;\n    initials: string;\n    compact?: boolean;\n    expandable?: boolean;\n}\n/** A named workspace/account action. Open a real chooser or account view in onClick. */\nexport declare function SidebarIdentity({ name, description, initials, compact, expandable, className, type, ...props }: SidebarIdentityProps): import(\"react\").JSX.Element;\n\n// components/NavigationItem.d.ts\n\nimport type { ComponentPropsWithRef, ReactNode } from \"react\";\nexport interface NavigationItemProps extends Omit<ComponentPropsWithRef<\"a\">, \"children\"> {\n    label: string;\n    /** Supply the approved Bold Duotone icon; activeIcon supplies its Bold counterpart. */\n    icon: ReactNode;\n    activeIcon: ReactNode;\n    active?: boolean;\n    layout?: \"expanded\" | \"compact\" | \"mobile\";\n}\n/** Persistent route selection uses aria-current, independently of press and keyboard focus. */\nexport declare function NavigationItem({ label, icon, activeIcon, active, layout, className, ...props }: NavigationItemProps): import(\"react\").JSX.Element;"
+  },
+  {
+    "name": "SignInForm",
+    "exports": [
+      "SignInForm",
+      "SignInFormProps",
+      "SignInValues"
+    ],
+    "source": "src/components/SignInForm.tsx",
+    "declaration": "// components/SignInForm.d.ts\n\nimport { type LinkProps } from \"./Link\";\nexport interface SignInValues {\n    email: string;\n    password: string;\n    rememberMe: boolean;\n}\nexport interface SignInFormProps {\n    /** Resolve after the application handles the result; reject to show a generic retry message.\n     * Never persist credentials here. The application owns sessions, MFA and navigation. */\n    onSignIn: (values: SignInValues, context: {\n        signal: AbortSignal;\n    }) => void | Promise<void>;\n    forgotPasswordHref: string;\n    onForgotPassword?: LinkProps[\"onClick\"];\n    defaultEmail?: string;\n    defaultRememberMe?: boolean;\n    /** Safe, user-facing provider feedback. Do not pass raw server exceptions. */\n    error?: string;\n    className?: string;\n}\n/** Native credential fields with password-manager hints, accessible validation and single-flight submit. */\nexport declare function SignInForm({ onSignIn, forgotPasswordHref, onForgotPassword, defaultEmail, defaultRememberMe, error, className, }: SignInFormProps): import(\"react\").JSX.Element;\n\n// components/Link.d.ts\n\nimport type { ComponentPropsWithRef } from \"react\";\nexport interface LinkProps extends ComponentPropsWithRef<\"a\"> {\n    /** Removes the destination and activation while preserving the unavailable link label. */\n    disabled?: boolean;\n}\n/** A real navigation link; routers can intercept its native click without losing anchor semantics. */\nexport declare function Link({ disabled, href, onClick, className, tabIndex, ...props }: LinkProps): import(\"react\").JSX.Element;"
+  },
+  {
+    "name": "Skeleton",
+    "exports": [
+      "Skeleton",
+      "SkeletonProps"
+    ],
+    "source": "src/components/Skeleton.tsx",
+    "declaration": "// components/Skeleton.d.ts\n\nimport type { ComponentPropsWithoutRef } from \"react\";\nexport interface SkeletonProps extends ComponentPropsWithoutRef<\"div\"> {\n    shape?: \"row\" | \"metric\" | \"card\";\n    loadingLabel?: string;\n    description?: string;\n}\n/** Decoration is hidden from assistive technology. The containing result region owns aria-busy. */\nexport declare function Skeleton({ shape, loadingLabel, description, className, ...props }: SkeletonProps): import(\"react\").JSX.Element;"
+  },
+  {
+    "name": "Stepper",
+    "exports": [
+      "Stepper",
+      "StepperProps",
+      "StepperStep"
+    ],
+    "source": "src/components/Stepper.tsx",
+    "declaration": "// components/Stepper.d.ts\n\nimport type { ComponentPropsWithoutRef } from \"react\";\nexport interface StepperStep {\n    id: string;\n    label: string;\n    shortLabel?: string;\n}\nexport interface StepperProps extends Omit<ComponentPropsWithoutRef<\"ol\">, \"children\"> {\n    steps: StepperStep[];\n    /** Zero-based active step. A value equal to steps.length marks the entire flow complete. */\n    currentStep: number;\n    onStepChange?: (index: number) => void;\n    getStatusLabel?: (state: \"complete\" | \"current\" | \"upcoming\") => string;\n}\n/** Ordered progress. Optional buttons revisit completed steps; upcoming steps never bypass validation. */\nexport declare function Stepper({ steps, currentStep, onStepChange, getStatusLabel, className, \"aria-label\": label, ...props }: StepperProps): import(\"react\").JSX.Element;"
+  },
+  {
+    "name": "Switch",
+    "exports": [
+      "Switch",
+      "SwitchProps"
+    ],
+    "source": "src/components/Switch.tsx",
+    "declaration": "// components/Switch.d.ts\n\nimport type { ComponentPropsWithRef, ReactNode } from \"react\";\nexport interface SwitchProps extends Omit<ComponentPropsWithRef<\"input\">, \"type\" | \"size\" | \"children\" | \"role\" | \"aria-checked\"> {\n    label: ReactNode;\n    hideLabel?: boolean;\n}\n/** Native checkbox semantics; CSS moves the thumb without delaying the checked state. */\nexport declare function Switch({ label, hideLabel, disabled, className, ...props }: SwitchProps): import(\"react\").JSX.Element;"
+  },
+  {
+    "name": "Table",
+    "exports": [
+      "Table",
+      "TableHeader",
+      "TableBody",
+      "TableRow",
+      "TableHead",
+      "TableCell",
+      "TableProps",
+      "TableRowProps",
+      "TableHeadProps",
+      "TableCellProps"
+    ],
+    "source": "src/components/Table.tsx",
+    "declaration": "// components/Table.d.ts\n\nimport { type ComponentPropsWithRef, type ReactNode } from \"react\";\nexport interface TableProps extends ComponentPropsWithRef<\"table\"> {\n    /** Accessible table name; the scrollable region uses the same name. */\n    label: string;\n    /** Kept outside horizontal scrolling so empty-state copy remains visible on narrow screens. */\n    emptyContent?: ReactNode;\n}\n/** Native table semantics are retained inside a keyboard-scrollable viewport. */\nexport declare function Table({ label, children, className, emptyContent, ...props }: TableProps): import(\"react\").JSX.Element;\nexport declare function TableHeader(props: ComponentPropsWithRef<\"thead\">): import(\"react\").JSX.Element;\nexport declare function TableBody(props: ComponentPropsWithRef<\"tbody\">): import(\"react\").JSX.Element;\nexport interface TableRowProps extends ComponentPropsWithRef<\"tr\"> {\n    selected?: boolean;\n}\nexport declare function TableRow({ selected, ...props }: TableRowProps): import(\"react\").JSX.Element;\ninterface IconSlots {\n    leftIcon?: ReactNode;\n    rightIcon?: ReactNode;\n}\nexport type TableCellProps = ComponentPropsWithRef<\"td\"> & IconSlots;\nexport declare function TableCell({ children, leftIcon, rightIcon, ...props }: TableCellProps): import(\"react\").JSX.Element;\nexport type TableHeadProps = ComponentPropsWithRef<\"th\"> & IconSlots;\nexport declare function TableHead({ children, leftIcon, rightIcon, scope, ...props }: TableHeadProps): import(\"react\").JSX.Element;\nexport {};"
+  },
+  {
+    "name": "Tabs",
+    "exports": [
+      "Tabs",
+      "TabsList",
+      "TabsTrigger",
+      "TabsContent",
+      "TabsProps",
+      "TabsListProps",
+      "TabsTriggerProps",
+      "TabsContentProps"
+    ],
+    "source": "src/components/Tabs.tsx",
+    "declaration": "// components/Tabs.d.ts\n\nimport type { ComponentPropsWithRef, ReactNode } from \"react\";\nimport * as Primitive from \"@radix-ui/react-tabs\";\nexport type TabsProps = ComponentPropsWithRef<typeof Primitive.Root>;\nexport type TabsListProps = ComponentPropsWithRef<typeof Primitive.List>;\nexport interface TabsTriggerProps extends ComponentPropsWithRef<typeof Primitive.Trigger> {\n    leftIcon?: ReactNode;\n    rightIcon?: ReactNode;\n}\nexport type TabsContentProps = ComponentPropsWithRef<typeof Primitive.Content>;\n/** Panels are activated automatically by default; use manual activation for costly panel loads. */\nexport declare function Tabs({ className, ...props }: TabsProps): import(\"react\").JSX.Element;\nexport declare function TabsList({ className, ...props }: TabsListProps): import(\"react\").JSX.Element;\n/** With asChild, supply one focusable control that forwards tab props and its ref. */\nexport declare function TabsTrigger({ asChild, leftIcon, rightIcon, children, className, ...props }: TabsTriggerProps): import(\"react\").JSX.Element;\nexport declare function TabsContent({ className, ...props }: TabsContentProps): import(\"react\").JSX.Element;"
+  },
+  {
+    "name": "Tag",
+    "exports": [
+      "Tag",
+      "TagProps"
+    ],
+    "source": "src/components/Tag.tsx",
+    "declaration": "// components/Tag.d.ts\n\nimport type { ComponentPropsWithoutRef, ReactNode } from \"react\";\nexport interface TagProps extends ComponentPropsWithoutRef<\"span\"> {\n    leftIcon?: ReactNode;\n    rightIcon?: ReactNode;\n    disabled?: boolean;\n    /** An explicit removal action; the tag label itself never removes a value. */\n    onRemove?: () => void;\n    removeLabel?: string;\n}\n/** Selected-value label with optional, separately named removal. Icon slots are decorative. */\nexport declare function Tag({ children, leftIcon, rightIcon, disabled, onRemove, removeLabel, className, ...props }: TagProps): import(\"react\").JSX.Element;"
+  },
+  {
+    "name": "Textarea",
+    "exports": [
+      "Textarea",
+      "TextareaProps"
+    ],
+    "source": "src/components/Textarea.tsx",
+    "declaration": "// components/Textarea.d.ts\n\nimport type { ComponentPropsWithRef, ReactNode } from \"react\";\nimport { type FieldProps } from \"./internal/Field\";\nexport interface TextareaProps extends ComponentPropsWithRef<\"textarea\">, FieldProps {\n    /** Decorative content; omitted slots take no layout space. */\n    leftIcon?: ReactNode;\n    rightIcon?: ReactNode;\n}\n/** Native multiline field. Content can grow vertically; manual resizing stays available. */\nexport declare function Textarea({ label, hideLabel, helperText, error, id, required, disabled, readOnly, className, leftIcon, rightIcon, rows, \"aria-describedby\": describedBy, ...props }: TextareaProps): import(\"react\").JSX.Element;\n\n// components/internal/Field.d.ts\n\nimport { type ReactNode } from \"react\";\nexport interface FieldProps {\n    label: string;\n    hideLabel?: boolean;\n    helperText?: string;\n    error?: string;\n    id?: string;\n    required?: boolean;\n    disabled?: boolean;\n    className?: string;\n}\ninterface FieldControl {\n    id: string;\n    \"aria-describedby\": string | undefined;\n}\n/** Shared label/message wiring; each control retains its own native semantics. */\nexport declare function Field({ label, hideLabel, helperText, error, id, required, disabled, className, describedBy, children, labelTone, }: FieldProps & {\n    describedBy?: string;\n    labelTone?: \"primary\" | \"body\";\n    children: (control: FieldControl) => ReactNode;\n}): import(\"react\").JSX.Element;\nexport {};"
+  },
+  {
+    "name": "TimePicker",
+    "exports": [
+      "TimePicker",
+      "TimePickerProps"
+    ],
+    "source": "src/components/TimePicker.tsx",
+    "declaration": "// components/TimePicker.d.ts\n\nimport { type PickerFieldProps } from \"./internal/PickerField\";\nexport interface TimePickerProps extends PickerFieldProps {\n    value?: string;\n    defaultValue?: string;\n    onValueChange?: (value: string) => void;\n    /** Preferred display format; changing it never changes the HH:mm value. */\n    format?: \"12h\" | \"24h\";\n    allowFormatSwitch?: boolean;\n    onFormatChange?: (format: \"12h\" | \"24h\") => void;\n    minuteStep?: 1 | 5 | 10 | 15 | 20 | 30;\n    min?: string;\n    max?: string;\n    applyLabel?: string;\n    cancelLabel?: string;\n}\n/** Select an hour, then minutes on a clock. Apply is the only operation that commits a time. */\nexport declare function TimePicker({ value, defaultValue, onValueChange, format, allowFormatSwitch, onFormatChange, minuteStep, min, max, applyLabel, cancelLabel, ...field }: TimePickerProps): import(\"react\").JSX.Element;\n\n// components/internal/PickerField.d.ts\n\nimport { type ReactNode, type RefObject, type ComponentPropsWithRef } from \"react\";\nimport { type FieldProps } from \"./Field\";\nexport interface PickerFieldProps extends FieldProps {\n    name?: string;\n    form?: string;\n    readOnly?: boolean;\n    placeholder?: string;\n    \"aria-describedby\"?: string;\n    /** Visible button ref and events for focus management and touched-state integration. */\n    triggerProps?: Omit<ComponentPropsWithRef<\"button\">, \"children\" | \"id\" | \"disabled\" | \"type\" | \"role\">;\n}\n/** A button provides the visible control; the native bridge preserves submission and required validation. */\nexport declare function PickerField({ displayValue, serializedValue, validationMessage, icon, open, onOpenChange, inputRef, children, placeholder, name, form, readOnly, disabled, required, triggerProps, \"aria-describedby\": describedBy, ...field }: PickerFieldProps & {\n    displayValue: string;\n    serializedValue: string;\n    validationMessage?: string;\n    icon: string;\n    open: boolean;\n    onOpenChange: (open: boolean) => void;\n    inputRef: RefObject<HTMLInputElement | null>;\n    children: ReactNode;\n}): import(\"react\").JSX.Element;\n\n// components/internal/Field.d.ts\n\nimport { type ReactNode } from \"react\";\nexport interface FieldProps {\n    label: string;\n    hideLabel?: boolean;\n    helperText?: string;\n    error?: string;\n    id?: string;\n    required?: boolean;\n    disabled?: boolean;\n    className?: string;\n}\ninterface FieldControl {\n    id: string;\n    \"aria-describedby\": string | undefined;\n}\n/** Shared label/message wiring; each control retains its own native semantics. */\nexport declare function Field({ label, hideLabel, helperText, error, id, required, disabled, className, describedBy, children, labelTone, }: FieldProps & {\n    describedBy?: string;\n    labelTone?: \"primary\" | \"body\";\n    children: (control: FieldControl) => ReactNode;\n}): import(\"react\").JSX.Element;\nexport {};"
+  },
+  {
+    "name": "Toast",
+    "exports": [
+      "Toast",
+      "ToastProvider",
+      "ToastViewport",
+      "ToastProps",
+      "ToastProviderProps",
+      "ToastViewportProps"
+    ],
+    "source": "src/components/Toast.tsx",
+    "declaration": "// components/Toast.d.ts\n\nimport type { ComponentPropsWithRef, ComponentPropsWithoutRef, ReactNode } from \"react\";\nimport * as Primitive from \"@radix-ui/react-toast\";\nexport type ToastProviderProps = ComponentPropsWithoutRef<typeof Primitive.Provider>;\nexport interface ToastViewportProps extends ComponentPropsWithRef<typeof Primitive.Viewport> {\n    inline?: boolean;\n    /** Floating notification position. Inline workshop previews ignore this setting. */\n    position?: \"top-right\" | \"bottom-right\";\n}\nexport interface ToastProps extends Omit<ComponentPropsWithRef<typeof Primitive.Root>, \"title\" | \"children\" | \"asChild\"> {\n    title: string;\n    description?: ReactNode;\n    action?: {\n        label: string;\n        altText: string;\n        onClick: () => void;\n    };\n    dismissLabel?: string;\n    dismissible?: boolean;\n    /** Inline keeps actions beside the message at every viewport; stacked uses the shared footer. */\n    layout?: \"stacked\" | \"inline\";\n}\n/** One provider/viewport per application notification region. F8 focuses its actions. */\nexport declare function ToastProvider(props: ToastProviderProps): import(\"react\").JSX.Element;\nexport declare function ToastViewport({ inline, position, className, ...props }: ToastViewportProps): import(\"react\").JSX.Element;\n/** Actionable messages persist by default; compact feedback follows the provider duration. */\nexport declare function Toast({ title, description, action, dismissLabel, dismissible, layout, duration, type, className, ...props }: ToastProps): import(\"react\").JSX.Element;"
+  },
+  {
+    "name": "Tooltip",
+    "exports": [
+      "Tooltip",
+      "TooltipProvider",
+      "TooltipProps"
+    ],
+    "source": "src/components/Tooltip.tsx",
+    "declaration": "// components/Tooltip.d.ts\n\nimport type { ComponentPropsWithoutRef, ReactElement } from \"react\";\nimport * as Primitive from \"@radix-ui/react-tooltip\";\nexport declare const TooltipProvider: import(\"react\").FC<Primitive.TooltipProviderProps>;\nexport interface TooltipProps extends ComponentPropsWithoutRef<typeof Primitive.Root> {\n    children: ReactElement;\n    content: string;\n    side?: \"top\" | \"right\" | \"bottom\" | \"left\";\n}\n/** Supplementary text only. Interactive content belongs in Popover, never role=tooltip. */\nexport declare function Tooltip({ children, content, side, ...props }: TooltipProps): import(\"react\").JSX.Element;"
+  },
+  {
+    "name": "TwoStepVerificationForm",
+    "exports": [
+      "TwoStepVerificationForm"
+    ],
+    "source": "src/components/TwoStepVerificationForm.tsx",
+    "declaration": "// components/TwoStepVerificationForm.d.ts\n\nimport type { TwoStepVerificationFormProps } from \"./Auth.types\";\n/** A six-digit authenticator challenge. Completing or pasting the code never submits automatically. */\nexport declare function TwoStepVerificationForm({ onVerify, error, ...navigation }: TwoStepVerificationFormProps): import(\"react\").JSX.Element;\n\n// components/Auth.types.d.ts\n\nimport type { LinkProps } from \"./Link\";\nexport interface AuthRequestContext {\n    signal: AbortSignal;\n}\nexport interface AuthNavigationProps {\n    signInHref: string;\n    onBackToSignIn?: LinkProps[\"onClick\"];\n}\nexport interface PasswordRecoveryFormProps extends AuthNavigationProps {\n    onRequestReset: (email: string, context: AuthRequestContext) => void | Promise<void>;\n    defaultEmail?: string;\n    /** Safe application-owned feedback, never raw provider exceptions. */\n    error?: string;\n}\nexport interface RecoveryEmailSentProps extends AuthNavigationProps {\n    email: string;\n    onResend: (context: AuthRequestContext) => void | Promise<void>;\n    changeEmailHref: string;\n    onChangeEmail?: LinkProps[\"onClick\"];\n    /** UI delay after entering the screen and after a successful resend. Server throttling remains authoritative. */\n    resendCooldownSeconds?: number;\n    error?: string;\n}\nexport interface ResetPasswordFormProps extends AuthNavigationProps {\n    onResetPassword: (password: string, context: AuthRequestContext) => void | Promise<void>;\n    /** The application validates the reset token; the kit never reads or stores it. */\n    tokenStatus?: \"valid\" | \"expired\" | \"invalid\";\n    requestResetHref: string;\n    onRequestNewLink?: LinkProps[\"onClick\"];\n    minimumLength?: number;\n    /** Additional client policy; return safe error copy. The server still validates the password. */\n    validatePassword?: (password: string) => string | undefined;\n    error?: string;\n}\nexport interface TwoStepVerificationFormProps extends AuthNavigationProps {\n    /** The application owns the challenge identity, expiry and success navigation. */\n    onVerify: (code: string, context: AuthRequestContext) => void | Promise<void>;\n    error?: string;\n}\n\n// components/Link.d.ts\n\nimport type { ComponentPropsWithRef } from \"react\";\nexport interface LinkProps extends ComponentPropsWithRef<\"a\"> {\n    /** Removes the destination and activation while preserving the unavailable link label. */\n    disabled?: boolean;\n}\n/** A real navigation link; routers can intercept its native click without losing anchor semantics. */\nexport declare function Link({ disabled, href, onClick, className, tabIndex, ...props }: LinkProps): import(\"react\").JSX.Element;"
+  },
+  {
+    "name": "Widget",
+    "exports": [
+      "Widget",
+      "KPIWidget",
+      "WidgetProps",
+      "KPIWidgetProps"
+    ],
+    "source": "src/components/Widget.tsx",
+    "declaration": "// components/Widget.d.ts\n\nimport { type ReactNode } from \"react\";\nimport { type ChartProps } from \"./Chart\";\nexport interface WidgetProps {\n    title: string;\n    description?: string;\n    chart: ChartProps;\n    /** Compose the existing DropdownMenu or Button here. Actions stay at the right of the header. */\n    actions?: ReactNode;\n    footer?: ReactNode;\n    loading?: boolean;\n    loadingLabel?: string;\n    error?: ReactNode;\n    recovery?: ReactNode;\n    headingLevel?: 2 | 3 | 4;\n    className?: string;\n}\n/** Data presentation is independent of fetching; the owner supplies loading, errors and recovery. */\nexport declare function Widget({ title, description, chart, actions, footer, loading, loadingLabel, error, recovery, headingLevel, className, }: WidgetProps): import(\"react\").JSX.Element;\nexport interface KPIWidgetProps {\n    title: string;\n    value: string;\n    comparison?: string;\n    className?: string;\n}\n/** Compact approved headline card; comparison is explicit copy rather than an inferred trend. */\nexport declare function KPIWidget({ title, value, comparison, className, }: KPIWidgetProps): import(\"react\").JSX.Element;\n\n// components/Chart.d.ts\n\nimport type { ChartProps } from \"./Chart.types\";\nexport type { ChartProps, ChartDatum, ChartMatrixRow, ChartPoint, } from \"./Chart.types\";\n/** Responsive, zero-based visualizations with an always-available semantic data alternative. */\nexport declare function Chart(props: ChartProps): import(\"react\").JSX.Element;\n\n// components/Chart.types.d.ts\n\nexport interface ChartDatum {\n    id: string;\n    label: string;\n    value: number;\n}\nexport interface ChartMatrixRow {\n    id: string;\n    label: string;\n    values: readonly number[];\n}\nexport interface ChartPoint {\n    id: string;\n    label: string;\n    x: number;\n    y: number;\n}\ninterface ChartBase {\n    label: string;\n    /** Animate visual values from zero on first data presentation. Reduced motion always wins. */\n    animated?: boolean;\n    /** Change this key to replay values without unmounting the chart, axes or data table. */\n    animationKey?: string | number;\n    description?: string;\n    className?: string;\n    /** The same data table is always available to assistive technology. */\n    showDataTable?: boolean;\n    dataTableLabel?: string;\n    emptyLabel?: string;\n    emptyDescription?: string;\n    formatValue?: (value: number) => string;\n    categoryLabel?: string;\n    valueLabel?: string;\n}\ninterface SeriesChart extends ChartBase {\n    type: \"line\" | \"area\" | \"column\" | \"histogram\" | \"horizontal-bar\" | \"funnel\";\n    data: readonly ChartDatum[];\n    /** Positive zero-based ceiling; must include every value. Auto-derived when omitted. */\n    max?: number;\n    note?: string;\n}\ninterface MetricChart extends ChartBase {\n    type: \"metric\";\n    value: number;\n    data: readonly ChartDatum[];\n    comparison?: string;\n    comparisonTone?: \"neutral\" | \"success\" | \"danger\";\n}\ninterface DonutChart extends ChartBase {\n    type: \"donut\";\n    /** At most six parts; zero-valued parts remain in the legend and data table. */\n    data: readonly ChartDatum[];\n    unit?: string;\n}\ninterface GoalChart extends ChartBase {\n    type: \"goal\";\n    value: number;\n    max: number;\n    target?: number;\n    summary?: string;\n}\ninterface StackedChart extends ChartBase {\n    type: \"stacked-bar\";\n    /** One to six series. Values are normalized per row; an all-zero row stays empty. */\n    series: readonly string[];\n    data: readonly ChartMatrixRow[];\n}\ninterface HeatmapChart extends ChartBase {\n    type: \"heatmap\";\n    columns: readonly string[];\n    data: readonly ChartMatrixRow[];\n    max?: number;\n    note?: string;\n}\ninterface ScatterChart extends ChartBase {\n    type: \"scatter\";\n    data: readonly ChartPoint[];\n    xLabel: string;\n    yLabel: string;\n    xMax?: number;\n    yMax?: number;\n}\n/** Count-based charts accept finite nonnegative values, with unique, nonempty data IDs. */\nexport type ChartProps = SeriesChart | MetricChart | DonutChart | GoalChart | StackedChart | HeatmapChart | ScatterChart;\nexport {};"
+  }
+]

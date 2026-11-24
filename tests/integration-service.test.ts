@@ -47,6 +47,24 @@ describe("reference HTTP integration", () => {
       requestJson(`${origin}/api/records?page=-1`, isRecordsPage),
     ).rejects.toMatchObject({ status: 400 });
   });
+  it("validates uploaded bytes and filenames independently of the file picker", async () => {
+    const send = (name: string, body: string) =>
+      fetch(`${origin}/api/uploads?${new URLSearchParams({ name })}`, {
+        method: "POST",
+        body,
+      });
+    const accepted = await send("records.csv", "name,team\nAda,Design");
+    expect(accepted.status).toBe(201);
+    expect(await accepted.json()).toMatchObject({
+      name: "records.csv",
+      size: 20,
+    });
+    expect((await send("../records.csv", "a,b")).status).toBe(422);
+    expect((await send("records.csv", "invalid")).status).toBe(422);
+    expect(
+      (await send("records.csv", "a,b\n" + "x".repeat(1_048_576))).status,
+    ).toBe(413);
+  });
   it("reports field errors, accepts a valid mutation and rejects duplicates", async () => {
     const post = (name: string) =>
       requestJson(`${origin}/api/records`, isRecord, {

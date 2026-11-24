@@ -311,7 +311,9 @@ try {
     await expect(button).toHaveCSS("background-color", "rgb(0, 111, 159)");
     await expect(button).toHaveCSS("font-family", /system-ui/);
     await button.click();
-    await expect(page.getByRole("status")).toHaveText("Preferences saved.");
+    await expect(
+      page.getByRole("status").filter({ hasText: "Preferences saved." }),
+    ).toHaveText("Preferences saved.");
     await page.getByRole("combobox", { name: "Access level" }).click();
     await page.getByRole("option", { name: "Editor", exact: true }).click();
     await expect(
@@ -328,6 +330,16 @@ try {
     await expect(
       page.getByRole("heading", { name: "Password updated" }),
     ).toBeVisible();
+    await page.locator('input[type="file"]').setInputFiles({
+      name: "consumer.csv",
+      mimeType: "text/csv",
+      buffer: Buffer.from("name,team\nAda,Design"),
+    });
+    await expect(
+      page.locator('.sui-file-upload-item[data-status="queued"]'),
+    ).toContainText("consumer.csv");
+    await page.getByRole("button", { name: "Remove consumer.csv" }).click();
+    await expect(page.locator(".sui-file-upload-item")).toHaveCount(0);
     assert.ok(
       await page
         .locator("img")

@@ -3,6 +3,22 @@
   "exportedAt": "2026-10-22",
   "assets": [
     {
+      "file": "upload-folder.svg",
+      "component": "FileUpload",
+      "node": "168:1393",
+      "role": "Original Solar folder Bold selection artwork",
+      "width": 24,
+      "height": 24
+    },
+    {
+      "file": "upload-file.svg",
+      "component": "FileUploadItem",
+      "node": "168:1401",
+      "role": "Original Solar file Bold transfer artwork",
+      "width": 28,
+      "height": 28
+    },
+    {
       "file": "auth-shield-check.svg",
       "component": "AuthScreen",
       "node": "91:1013",

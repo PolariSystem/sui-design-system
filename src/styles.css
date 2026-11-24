@@ -9,6 +9,7 @@
 @import "./dashboard.css";
 @import "./auth.css";
 @import "./theme-artwork.css";
+@import "./file-upload.css";
 @source "./components";
 
 /* State overrides share the utilities layer so base utility classes cannot mask them.

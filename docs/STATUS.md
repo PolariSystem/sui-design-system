@@ -18,7 +18,8 @@ The unreleased [Phase 15 follow-up](./phases/15-integration-interaction-polish.m
 | Distribution compatibility | Packed consumer with strict types, representative SSR/hydration checks and optional CSS without Tailwind Preflight; framework-specific certification remains pending. |
 | Full Solar icon catalog                                      | Pending; approved assets needed by implemented families are included |
 | Dialog, Drawer, DropdownMenu, Tooltip, Popover                 | Implemented; focus management, dismissal, shared motion and interactive examples |
-| File upload                                                  | Pending                                                     |
+| FileUpload / FileUploadItem | Implemented: native selection/drop, type/size/count rejection, controlled queue states, progress, cancel/retry/remove actions, responsive Figma variants and real HTTP reference transport. See [file upload](./FILE-UPLOAD.md). |
+| Developer documentation | Ten navigable workshop guides, generated declarations for 55 public modules, compiled recipes, API drift checks and an [adoption guide](./ADOPTION.md). |
 | Calendar | Implemented; five-day planner, event activation and responsive/adaptive agenda |
 | Table / DataTable | Implemented; controlled row selection, sort requests, paged data, loading/error/empty states and independent row actions with tertiary IconButton controls |
 | Chart and Widget | Implemented; 12 data-driven chart variants, 13 widget compositions, semantic data alternatives, state examples and zero-to-value mark/counter animation with reduced motion |
@@ -32,6 +33,6 @@ The unreleased [Phase 15 follow-up](./phases/15-integration-interaction-polish.m
 | Dark theme | Implemented in Figma, shared tokens, workshop and landing; automatic browser preference until a manual Light/Dark override; white Serenity branding in Dark |
 
 
-The public workshop has one route per component, searchable navigation, Light/Dark themes and source access. Charts replay values from zero. Authentication examples simulate services locally. Full API reference pages, additional framework adapters, real-device verification and broader browser/assistive-technology validation remain future work.
+The public workshop has one route per component, searchable navigation, Light/Dark themes, source access and a generated [API reference](./API.md). Charts replay values from zero. Authentication examples simulate services locally. Additional framework adapters, real-device verification and broader browser/assistive-technology validation remain future work.
 
 The website is maintained in a separate private repository and consumes the same public kit and workshop shell. Optional donation integration is configured through VITE_DONATION_URL and stays hidden until a valid URL is supplied. See [support](../SUPPORT.md), [installation](./INSTALLATION.md) and [Phase 13](./phases/13-open-source-ecosystem.md).

@@ -9,6 +9,8 @@ import {
   DatePicker,
   TimePicker,
   EmptyState,
+  FileUpload,
+  FileUploadItem,
   AuthScreen,
   type AuthScreenState,
   type ButtonProps,
@@ -23,6 +25,7 @@ const authScreen: AuthScreenState = {
 
 export function App() {
   const [saved, setSaved] = useState(false);
+  const [attachment, setAttachment] = useState<File>();
   const [role, setRole] = useState("viewer");
   const updatesRef = useRef<HTMLInputElement>(null);
   const dateRef = useRef<HTMLButtonElement>(null);
@@ -56,6 +59,18 @@ export function App() {
         description="New records will appear here."
         illustration="content"
       />
+      <FileUpload
+        label="Choose consumer attachment"
+        accept=".csv"
+        onFilesSelect={([file]) => setAttachment(file)}
+      />
+      {attachment && (
+        <FileUploadItem
+          name={attachment.name}
+          status="queued"
+          onRemove={() => setAttachment(undefined)}
+        />
+      )}
       <AuthScreen screen={authScreen} headingLevel={2} animated={false} />
     </main>
   );

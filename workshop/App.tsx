@@ -2,8 +2,8 @@ import { ScrollAreas } from "./ScrollAreas";
 import { WorkshopShell } from "./WorkshopShell";
 import { useTheme } from "./theme";
 import { ThemeReference } from "./ThemeReference";
-import { MotionPage, DocumentationPage } from "./MotionPage";
-import { useState, type FormEvent } from "react";
+import { MotionPage } from "./MotionPage";
+import { lazy, Suspense, useState, type FormEvent } from "react";
 import { Badge, Button, Card, CardFooter, Checkbox, Input } from "../src";
 
 import { Example, Section, Specimen } from "./components";
@@ -17,6 +17,9 @@ import { IconButtons } from "./IconButtons";
 import { Charts } from "./Charts";
 import { Dashboards } from "./Dashboards";
 import { Authentication } from "./Authentication";
+import { FileUploads } from "./FileUploads";
+
+const DocumentationPage = lazy(() => import("./DocumentationPage"));
 
 function ProfileExample() {
   const [name, setName] = useState("Serenity workspace");
@@ -422,6 +425,7 @@ function ComponentExamples() {
       <Charts />
       <Dashboards />
       <Authentication />
+      <FileUploads />
     </>
   );
 }
@@ -431,7 +435,11 @@ export function App({ fragment }: { fragment: string }) {
     <WorkshopShell fragment={fragment}>
       <ComponentExamples />
       <MotionPage />
-      <DocumentationPage />
+      {fragment.replace(/^#/, "").split("/")[0] === "documentation" && (
+        <Suspense fallback={<p role="status">Loading documentation…</p>}>
+          <DocumentationPage fragment={fragment} />
+        </Suspense>
+      )}
     </WorkshopShell>
   );
 }

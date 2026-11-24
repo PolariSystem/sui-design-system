@@ -14,6 +14,7 @@ export const groups = [
       "OTPInput",
       "PasswordInput",
       "Checkbox",
+      "FileUpload",
     ],
   },
   {

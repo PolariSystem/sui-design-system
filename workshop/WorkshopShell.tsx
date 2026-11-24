@@ -19,7 +19,10 @@ export function WorkshopShell({
   const section = sectionForRoute(route);
   const entries = sectionEntries[section];
   const active = catalog.find((item) => item.id === route);
-  const position = entries.findIndex((item) => item.href === `#${route}`);
+  const position = entries.findIndex(
+    (item) =>
+      item.href === (section === "documentation" ? fragment : `#${route}`),
+  );
   useEffect(() => {
     document.title = `${active?.name ?? "Page not found"} · Serenity UI`;
   }, [route, active?.name]);

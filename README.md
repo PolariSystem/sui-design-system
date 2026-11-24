@@ -35,7 +35,10 @@ For browser checks, install Chromium with npx playwright install chromium. Packa
 
 ## Documentation
 
-- [Component API](./docs/COMPONENTS.md)
+- [Developer adoption](./docs/ADOPTION.md)
+- [Generated API reference](./docs/API.md)
+- [Component behavior](./docs/COMPONENTS.md)
+- [File upload](./docs/FILE-UPLOAD.md)
 - [Application integration](./docs/INTEGRATION.md)
 - [Release notes](./docs/releases/0.2.0.md)
 - [Theming](./docs/THEMING.md)

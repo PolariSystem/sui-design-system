@@ -1,4 +1,5 @@
 import { catalog } from "./catalog";
+import { documentationGuides } from "./documentation-guides";
 
 export type SiteSection = "home" | "components" | "pages" | "documentation";
 export interface IndexEntry {
@@ -55,26 +56,11 @@ export const sectionEntries: Record<SiteSection, IndexEntry[]> = {
       group: "On this page",
     },
   ],
-  documentation: [
-    { name: "Getting started", href: "#documentation", group: "Guides" },
-    {
-      name: "Application integration",
-      href: "#documentation/integration",
-      group: "Guides",
-    },
-    {
-      name: "Installation",
-      href: "#documentation/installation",
-      group: "Guides",
-    },
-    { name: "Theming", href: "#documentation/theming", group: "Guides" },
-    { name: "Motion system", href: "#documentation/motion", group: "Guides" },
-    {
-      name: "Accessibility",
-      href: "#documentation/accessibility",
-      group: "Guides",
-    },
-  ],
+  documentation: documentationGuides.map(({ id, name }) => ({
+    name,
+    href: `#documentation${id ? `/${id}` : ""}`,
+    group: "Guides",
+  })),
 };
 
 export { figmaHref as figmaAccessHref } from "./site-config";
